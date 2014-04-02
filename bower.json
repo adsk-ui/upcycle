@@ -1,0 +1,28 @@
+{
+  "name": "upcycle",
+  "version": "0.0.0",
+  "homepage": "http://adsk-ui.github.io/upcycle/",
+  "authors": [
+    "admangum <adam.mangum@autodesk.com>"
+  ],
+  "description": "A home for our efforts to transition one-offs and semi-vetted code into a library of high quality, well tested, reusable components",
+  "main": "dist/js/upcycle.js",
+  "keywords": [
+    "js",
+    "components"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "1.8.3"
+  },
+  "devDependencies": {
+    "jasmine": "2.0"
+  }
+}
