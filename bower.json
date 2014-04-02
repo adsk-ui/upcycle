@@ -16,8 +16,7 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "test",
-    "tests"
+    "js/test"
   ],
   "dependencies": {
     "jquery": "1.8.3"
