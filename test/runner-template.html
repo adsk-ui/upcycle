@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Mocha Test Runner</title>
+  <link rel="stylesheet" href="../bower_components/mocha/mocha.css">
+  
+  <!-- bower:js -->
+      <!-- Anything you add here will be removed during the build process using gulp.js -->
+  <!-- endbower -->
+
+</head>
+
+<body>
+  <div id="mocha"></div>
+
+  <script>
+    mocha.setup('bdd')
+  </script>
+  
+  <!-- inject:source:js -->
+  <!-- include source files here... --> 
+  <!-- endinject -->
+  
+  <!-- inject:tests:js -->
+  <!-- include test files here... -->
+  <!-- endinject -->
+
+  <script>
+    if (window.mochaPhantomJS) {
+      mochaPhantomJS.run();
+    } else {
+      mocha.run();
+    }
+  </script>
+</body>
+</html>
