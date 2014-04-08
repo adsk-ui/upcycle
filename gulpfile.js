@@ -14,7 +14,6 @@ gulp.task('test', function() {
         }))
         .pipe(plugin.inject(gulp.src(paths.srcJs, {read: false}), {starttag:'<!-- inject:source:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
         .pipe(plugin.inject(gulp.src(paths.testJs, {read: false}), {starttag:'<!-- inject:tests:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
-        // .pipe(mochaPhantomJs())
         .pipe(plugin.rename('runner.html'))
         .pipe(gulp.dest('test'));
 
