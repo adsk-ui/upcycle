@@ -8,7 +8,8 @@ describe('filter', function(){
 				'displayName': 'Today'
 			},{
 				'name': 'yesterday',
-				'displayName': 'Yesterday'
+				'displayName': 'Yesterday',
+				'selected': true
 			}]
 		},{
 			'name': 'severity',
@@ -22,11 +23,26 @@ describe('filter', function(){
 			}]
 		}]
 	};
-	
-	var filter = $('#mocha').filter({'data': data}).data('Upcycle-filter');
+	var $mocha = $('#mocha');
+	var filter = window.filter = $mocha.filter({
+		'data': data,
+		'eventDelay': 1000
+	}).data('Upcycle-filter');
 
-	it('exists', function(){
-		expect($.fn.filter).to.be.a('function'); 
+	$mocha.on('filterchange', function(event, data){
+		console.log(event);
+		console.log(data);
+	}).on('change', function(){
+		console.log('changing...');
+	});
+
+	it('creates template context', function(){
+		var context = $.Upcycle.filter.prototype._getTemplateContext.call(this, data);
+		expect(context.filters instanceof Array).to.equal(true);
+		expect(context.facetCount).to.equal(4);
+		
+		context = $.Upcycle.filter.prototype._getTemplateContext.call(this);
+		expect(context.facetCount).to.equal(0);
 	});
 
 });

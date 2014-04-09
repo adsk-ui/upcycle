@@ -1,19 +1,19 @@
 <div class="inner">
 	<ul>
 		<li role="presentation" class="filter-header">
-			<span class="filter-title">Filters</span>
-	  		<span class="clear-all">Clear All</span>
+			<span class="filter-title">Filters</span><span class="facet-count">({{facetCount}})</span>
+	  		<button role="clear-all" class="btn clear-all">Clear All</button>
   		</li>
 	  	<li role="presentation" class="divider"></li>
 		{{#each filters}}
 	  		<li role="presentation" class="filter-group">
 		  		<span class="toggle"></span>
-		  		<span class="filter-name" data-value="{{name}}">{{displayName}}</span>
+		  		<span class="filter-group-name" data-value="{{name}}">{{displayName}}</span>
 		  		<ul>
 		  			{{#each values}}
-			  		<li class="filter-value">
-			  			<input data-name="{{../name}}" data-value="{{name}}" type="checkbox">
-			  			<span class="value">{{displayName}}</span>
+			  		<li class="filter-facet">
+			  			<input data-group="{{../name}}" data-facet="{{name}}" type="checkbox"{{#if selected}} checked="true"{{/if}}>
+			  			<span class="filter-facet-name">{{displayName}}</span>
 			  		</li>
 			  		{{/each}}
 		  		</ul>
