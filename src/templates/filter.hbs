@@ -1,0 +1,26 @@
+<div class="inner">
+	<ul>
+		<li role="presentation" class="filter-header">
+			<span class="filter-title">Filters</span>
+	  		<span class="clear-all">Clear All</span>
+  		</li>
+	  	<li role="presentation" class="divider"></li>
+		{{#each filters}}
+	  		<li role="presentation" class="filter-group">
+		  		<span class="toggle"></span>
+		  		<span class="filter-name" data-value="{{name}}">{{displayName}}</span>
+		  		<ul>
+		  			{{#each values}}
+			  		<li class="filter-value">
+			  			<input data-name="{{../name}}" data-value="{{name}}" type="checkbox">
+			  			<span class="value">{{displayName}}</span>
+			  		</li>
+			  		{{/each}}
+		  		</ul>
+		  	</li>
+		  	{{#unless @last}}	
+	  		<li role="presentation" class="divider"></li>
+	  		{{/unless}}
+  		{{/each}}
+	</ul>
+</div>

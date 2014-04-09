@@ -4,22 +4,44 @@ var wiredep = require('wiredep').stream;
 var gulpBowerFiles = require('gulp-bower-files');
 var mochaPhantomJs = require('gulp-mocha-phantomjs');
 var paths = {
-	srcJs: "src/js/*.js",
-	testJs: "test/*.js"
+	src: {
+		jsDir:"src/js",
+		js:"src/js/*.js",
+		templates: "src/templates/*.hbs"
+	},
+	test: {
+		js:"test/*.js",
+		runnerTemplate: "test/runner-template.html",
+		runner: "test/runner.html"
+	},
+	testDir: "test"
 };
+var filePathRegex = /(\w+(?=\/)|\/)/g;
+
+gulp.task('templates', function(){
+  gulp.src([paths.src.templates])
+    .pipe(plugin.handlebars())
+    .pipe(plugin.defineModule('plain'))
+    .pipe(plugin.declare({
+      namespace: "Upcycle.templates"
+    }))
+    .pipe(plugin.concat('templates.js'))
+    .pipe(gulp.dest(paths.src.jsDir));
+});
 gulp.task('test', function() {
-    gulp.src('test/runner-template.html')
+    gulp.src(paths.test.runnerTemplate)
         .pipe(wiredep({
             devDependencies: true
         }))
-        .pipe(plugin.inject(gulp.src(paths.srcJs, {read: false}), {starttag:'<!-- inject:source:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
-        .pipe(plugin.inject(gulp.src(paths.testJs, {read: false}), {starttag:'<!-- inject:tests:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
-        .pipe(plugin.rename('runner.html'))
-        .pipe(gulp.dest('test'));
+        .pipe(plugin.inject(gulp.src(paths.src.js, {read: false}), {starttag:'<!-- inject:source:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
+        .pipe(plugin.inject(gulp.src(paths.test.js, {read: false}), {starttag:'<!-- inject:tests:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
+        .pipe(plugin.rename(paths.test.runner.replace(filePathRegex, '')))
+        .pipe(gulp.dest(paths.testDir));
 
-    return gulp.src('test/runner.html')
+    return gulp.src(paths.test.runner)
     	.pipe(mochaPhantomJs());
 });
 gulp.task('watch', function () {
-    gulp.watch(paths.srcJs, ['test']);
+    gulp.watch(paths.src.js, ['test']);
+    gulp.watch(paths.src.templates, ['templates']);
 });

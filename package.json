@@ -28,6 +28,8 @@
     "gulp-jsdoc": "^0.1.2",
     "gulp-inject": "^0.4.1",
     "wiredep": "^1.4.3",
-    "mocha-phantomjs": "^3.3.2"
+    "mocha-phantomjs": "^3.3.2",
+    "gulp-define-module": "^0.1.0",
+    "gulp-declare": "^0.2.0"
   }
 }
