@@ -27,13 +27,20 @@
   },
   "devDependencies": {
     "mocha": "~1.18.2",
-    "chai": "~1.9.1"
+    "chai": "~1.9.1",
+    "bootstrap": "2.3.2"
   },
   "overrides": {
     "jquery-ui": {
       "main": [
         "ui/jquery.ui.core.js",
         "ui/jquery.ui.widget.js"
+      ]
+    },
+    "mocha": {
+      "main": [
+        "mocha.css",
+        "mocha.js"
       ]
     }
   }

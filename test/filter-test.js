@@ -23,13 +23,13 @@ describe('filter', function(){
 			}]
 		}]
 	};
-	var $mocha = $('#mocha');
-	var filter = window.filter = $mocha.filter({
+	var $sandbox = $('#sandbox');
+	var filter = window.filter = $sandbox.filter({
 		'data': data,
 		'eventDelay': 1000
 	}).data('Upcycle-filter');
 
-	$mocha.on('filterchange', function(event, data){
+	$sandbox.on('filterchange', function(event, data){
 		console.log(event);
 		console.log(data);
 	}).on('change', function(){

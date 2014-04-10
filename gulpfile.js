@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 var plugin = require('gulp-load-plugins')();
-var wiredep = require('wiredep').stream;
+var wiredep = require('wiredep');
 var gulpBowerFiles = require('gulp-bower-files');
 var mochaPhantomJs = require('gulp-mocha-phantomjs');
 var paths = {
@@ -30,7 +30,7 @@ gulp.task('templates', function(){
 });
 gulp.task('test', function() {
     gulp.src(paths.test.runnerTemplate)
-        .pipe(wiredep({
+        .pipe(wiredep.stream({
             devDependencies: true
         }))
         .pipe(plugin.inject(gulp.src(paths.src.js, {read: false}), {starttag:'<!-- inject:source:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
