@@ -8,15 +8,15 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = "", stack1, stack2;
-  buffer += "\n	  		<li role=\"presentation\" class=\"filter-group\">\n		  		<span class=\"toggle\"></span>\n		  		<span class=\"filter-group-name\" data-value=\"";
+  buffer += "\n	  		<li role=\"facet\" class=\"facet-group\">\n		  		<span role=\"button\" data-action=\"toggle\" class=\"toggle\"></span>\n		  		<span role=\"label\" data-value=\"";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.name); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\">";
+    + "\" class=\"filter-group-name\">";
   if (stack1 = helpers.displayName) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.displayName); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</span>\n		  		<ul>\n		  			";
+    + "</span>\n		  		<ul role=\"group\">\n		  			";
   stack1 = helpers.each.call(depth0, (depth0 && depth0.values), {hash:{},inverse:self.noop,fn:self.programWithDepth(2, program2, data, depth0),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n		  		</ul>\n		  	</li>\n		  	";
@@ -53,14 +53,14 @@ function program3(depth0,data) {
 function program5(depth0,data) {
   
   
-  return "	\n	  		<li role=\"presentation\" class=\"divider\"></li>\n	  		";
+  return "	\n	  		<li class=\"divider\"></li>\n	  		";
   }
 
-  buffer += "<div class=\"inner\">\n	<ul>\n		<li role=\"presentation\" class=\"filter-header\">\n			<span class=\"filter-title\">Filters</span><span class=\"facet-count\">(";
+  buffer += "<div class=\"inner\">\n	<ul role=\"presentation\">\n		<li class=\"filter-header\">\n			<span class=\"filter-title\">Filters</span><span class=\"facet-count\">(";
   if (stack1 = helpers.facetCount) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.facetCount); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + ")</span>\n	  		<button role=\"clear-all\" class=\"btn clear-all\">Clear All</button>\n  		</li>\n	  	<li role=\"presentation\" class=\"divider\"></li>\n		";
+    + ")</span>\n	  		<button data-action=\"clear-all\" class=\"btn clear-all\">Clear All</button>\n  		</li>\n	  	<li class=\"divider\"></li>\n		";
   stack1 = helpers.each.call(depth0, (depth0 && depth0.filters), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n	</ul>\n</div>";

@@ -1,15 +1,15 @@
 <div class="inner">
-	<ul>
-		<li role="presentation" class="filter-header">
+	<ul role="presentation">
+		<li class="filter-header">
 			<span class="filter-title">Filters</span><span class="facet-count">({{facetCount}})</span>
-	  		<button role="clear-all" class="btn clear-all">Clear All</button>
+	  		<button data-action="clear-all" class="btn clear-all">Clear All</button>
   		</li>
-	  	<li role="presentation" class="divider"></li>
+	  	<li class="divider"></li>
 		{{#each filters}}
-	  		<li role="presentation" class="filter-group">
-		  		<span class="toggle"></span>
-		  		<span class="filter-group-name" data-value="{{name}}">{{displayName}}</span>
-		  		<ul>
+	  		<li role="facet" class="facet-group">
+		  		<span role="button" data-action="toggle" class="toggle"></span>
+		  		<span role="label" data-value="{{name}}" class="filter-group-name">{{displayName}}</span>
+		  		<ul role="group">
 		  			{{#each values}}
 			  		<li class="filter-facet">
 			  			<input data-group="{{../name}}" data-facet="{{name}}" type="checkbox"{{#if selected}} checked="true"{{/if}}>
@@ -19,7 +19,7 @@
 		  		</ul>
 		  	</li>
 		  	{{#unless @last}}	
-	  		<li role="presentation" class="divider"></li>
+	  		<li class="divider"></li>
 	  		{{/unless}}
   		{{/each}}
 	</ul>

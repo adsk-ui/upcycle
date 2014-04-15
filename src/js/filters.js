@@ -8,7 +8,9 @@ $.widget('Upcycle.filter', {
 	'_create': function(){
 		this._setOptions(this.options);
 		this._on({'change': this._onChange});
-		this._on({'click [role="clear-all"]': this.clear});
+		this._on({'click [data-action="clear-all"]': this.clear});
+		this._on({'click [data-action="toggle"]': this._toggleGroup});
+		this.element.addClass('filter'); 
 		this._update();
 	},
 	'_update': function(){
@@ -19,6 +21,9 @@ $.widget('Upcycle.filter', {
 			checkbox.checked = false;
 		});
 		return this;
+	},
+	'_toggleGroup': function(){
+
 	},
 	'_setOption': function(key, value){
 		$.Widget.prototype._setOption.call(this, key, value);

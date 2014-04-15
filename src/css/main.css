@@ -1,0 +1,51 @@
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.clearfix:after {
+  clear: both;
+}
+.hide-text {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+.input-block-level {
+  display: block;
+  width: 100%;
+  min-height: 30px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.filter {
+  width: 275px;
+}
+.filter .inner {
+  padding: 12px 12px 20px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.1);
+  background-color: #fbfbfb;
+  background-image: -moz-linear-gradient(top, #ffffff, #f5f5f4);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f5f5f4));
+  background-image: -webkit-linear-gradient(top, #ffffff, #f5f5f4);
+  background-image: -o-linear-gradient(top, #ffffff, #f5f5f4);
+  background-image: linear-gradient(to bottom, #ffffff, #f5f5f4);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff5f5f4', GradientType=0);
+}
+.filter ul {
+  list-style: none;
+  margin: 0;
+}
