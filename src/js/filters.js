@@ -5,25 +5,26 @@ $.widget('Upcycle.filter', {
 		'eventDelay': 0
 	},
 	'appliedFilters': {},
+	/**
+	 * Clears all checkboxes (deselects all filters)		
+	 * @return {jQuery} A jQuery object containing the element associated to this widget
+	 */
+	'clear': function(){
+		this.element.find('[type="checkbox"]').each(function(index, checkbox){
+			checkbox.checked = false;
+		});
+		return this.element;
+	},
 	'_create': function(){
 		this._setOptions(this.options);
 		this._on({'change': this._onChange});
 		this._on({'click [data-action="clear-all"]': this.clear});
-		this._on({'click [data-action="toggle"]': this._toggleGroup});
+		this._on({'click [role="facet"] > [role="header"]': this._onToggle});
 		this.element.addClass('filter'); 
 		this._update();
 	},
 	'_update': function(){
 		this.element.append(this._renderMarkup(this.options.data));
-	},
-	'clear': function(){
-		this.element.find('[type="checkbox"]').each(function(index, checkbox){
-			checkbox.checked = false;
-		});
-		return this;
-	},
-	'_toggleGroup': function(){
-
 	},
 	'_setOption': function(key, value){
 		$.Widget.prototype._setOption.call(this, key, value);
@@ -42,6 +43,9 @@ $.widget('Upcycle.filter', {
 				}, this.options.eventDelay);
 			}, value);
 		}
+	},
+	'_onToggle': function(event){
+		$(event.currentTarget).toggleClass('collapsed');
 	},
 	'_onChange': function(event){
 		var that = this;
@@ -66,8 +70,9 @@ $.widget('Upcycle.filter', {
 	},
 	'_getTemplateContext': function(data){
 		data = data || {};
-		data.facetCount = _.reduce(data.filters, function(memo, filter){
-			return _.isArray(filter.values) ? memo + filter.values.length : memo;
+		data.facetCount = data.facets ? data.facets.length : 0;
+		data.facetValuesCount = _.reduce(data.facets, function(memo, facet){
+			return _.isArray(facet.options) ? memo + facet.options.length : memo;
 		}, 0);
 		return data;
 	},

@@ -5,15 +5,17 @@
 	  		<button data-action="clear-all" class="btn clear-all">Clear All</button>
   		</li>
 	  	<li class="divider"></li>
-		{{#each filters}}
-	  		<li role="facet" class="facet-group">
-		  		<span role="button" data-action="toggle" class="toggle"></span>
-		  		<span role="label" data-value="{{name}}" class="filter-group-name">{{displayName}}</span>
-		  		<ul role="group">
-		  			{{#each values}}
-			  		<li class="filter-facet">
+		{{#each facets}}
+	  		<li role="facet" class="facet">
+	  			<div role="header" class="facet-header">
+			  		<span role="button" data-action="toggle" class="toggle"></span>
+			  		<span role="label" data-value="{{name}}" class="facet-label">{{displayName}}</span>
+		  		</div>
+		  		<ul role="group" class="facet-options">
+		  			{{#each options}}
+			  		<li class="facet-option">
 			  			<input data-group="{{../name}}" data-facet="{{name}}" type="checkbox"{{#if selected}} checked="true"{{/if}}>
-			  			<span class="filter-facet-name">{{displayName}}</span>
+			  			<span class="facet-option-name">{{displayName}}</span>
 			  		</li>
 			  		{{/each}}
 		  		</ul>

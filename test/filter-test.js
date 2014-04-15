@@ -1,9 +1,9 @@
 describe('filter', function(){
 	var data = {
-		'filters': [{
+		'facets': [{
 			'name': 'date',
 			'displayName': 'Date',
-			'values':[{
+			'options':[{
 				'name': 'today',
 				'displayName': 'Today'
 			},{
@@ -14,9 +14,21 @@ describe('filter', function(){
 		},{
 			'name': 'severity',
 			'displayName': 'Severity',
-			'values':[{
+			'options':[{
+				'name': 'reallyhigh',
+				'displayName': 'Really high'
+			},{
 				'name': 'high',
 				'displayName': 'High'
+			},{
+				'name': 'notsohigh',
+				'displayName': 'Not so high'
+			},{
+				'name': 'medium',
+				'displayName': 'Medium'
+			},{
+				'name': 'mediumlow',
+				'displayName': 'Medium low'
 			},{
 				'name': 'low',
 				'displayName': 'Low'
@@ -36,13 +48,21 @@ describe('filter', function(){
 		console.log('changing...');
 	});
 
-	it('creates template context', function(){
+	describe('creates template context', function(){
 		var context = $.Upcycle.filter.prototype._getTemplateContext.call(this, data);
-		expect(context.filters instanceof Array).to.equal(true);
-		expect(context.facetCount).to.equal(4);
+		var context2 = $.Upcycle.filter.prototype._getTemplateContext.call(this);
+		it('that includes facet array', function(){
+			expect(context.facets instanceof Array).to.equal(true);
+		});
+		it('that includes facet count', function(){
+			expect(context.facetCount).to.equal(2);	
+		});
+		it('that includes facet options count', function(){
+			expect(context.facetValuesCount).to.equal(8);	
+			expect(context2.facetCount).to.equal(0);
+		});
 		
-		context = $.Upcycle.filter.prototype._getTemplateContext.call(this);
-		expect(context.facetCount).to.equal(0);
+		
 	});
 
 });
