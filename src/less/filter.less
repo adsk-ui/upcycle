@@ -5,7 +5,16 @@
 		padding: 12px 12px 20px;
 		.border-radius(4px);
 		.box-shadow(0 0 3px 1px rgba(0, 0, 0, 0.1));
-		#gradient.vertical(#fff, #F5F5F4);  
+		#gradient.vertical(#fff, #F5F5F4);
+		.scroll-area{
+			.viewport{
+				max-height: 200px;
+				
+				.overview{
+				 
+				}
+			}
+		}
 	}
 	ul{
 		list-style: none;
@@ -24,7 +33,7 @@
 				margin-left: 3px;
 			}
 		}
-		.facet-values{
+		.facet-options{
 			clear: both;
 			input[type="checkbox"]{
 				margin: 0;
@@ -41,7 +50,7 @@
 			margin-left: 1px; 
 		}
 	}
-	.facet-header.collapsed + .facet-values{
+	.facet-header.collapsed + .facet-options{
 		display: none;
 	}
 	

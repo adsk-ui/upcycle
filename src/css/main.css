@@ -25,6 +25,40 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+.scroll-area {
+  position: relative;
+}
+.scroll-area .scrollbar {
+  background: black;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+}
+.scroll-area .scrollbar .track {
+  background-color: rgba(237, 237, 237, 0.8);
+  height: 100%;
+  width: 6px;
+  position: relative;
+}
+.scroll-area .scrollbar .track .thumb {
+  background-color: rgba(33, 33, 33, 0.8);
+  height: 20px;
+  width: 6px;
+  cursor: pointer;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+}
+.scroll-area .viewport {
+  overflow: hidden;
+  position: relative;
+}
+.scroll-area .viewport .overview {
+  position: relative;
+  left: 0;
+  top: 0;
+}
 .filter {
   width: 275px;
 }
@@ -44,6 +78,9 @@
   background-image: linear-gradient(to bottom, #ffffff, #f5f5f4);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff5f5f4', GradientType=0);
+}
+.filter .inner .scroll-area .viewport {
+  max-height: 200px;
 }
 .filter ul {
   list-style: none;
@@ -65,10 +102,10 @@
 .filter .facet .facet-header .facet-label {
   margin-left: 3px;
 }
-.filter .facet .facet-values {
+.filter .facet .facet-options {
   clear: both;
 }
-.filter .facet .facet-values input[type="checkbox"] {
+.filter .facet .facet-options input[type="checkbox"] {
   margin: 0;
 }
 .filter .facet-header.collapsed .toggle {
@@ -82,6 +119,6 @@
 .filter .facet-header.collapsed .facet-label {
   margin-left: 1px;
 }
-.filter .facet-header.collapsed + .facet-values {
+.filter .facet-header.collapsed + .facet-options {
   display: none;
 }

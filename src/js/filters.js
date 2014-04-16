@@ -25,6 +25,7 @@ $.widget('Upcycle.filter', {
 	},
 	'_update': function(){
 		this.element.append(this._renderMarkup(this.options.data));
+		this._postRender();
 	},
 	'_setOption': function(key, value){
 		$.Widget.prototype._setOption.call(this, key, value);
@@ -63,11 +64,6 @@ $.widget('Upcycle.filter', {
 		});
 		this._triggerChangeEvent(event, appliedFilters);
 	},
-	'_renderMarkup': function(data){
-		var template = eval(this.options.templatesNamespace)['filter'],
-			templateContext = this._getTemplateContext(data);
-		return template(templateContext);
-	},
 	'_getTemplateContext': function(data){
 		data = data || {};
 		data.facetCount = data.facets ? data.facets.length : 0;
@@ -76,4 +72,12 @@ $.widget('Upcycle.filter', {
 		}, 0);
 		return data;
 	},
+	'_renderMarkup': function(data){
+		var template = eval(this.options.templatesNamespace)['filter'],
+			templateContext = this._getTemplateContext(data);
+		return template(templateContext);
+	},
+	'_postRender': function(){
+		this.element.find('.scroll-area').tinyscrollbar();
+	}
 });
