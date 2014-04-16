@@ -63,7 +63,6 @@
   width: 275px;
 }
 .filter .inner {
-  padding: 12px 12px 20px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -78,18 +77,25 @@
   background-image: linear-gradient(to bottom, #ffffff, #f5f5f4);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff5f5f4', GradientType=0);
+  padding: 12px 12px 20px;
+}
+.filter .inner .scroll-area {
+  overflow: hidden;
+}
+.filter .inner .scroll-area .scrollbar {
+  display: none;
 }
 .filter .inner .scroll-area .viewport {
   max-height: 200px;
 }
-.filter ul {
+.filter .inner .scroll-area .viewport .overview ul {
   list-style: none;
   margin: 0;
 }
-.filter .facet .facet-header {
+.filter .inner .scroll-area .viewport .overview ul .facet .facet-header {
   cursor: pointer;
 }
-.filter .facet .facet-header .toggle {
+.filter .inner .scroll-area .viewport .overview ul .facet .facet-header .toggle {
   display: inline-block;
   vertical-align: middle;
   line-height: 6.928px;
@@ -99,16 +105,16 @@
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
 }
-.filter .facet .facet-header .facet-label {
+.filter .inner .scroll-area .viewport .overview ul .facet .facet-header .facet-label {
   margin-left: 3px;
 }
-.filter .facet .facet-options {
+.filter .inner .scroll-area .viewport .overview ul .facet .facet-options {
   clear: both;
 }
-.filter .facet .facet-options input[type="checkbox"] {
+.filter .inner .scroll-area .viewport .overview ul .facet .facet-options input[type="checkbox"] {
   margin: 0;
 }
-.filter .facet-header.collapsed .toggle {
+.filter .inner .scroll-area .viewport .overview ul .facet-header.collapsed .toggle {
   line-height: 8px;
   width: 0;
   height: 0;
@@ -116,9 +122,12 @@
   border-top: 4px solid transparent;
   border-bottom: 4px solid transparent;
 }
-.filter .facet-header.collapsed .facet-label {
+.filter .inner .scroll-area .viewport .overview ul .facet-header.collapsed .facet-label {
   margin-left: 1px;
 }
-.filter .facet-header.collapsed + .facet-options {
+.filter .inner .scroll-area .viewport .overview ul .facet-header.collapsed + .facet-options {
   display: none;
+}
+.filter .inner .scroll-area.scrollable .scrollbar {
+  display: block;
 }

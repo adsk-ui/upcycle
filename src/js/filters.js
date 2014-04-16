@@ -5,6 +5,7 @@ $.widget('Upcycle.filter', {
 		'eventDelay': 0
 	},
 	'appliedFilters': {},
+	
 	/**
 	 * Clears all checkboxes (deselects all filters)		
 	 * @return {jQuery} A jQuery object containing the element associated to this widget
@@ -21,11 +22,25 @@ $.widget('Upcycle.filter', {
 		this._on({'click [data-action="clear-all"]': this.clear});
 		this._on({'click [role="facet"] > [role="header"]': this._onToggle});
 		this.element.addClass('filter'); 
+		this._render();
+	},
+	'_render': function(){
+		this.element
+			.empty()
+			.append(this._getMarkup(this.options.data));
 		this._update();
 	},
 	'_update': function(){
-		this.element.append(this._renderMarkup(this.options.data));
-		this._postRender();
+		var $scrollArea = this.element.find('.scroll-area'),
+			$viewport = $scrollArea.find('.viewport'),
+			needsScrollbar = $viewport.prop('scrollHeight') > $viewport.prop('clientHeight'),
+			tinyscrollbar = $scrollArea.data('plugin_tinyscrollbar');
+		$scrollArea.toggleClass('scrollable', needsScrollbar);
+		if(needsScrollbar && !tinyscrollbar){
+			$scrollArea.tinyscrollbar();
+		}else if(tinyscrollbar){
+			tinyscrollbar.update();
+		}
 	},
 	'_setOption': function(key, value){
 		$.Widget.prototype._setOption.call(this, key, value);
@@ -46,7 +61,9 @@ $.widget('Upcycle.filter', {
 		}
 	},
 	'_onToggle': function(event){
+		var that = this;
 		$(event.currentTarget).toggleClass('collapsed');
+		this._update();
 	},
 	'_onChange': function(event){
 		var that = this;
@@ -72,12 +89,9 @@ $.widget('Upcycle.filter', {
 		}, 0);
 		return data;
 	},
-	'_renderMarkup': function(data){
+	'_getMarkup': function(data){
 		var template = eval(this.options.templatesNamespace)['filter'],
 			templateContext = this._getTemplateContext(data);
 		return template(templateContext);
-	},
-	'_postRender': function(){
-		this.element.find('.scroll-area').tinyscrollbar();
 	}
 });
