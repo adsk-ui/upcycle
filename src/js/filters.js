@@ -21,6 +21,7 @@ $.widget('Upcycle.filter', {
 		this._on({'change': this._onChange});
 		this._on({'click [data-action="clear-all"]': this.clear});
 		this._on({'click [role="facet"] > [role="header"]': this._onToggle});
+		this._on({'click button.more, button.less': this._update});
 		this.element.addClass('filter'); 
 		this._render();
 	},
@@ -35,11 +36,23 @@ $.widget('Upcycle.filter', {
 			$viewport = $scrollArea.find('.viewport'),
 			needsScrollbar = $viewport.prop('scrollHeight') > $viewport.prop('clientHeight'),
 			tinyscrollbar = $scrollArea.data('plugin_tinyscrollbar');
+		/**
+		 * More/Less
+		 */
+		$viewport.find('.facet-options').each(function(){
+			var $facetOptions = $(this);
+			if( $facetOptions.children().length > 4 ){
+				$facetOptions.moreless();
+			}
+		});
+		/**
+		 * Scrollbar
+		 */
 		$scrollArea.toggleClass('scrollable', needsScrollbar);
 		if(needsScrollbar && !tinyscrollbar){
 			$scrollArea.tinyscrollbar();
 		}else if(tinyscrollbar){
-			tinyscrollbar.update();
+			tinyscrollbar.update('relative');
 		}
 	},
 	'_setOption': function(key, value){

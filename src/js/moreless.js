@@ -28,12 +28,12 @@
 			$this.settings = $.extend({}, defaults, options);
 			$this.settings.linkClass = $this.settings.linkClass ? ' ' + $this.settings.linkClass : '';
 			$this.$linkContainer = internal.getSelector($this.settings.linkContainer) || $this;
-			$this.more = $('<a href="#" class="more'+$this.settings.linkClass+'">'+$this.settings.more+'</a>')
+			$this.more = $('<button class="btn-link more'+$this.settings.linkClass+'">'+$this.settings.more+'</button>')
 				.click(function(event){
 					event.preventDefault();
 					methods.more.call($this);
 				}).hide();
-			$this.less = $('<a href="#" class="less'+$this.settings.linkClass+'">'+$this.settings.less+'</a>')
+			$this.less = $('<button class="btn-link less'+$this.settings.linkClass+'">'+$this.settings.less+'</button>')
 				.click(function(event){
 					event.preventDefault();
 					methods.less.call($this);

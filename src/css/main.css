@@ -29,20 +29,26 @@
   position: relative;
 }
 .scroll-area .scrollbar {
-  background: black;
   position: absolute;
+  z-index: 1;
   top: 0;
   right: 0;
   width: 6px;
 }
 .scroll-area .scrollbar .track {
-  background-color: rgba(237, 237, 237, 0.8);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: rgba(153, 153, 153, 0);
   height: 100%;
   width: 6px;
   position: relative;
 }
 .scroll-area .scrollbar .track .thumb {
-  background-color: rgba(33, 33, 33, 0.8);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #999999;
   height: 20px;
   width: 6px;
   cursor: pointer;
@@ -58,6 +64,10 @@
   position: relative;
   left: 0;
   top: 0;
+}
+.btn-link {
+  padding: 0 2px;
+  border: none;
 }
 .filter {
   width: 275px;
@@ -82,20 +92,32 @@
 .filter .inner .scroll-area {
   overflow: hidden;
 }
-.filter .inner .scroll-area .scrollbar {
+.filter .inner .scroll-area.scrollable .scrollbar {
+  display: block;
+}
+.filter .inner .scrollbar {
   display: none;
 }
-.filter .inner .scroll-area .viewport {
+.filter .inner .viewport {
   max-height: 200px;
 }
-.filter .inner .scroll-area .viewport .overview ul {
+.filter .inner .filter-header {
+  padding: 1px 0;
+}
+.filter .inner .filter-title {
+  font-size: 1.4em;
+}
+.filter .inner ul {
   list-style: none;
   margin: 0;
 }
-.filter .inner .scroll-area .viewport .overview ul .facet .facet-header {
+.filter .inner ul li {
+  padding: 1px;
+}
+.filter .inner .facet .facet-header {
   cursor: pointer;
 }
-.filter .inner .scroll-area .viewport .overview ul .facet .facet-header .toggle {
+.filter .inner .facet .facet-header .toggle {
   display: inline-block;
   vertical-align: middle;
   line-height: 6.928px;
@@ -105,16 +127,16 @@
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
 }
-.filter .inner .scroll-area .viewport .overview ul .facet .facet-header .facet-label {
+.filter .inner .facet .facet-header .facet-label {
   margin-left: 3px;
 }
-.filter .inner .scroll-area .viewport .overview ul .facet .facet-options {
+.filter .inner .facet .facet-options {
   clear: both;
 }
-.filter .inner .scroll-area .viewport .overview ul .facet .facet-options input[type="checkbox"] {
+.filter .inner .facet .facet-options input[type="checkbox"] {
   margin: 0;
 }
-.filter .inner .scroll-area .viewport .overview ul .facet-header.collapsed .toggle {
+.filter .inner .facet-header.collapsed .toggle {
   line-height: 8px;
   width: 0;
   height: 0;
@@ -122,12 +144,13 @@
   border-top: 4px solid transparent;
   border-bottom: 4px solid transparent;
 }
-.filter .inner .scroll-area .viewport .overview ul .facet-header.collapsed .facet-label {
+.filter .inner .facet-header.collapsed .facet-label {
   margin-left: 1px;
 }
-.filter .inner .scroll-area .viewport .overview ul .facet-header.collapsed + .facet-options {
+.filter .inner .facet-header.collapsed + .facet-options {
   display: none;
 }
-.filter .inner .scroll-area.scrollable .scrollbar {
-  display: block;
+.filter .inner .divider {
+  margin: 5px 0;
+  border-bottom: solid 1px #eeeeee;
 }

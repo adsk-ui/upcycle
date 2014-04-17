@@ -33,6 +33,19 @@ describe('filter', function(){
 				'name': 'low',
 				'displayName': 'Low'
 			}]
+		},{
+			'name': 'type',
+			'displayName': 'Type',
+			'options':[{
+				'name': 'hotfix',
+				'displayName': 'Hotfix'
+			},{
+				'name': 'coldfix',
+				'displayName': 'Coldfix'
+			},{
+				'name': 'warmfix',
+				'displayName': 'Warmfix'
+			}]
 		}]
 	};
 	var $sandbox = $('#sandbox');
