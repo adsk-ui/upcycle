@@ -1,0 +1,73 @@
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.clearfix:after {
+  clear: both;
+}
+.hide-text {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+.input-block-level {
+  display: block;
+  width: 100%;
+  min-height: 30px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.facetlist {
+  max-height: 200px;
+}
+.facetlist ul {
+  list-style: none;
+  margin: 0;
+}
+.facetlist ul li {
+  padding: 1px;
+}
+.facetlist .facet .facet-header {
+  cursor: pointer;
+}
+.facetlist .facet .facet-header .toggle {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 6.928px;
+  width: 0;
+  height: 0;
+  border-top: 6.928px solid #555555;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+}
+.facetlist .facet .facet-header .facet-label {
+  margin-left: 3px;
+}
+.facetlist .facet .facet-options {
+  clear: both;
+}
+.facetlist .facet .facet-options input[type="checkbox"] {
+  margin: 0;
+}
+.facetlist .facet-header.collapsed .toggle {
+  line-height: 8px;
+  width: 0;
+  height: 0;
+  border-left: 6.928px solid #555555;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+.facetlist .facet-header.collapsed .facet-label {
+  margin-left: 1px;
+}
+.facetlist .facet-header.collapsed + .facet-options {
+  display: none;
+}

@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Upcycle</title>
+  <style>
+  body{
+    padding: 50px;
+  }
+  </style>
+  <!-- bower:css -->
+  <link rel="stylesheet" href="../bower_components/mocha/mocha.css" />
+  <link rel="stylesheet" href="../bower_components/bootstrap/docs/assets/css/bootstrap.css" />
+  <!-- endbower -->
+  
+  <!-- inject:css -->
+  <link rel="stylesheet" href="../build/themes/base.css">
+  <link rel="stylesheet" href="../build/themes/portal.css">
+  <!-- endinject -->
+
+  <!-- bower:js -->
+  <script src="../bower_components/jquery/jquery.js"></script>
+  <script src="../bower_components/jquery-ui/ui/jquery.ui.core.js"></script>
+  <script src="../bower_components/jquery-ui/ui/jquery.ui.widget.js"></script>
+  <script src="../bower_components/handlebars/handlebars.js"></script>
+  <script src="../bower_components/underscore/underscore.js"></script>
+  <script src="../bower_components/tinyscrollbar/lib/jquery.tinyscrollbar.js"></script>
+  <script src="../bower_components/mocha/mocha.js"></script>
+  <script src="../bower_components/chai/chai.js"></script>
+  <script src="../bower_components/bootstrap/docs/assets/js/bootstrap.js"></script>
+  <!-- endbower -->
+
+  <!-- inject:source:js -->
+  <script src="../build/upcycle.js"></script>
+  <!-- endinject -->
+  
+</head>
+
+<body>
+  <script type="text/javascript">
+  $(function(){
+    var data = {
+      'facets': [{
+        'name': 'date',
+        'displayName': 'Date',
+        'options':[{
+          'name': 'today',
+          'displayName': 'Today'
+        },{
+          'name': 'yesterday',
+          'displayName': 'Yesterday',
+          'selected': true
+        }]
+      },{
+        'name': 'severity',
+        'displayName': 'Severity',
+        'options':[{
+          'name': 'reallyhigh',
+          'displayName': 'Really high'
+        },{
+          'name': 'high',
+          'displayName': 'High'
+        },{
+          'name': 'notsohigh',
+          'displayName': 'Not so high'
+        },{
+          'name': 'medium',
+          'displayName': 'Medium'
+        },{
+          'name': 'mediumlow',
+          'displayName': 'Medium low'
+        },{
+          'name': 'low',
+          'displayName': 'Low'
+        }]
+      },{
+        'name': 'type',
+        'displayName': 'Type',
+        'options':[{
+          'name': 'hotfix',
+          'displayName': 'Hotfix'
+        },{
+          'name': 'coldfix',
+          'displayName': 'Coldfix'
+        },{
+          'name': 'warmfix',
+          'displayName': 'Warmfix'
+        }]
+      }]
+    };
+    $('<a>toggle portal theme</a>')
+      .appendTo('body')
+      .on('click', function(){
+        $('body').toggleClass('upcycle-portal');
+      });
+
+    var facetlist = window.facetlist = $('<div></div>')
+      .appendTo('body')
+      .facetlist({
+        'data': data,
+        'eventDelay': 1000
+      })
+      .on('facetlistchange', function(event, data){
+        console.log(event);
+        console.log(data);
+      }).on('change', function(){
+        console.log('changing...');
+      })
+      .data('Upcycle-facetlist');
+  });
+  
+  </script>
+</body>
+</html>
