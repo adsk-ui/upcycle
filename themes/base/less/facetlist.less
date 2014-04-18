@@ -1,0 +1,43 @@
+.facetlist{
+	@toggle-arrow-size: 4px;
+	max-height: 200px;
+	ul{
+		list-style: none;
+		margin: 0;
+		li{
+			padding: 1px;
+		}
+	}
+	.facet{
+		.facet-header{
+			cursor: pointer;
+			.toggle{
+				display: inline-block;
+				vertical-align: middle;
+				line-height: @toggle-arrow-size * 1.732;
+				#arrow.down(@toggle-arrow-size);
+			}
+			.facet-label{
+				margin-left: 3px;
+			}
+		}
+		.facet-options{
+			clear: both;
+			input[type="checkbox"]{
+				margin: 0;
+			}
+		}
+	}
+	.facet-header.collapsed{
+		.toggle{
+			line-height: @toggle-arrow-size * 2;
+			#arrow.right(@toggle-arrow-size);			
+		}
+		.facet-label{
+			margin-left: 1px; 
+		}
+	}
+	.facet-header.collapsed + .facet-options{
+		display: none; 
+	}
+}

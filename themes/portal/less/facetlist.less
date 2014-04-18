@@ -1,0 +1,38 @@
+.upcyle-portal{
+	.facetlist{
+		@toggle-arrow-size: 4px;
+		width: 275px;
+		.inner{ 
+			.border-radius(4px);
+			.box-shadow(0 0 3px 1px rgba(0, 0, 0, 0.1));
+			#gradient.vertical(#fff, #F5F5F4);
+			padding: 12px 12px 20px;
+			.scroll-area{
+				overflow: hidden;
+			}
+			.scroll-area.scrollable{
+				.scrollbar{
+					display: block;
+				}
+			}
+			.scrollbar{
+				display: none;
+			}
+			.viewport{
+				max-height: 200px; 
+			}
+			.overview{
+			}
+			.facetlist-header{
+				padding: 1px 0;
+			}
+			.facetlist-title{
+				font-size: 1.4em;
+			}
+			.divider{
+				margin: 5px 0;
+				border-bottom: solid 1px @grayLighter;
+			}
+		}
+	}
+}
