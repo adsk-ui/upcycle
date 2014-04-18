@@ -1,4 +1,4 @@
-describe('filter', function(){
+describe('facetlist', function(){
 	var data = {
 		'facets': [{
 			'name': 'date',
@@ -48,30 +48,18 @@ describe('filter', function(){
 			}]
 		}]
 	};
-	var $sandbox = $('#sandbox');
-	var filter = window.filter = $sandbox.filter({
-		'data': data,
-		'eventDelay': 1000
-	}).data('Upcycle-filter');
-
-	$sandbox.on('filterchange', function(event, data){
-		console.log(event);
-		console.log(data);
-	}).on('change', function(){
-		console.log('changing...');
-	});
-
+	
 	describe('creates template context', function(){
-		var context = $.Upcycle.filter.prototype._getTemplateContext.call(this, data);
-		var context2 = $.Upcycle.filter.prototype._getTemplateContext.call(this);
+		var context = $.Upcycle.facetlist.prototype._getTemplateContext.call(this, data);
+		var context2 = $.Upcycle.facetlist.prototype._getTemplateContext.call(this);
 		it('that includes facet array', function(){
 			expect(context.facets instanceof Array).to.equal(true);
 		});
 		it('that includes facet count', function(){
-			expect(context.facetCount).to.equal(2);	
+			expect(context.facetCount).to.equal(3);	
 		});
 		it('that includes facet options count', function(){
-			expect(context.facetValuesCount).to.equal(8);	
+			expect(context.facetValuesCount).to.equal(11);	
 			expect(context2.facetCount).to.equal(0);
 		});
 		

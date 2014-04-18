@@ -1,4 +1,4 @@
-$.widget('Upcycle.filter', {
+$.widget('Upcycle.facetlist', {
 	'options': {
 		'templatesNamespace': 'Upcycle.templates',
 		'data': {},
@@ -22,7 +22,7 @@ $.widget('Upcycle.filter', {
 		this._on({'click [data-action="clear-all"]': this.clear});
 		this._on({'click [role="facet"] > [role="header"]': this._onToggle});
 		this._on({'click button.more, button.less': this._update});
-		this.element.addClass('filter'); 
+		this.element.addClass('facetlist'); 
 		this._render();
 	},
 	'_render': function(){
