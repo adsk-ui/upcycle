@@ -25,6 +25,38 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+.scroll-area {
+  position: relative;
+}
+.scroll-area .scrollbar {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  width: 6px;
+}
+.scroll-area .scrollbar .track {
+  height: 100%;
+  width: 6px;
+  position: relative;
+}
+.scroll-area .scrollbar .track .thumb {
+  height: 20px;
+  width: 6px;
+  cursor: pointer;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+}
+.scroll-area .viewport {
+  overflow: hidden;
+  position: relative;
+}
+.scroll-area .viewport .overview {
+  position: relative;
+  left: 0;
+  top: 0;
+}
 .facetlist {
   max-height: 200px;
 }
