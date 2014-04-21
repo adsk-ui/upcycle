@@ -16,7 +16,7 @@ var paths = {
 	test: {
 		js:"test/*.js",
 		runnerTemplate: "test/runner-template.html",
-		runner: "test/runner.html"
+		runner: "test/index.html"
 	},
     themes: {
         less: "themes/**/main.less",
@@ -40,9 +40,9 @@ var paths = {
         js: "build/upcycle.js",
         themes:"build/themes"
     },
-    example: {
-        dir: "example",
-        index: "example/index.html"
+    docs: {
+        dir: "docs",
+        index: "docs/index.html"
     },
 	testDir: "test",
     buildDir: "build"
@@ -52,6 +52,11 @@ gulp.task('clean', function(){
     gulp.src(paths.build.dir, {read: false})
         .pipe(plugin.clean());
 });
+/**
+ * Compiles source .hbs files and saves to
+ * /src/js/templates.js
+ * @return {[type]} [description]
+ */
 gulp.task('templates', function(){
   gulp.src([paths.src.templates])
     .pipe(plugin.handlebars())
@@ -62,6 +67,11 @@ gulp.task('templates', function(){
     .pipe(plugin.concat('templates.js'))
     .pipe(gulp.dest(paths.src.jsDir));
 });
+/**
+ * Compiles main.less theme files and saves them
+ * to /build/themename.css
+ * @return {[type]} [description]
+ */
 gulp.task('less', function(){
     return gulp.src(paths.themes.less)
         .pipe(plugin.less({paths: [paths.themes.less]}))
@@ -72,14 +82,25 @@ gulp.task('less', function(){
         .pipe(gulp.dest(paths.build.themes))
         .on('error', plugin.util.log);
 });
+/**
+ * Concat the source Javascript files and save to
+ * /build/upcycle.js
+ * @return {[type]} [description]
+ */
 gulp.task('js', function(){
     return gulp.src(paths.src.js)
         .pipe(plugin.concat(paths.build.dir + '/upcycle.js'))
         .pipe(plugin.rename(function(path){
             path.dirname = '';
         }))
-        .pipe(gulp.dest(paths.build.dir));
+        .pipe(gulp.dest(paths.build.dir))
+        .on('error', plugin.util.log);
 });
+/**
+ * Generates /test/index.html injecting source and 
+ * unit test js files, then runs it through phantomjs.
+ * @return {[type]} [description]
+ */
 gulp.task('test', function() {
     gulp.src(paths.test.runnerTemplate)
         .pipe(wiredep.stream({
@@ -87,24 +108,33 @@ gulp.task('test', function() {
         }))
         .pipe(plugin.inject(gulp.src(paths.src.js, {read: false}), {starttag:'<!-- inject:source:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
         .pipe(plugin.inject(gulp.src(paths.test.js, {read: false}), {starttag:'<!-- inject:tests:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
-        .pipe(plugin.inject(gulp.src(paths.themes.base.cssMain, {read: false}), {starttag:'<!-- inject:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
         .pipe(plugin.rename(paths.test.runner.replace(filePathRegex, '')))
         .pipe(gulp.dest(paths.testDir));
 
     return gulp.src(paths.test.runner)
     	.pipe(mochaPhantomJs());
 });
-gulp.task('example', function(){
-    gulp.src('example/index-template.html')
+/**
+ * Generates /docs/index.html injecting upcycle.js, themenames.css 
+ * and styles for the docs page.
+ * @return {[type]} [description]
+ */
+gulp.task('docs', function(){
+    gulp.src(paths.docs.dir + '/docs.less')
+        .pipe(plugin.less({paths: [paths.docs.dir + '/docs.less']}))
+        .pipe(gulp.dest(paths.docs.dir));
+
+    gulp.src('docs/index-template.html')
         .pipe(wiredep.stream({
             devDependencies: true
         }))
         .pipe(plugin.inject(gulp.src(paths.build.js, {read: false}), {starttag:'<!-- inject:source:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
         .pipe(plugin.inject(gulp.src(paths.build.themes+'/*.css', {read: false}), {starttag:'<!-- inject:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
-        .pipe(plugin.rename(paths.example.index.replace(filePathRegex, '')))
-        .pipe(gulp.dest(paths.example.dir));
+        .pipe(plugin.rename(paths.docs.index.replace(filePathRegex, '')))
+        .pipe(gulp.dest(paths.docs.dir));
 });
-gulp.task('build', ['clean', 'templates', 'less', 'js', 'test']);
+
+gulp.task('build', ['templates', 'js', 'less', 'docs']);
 gulp.task('watch', function () {
     gulp.watch(paths.themes.base.less, ['less']);
     gulp.watch([paths.themes.base.css, paths.src.js], ['test']);
