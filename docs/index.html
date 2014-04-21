@@ -3,11 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>Upcycle</title>
-  <style>
-  body{
-    padding: 50px;
-  }
-  </style>
+  <link rel="stylesheet" href="docs.css">
   <!-- bower:css -->
   <link rel="stylesheet" href="../bower_components/mocha/mocha.css" />
   <link rel="stylesheet" href="../bower_components/bootstrap/docs/assets/css/bootstrap.css" />
@@ -35,7 +31,7 @@
   <!-- endinject -->
   
 </head>
-
+<button type="button" data-action="toggle-theme" class="btn">Toggle theme</button>
 <body>
   <script type="text/javascript">
   $(function(){
@@ -88,9 +84,9 @@
         }]
       }]
     };
-    $('<a>toggle portal theme</a>')
-      .appendTo('body')
+    $('[data-action="toggle-theme"]')
       .on('click', function(){
+        $(this).toggleClass('btn-primary');
         $('body').toggleClass('upcycle-portal');
       });
 
