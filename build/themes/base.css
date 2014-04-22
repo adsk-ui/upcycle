@@ -60,6 +60,15 @@
 .facetlist {
   max-height: 200px;
 }
+.facetlist .scroll-area {
+  overflow: hidden;
+}
+.facetlist .scroll-area.scrollable .scrollbar {
+  display: block;
+}
+.facetlist .scrollbar {
+  display: none;
+}
 .facetlist ul {
   list-style: none;
   margin: 0;

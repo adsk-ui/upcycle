@@ -1,6 +1,17 @@
 .facetlist{
 	@toggle-arrow-size: 4px;
 	max-height: 200px;
+	.scroll-area{
+		overflow: hidden;
+	}
+	.scroll-area.scrollable{
+		.scrollbar{
+			display: block;
+		}
+	}
+	.scrollbar{
+		display: none;
+	}
 	ul{
 		list-style: none;
 		margin: 0;

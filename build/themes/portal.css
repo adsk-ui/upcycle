@@ -61,15 +61,6 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff5f5f4', GradientType=0);
   padding: 12px 12px 20px;
 }
-.upcycle-portal .facetlist .inner .scroll-area {
-  overflow: hidden;
-}
-.upcycle-portal .facetlist .inner .scroll-area.scrollable .scrollbar {
-  display: block;
-}
-.upcycle-portal .facetlist .inner .scrollbar {
-  display: none;
-}
 .upcycle-portal .facetlist .inner .viewport {
   max-height: 200px;
 }
