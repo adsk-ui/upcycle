@@ -18,8 +18,12 @@
   <!-- endinject -->
   
 </head>
-<button type="button" data-action="toggle-theme" class="btn">Toggle theme</button>
+
 <body>
+  <div class="btn-group">
+    <button type="button" data-value="base" data-action="toggle-theme" class="btn btn-default">Base</button>
+    <button type="button" data-value="portal" data-action="toggle-theme" class="btn btn-default">Portal</button>
+  </div>
   <script type="text/javascript">
   $(function(){
     var data = {
@@ -71,11 +75,6 @@
         }]
       }]
     };
-    $('[data-action="toggle-theme"]')
-      .on('click', function(){
-        $(this).toggleClass('btn-primary');
-        $('body').toggleClass('upcycle-portal');
-      });
 
     var facetlist = window.facetlist = $('<div></div>')
       .appendTo('body')
@@ -90,6 +89,15 @@
         console.log('changing...');
       })
       .data('Upcycle-facetlist');
+    $('[data-action="toggle-theme"]')
+      .on('click', function(){
+        var $body = $('body'),
+            themeName = $(this).attr('data-value'),
+            className = $('body').prop('className').replace(/( ?)upcycle-\w+/, '$1');
+        $body.prop('className', className + 'upcycle-' + themeName);
+
+        facetlist.update();    
+      });
   });
   
   </script>
