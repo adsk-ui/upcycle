@@ -21,7 +21,7 @@ $.widget('Upcycle.facetlist', {
 		this._on({'change': this._onChange});
 		this._on({'click [data-action="clear-all"]': this.clear});
 		this._on({'click [role="facet"] > [role="header"]': this._onToggle});
-		this._on({'click button.more, button.less': this._update});
+		this._on({'click button.more, button.less': this.update});
 		this.element.addClass('facetlist'); 
 		this._render();
 	},
@@ -29,9 +29,9 @@ $.widget('Upcycle.facetlist', {
 		this.element
 			.empty()
 			.append(this._getMarkup(this.options.data));
-		this._update();
+		this.update();
 	},
-	'_update': function(){
+	'update': function(){
 		var $scrollArea = this.element.find('.scroll-area'),
 			$viewport = $scrollArea.find('.viewport'),
 			needsScrollbar = $viewport.prop('scrollHeight') > $viewport.prop('clientHeight'),
@@ -76,7 +76,7 @@ $.widget('Upcycle.facetlist', {
 	'_onToggle': function(event){
 		var that = this;
 		$(event.currentTarget).toggleClass('collapsed');
-		this._update();
+		this.update();
 	},
 	'_onChange': function(event){
 		var that = this;

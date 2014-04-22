@@ -8,7 +8,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n	<ul role=\"presentation\">\n		<li class=\"filter-header\">\n			<span class=\"filter-title\">Filters</span><span class=\"facet-count\"></span>\n	  		<button data-action=\"clear-all\" class=\"btn-link\">Clear All</button>\n  		</li>\n	  	<li class=\"divider\"></li>\n		";
+  buffer += "\n	<ul role=\"presentation\">\n		";
   stack1 = helpers.each.call(depth0, (depth0 && depth0.facets), {hash:{},inverse:self.noop,fn:self.program(2, program2, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n	</ul>\n	";
