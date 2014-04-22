@@ -103,9 +103,36 @@ $.widget('Upcycle.facetlist', {
 		return data;
 	},
 	'_getMarkup': function(data){
-		var template = eval(this.options.templatesNamespace)['filter'],
+		var template = eval(this.options.templatesNamespace)['facetlist'],
 			templateContext = this._getTemplateContext(data);
 		return template(templateContext);
+	}
+});
+$.widget('Upcycle.filter', {
+	'options': {
+		'templatesNamespace': 'Upcycle.templates',
+		'label': 'Filters',
+		'clearAllLabel': 'Clear all',
+		'resultsLabel': 'Results',
+		'facets': {}
+	},
+	'_create': function(){
+		this.element.addClass('filter');
+		this._render();
+	},
+	'_render': function(){
+		this.element
+			.empty()
+			.append(this._getMarkup());
+	},
+	'_getMarkup': function(){
+		var facetListTemplate = eval(this.options.templatesNamespace)['facetlist'],
+			facetListMarkup = facetListTemplate(this.options.facets);
+			
+		return facetListMarkup;
+	},
+	'_getTemplateContext': function(data){
+		return this.options;
 	}
 });
 Handlebars.registerHelper('tinyscrollbar', function(){
@@ -243,7 +270,7 @@ Handlebars.registerHelper('tinyscrollbar', function(){
 })(jQuery);
 this["Upcycle"] = this["Upcycle"] || {};
 this["Upcycle"]["templates"] = this["Upcycle"]["templates"] || {};
-this["Upcycle"]["templates"]["filter"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+this["Upcycle"]["templates"]["facetlist"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, options, functionType="function", escapeExpression=this.escapeExpression, self=this, blockHelperMissing=helpers.blockHelperMissing;
@@ -315,5 +342,24 @@ function program6(depth0,data) {
   if (!helpers.tinyscrollbar) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</div>";
+  return buffer;
+  });;
+this["Upcycle"] = this["Upcycle"] || {};
+this["Upcycle"]["templates"] = this["Upcycle"]["templates"] || {};
+this["Upcycle"]["templates"]["filter"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<div class=\"filter-header\">\n	<span class=\"filter-title\">";
+  if (stack1 = helpers.label) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.label); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span><span class=\"facet-count\">(</span>\n	<button data-action=\"clear-all\" class=\"btn-link\">";
+  if (stack1 = helpers.clearAllLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.clearAllLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</button>\n</div>";
   return buffer;
   });;

@@ -103,7 +103,7 @@ $.widget('Upcycle.facetlist', {
 		return data;
 	},
 	'_getMarkup': function(data){
-		var template = eval(this.options.templatesNamespace)['filter'],
+		var template = eval(this.options.templatesNamespace)['facetlist'],
 			templateContext = this._getTemplateContext(data);
 		return template(templateContext);
 	}

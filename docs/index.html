@@ -40,11 +40,6 @@
   <script type="text/javascript">
   $(function(){
     var data = {
-      'labels': {
-        'title': 'Filters',
-        'clearAll': 'Clear all',
-        'results': 'results'
-      },
       'facets': [{
         'name': 'date',
         'displayName': 'Date',
@@ -94,6 +89,10 @@
       }]
     };
 
+    /**
+     * FacetList
+     * ===============================================
+     */
     var facetlist = window.facetlist = $('<div></div>')
       .appendTo('body')
       .facetlist({
@@ -107,6 +106,22 @@
         console.log('changing...');
       })
       .data('Upcycle-facetlist');
+
+
+     /**
+     * Filters
+     * ===============================================
+     */ 
+    var filter = window.filter = $('<div></div>')
+      .appendTo('body')
+      .filter({
+        'facets': data.facets
+      });
+
+    /**
+     * Theme buttons
+     * ===============================================
+     */
     $('[data-action="toggle-theme"]')
       .on('click', function(){
         var $body = $('body'),
