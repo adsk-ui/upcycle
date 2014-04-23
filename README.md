@@ -1,15 +1,6 @@
 upcycle
 =======
 
-Why call it upcycle?
-----------------------------
-
-Here's one definition...  
-"reuse (discarded objects or material) in such a way as to create a product of a higher quality or value than the original."
-
-...and a project description...  
-An effort to transition one-offs and semi-vetted code into a library of high quality, well tested, reusable components
-
 Setup
 ----------------------------
 1. Clone repo from GitHub
