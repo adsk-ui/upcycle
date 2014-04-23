@@ -24,6 +24,7 @@
     <button type="button" data-value="base" data-action="toggle-theme" class="btn btn-default">Base</button>
     <button type="button" data-value="portal" data-action="toggle-theme" class="btn btn-default">Portal</button>
   </div>
+  <div id="examples"></div>
   <script type="text/javascript">
   $(function(){
     var data = {
@@ -81,7 +82,7 @@
      * ===============================================
      */
     var facetlist = window.facetlist = $('<div></div>')
-      .appendTo('body')
+      .appendTo('#examples')
       .facetlist({
         'data': data,
         'eventDelay': 1000
@@ -92,7 +93,7 @@
       }).on('change', function(){
         console.log('changing...');
       })
-      .data('Upcycle-facetlist');
+      .data('upcycle-facetlist');
 
 
      /**
@@ -100,10 +101,11 @@
      * ===============================================
      */ 
     var filter = window.filter = $('<div></div>')
-      .appendTo('body')
+      .appendTo('#examples')
       .filter({
-        'facets': data.facets
-      });
+        'data': data
+      })
+      .data('upcycle-filter');
 
     /**
      * Theme buttons
@@ -116,7 +118,8 @@
             className = $('body').prop('className').replace(/( ?)upcycle-\w+/, '$1');
         $body.prop('className', className + 'upcycle-' + themeName);
 
-        facetlist.update();    
+        facetlist.update();  
+        filter.update();  
       });
   });
   

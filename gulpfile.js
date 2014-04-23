@@ -62,7 +62,7 @@ gulp.task('templates', function(){
     .pipe(plugin.handlebars())
     .pipe(plugin.defineModule('plain'))
     .pipe(plugin.declare({
-      namespace: "Upcycle.templates"
+      namespace: "upcycle.templates"
     }))
     .pipe(plugin.concat('templates.js'))
     .pipe(gulp.dest(paths.src.jsDir));

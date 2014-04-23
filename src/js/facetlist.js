@@ -1,25 +1,16 @@
-$.widget('Upcycle.facetlist', {
+$.widget('upcycle.facetlist', {
 	'options': {
-		'templatesNamespace': 'Upcycle.templates',
+		'templatesNamespace': 'upcycle.templates',
 		'data': {},
 		'eventDelay': 0
 	},
 	'appliedFilters': {},
 	
-	/**
-	 * Clears all checkboxes (deselects all filters)		
-	 * @return {jQuery} A jQuery object containing the element associated to this widget
-	 */
-	'clear': function(){
-		this.element.find('[type="checkbox"]').each(function(index, checkbox){
-			checkbox.checked = false;
-		});
-		return this.element;
-	},
+	
 	'_create': function(){
 		this._setOptions(this.options);
 		this._on({'change': this._onChange});
-		this._on({'click [data-action="clear-all"]': this.clear});
+		
 		this._on({'click [role="facet"] > [role="header"]': this._onToggle});
 		this._on({'click button.more, button.less': this.update});
 		this.element.addClass('facetlist'); 

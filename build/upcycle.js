@@ -1,25 +1,16 @@
-$.widget('Upcycle.facetlist', {
+$.widget('upcycle.facetlist', {
 	'options': {
-		'templatesNamespace': 'Upcycle.templates',
+		'templatesNamespace': 'upcycle.templates',
 		'data': {},
 		'eventDelay': 0
 	},
 	'appliedFilters': {},
 	
-	/**
-	 * Clears all checkboxes (deselects all filters)		
-	 * @return {jQuery} A jQuery object containing the element associated to this widget
-	 */
-	'clear': function(){
-		this.element.find('[type="checkbox"]').each(function(index, checkbox){
-			checkbox.checked = false;
-		});
-		return this.element;
-	},
+	
 	'_create': function(){
 		this._setOptions(this.options);
 		this._on({'change': this._onChange});
-		this._on({'click [data-action="clear-all"]': this.clear});
+		
 		this._on({'click [role="facet"] > [role="header"]': this._onToggle});
 		this._on({'click button.more, button.less': this.update});
 		this.element.addClass('facetlist'); 
@@ -108,31 +99,49 @@ $.widget('Upcycle.facetlist', {
 		return template(templateContext);
 	}
 });
-$.widget('Upcycle.filter', {
+$.widget('upcycle.filter', {
 	'options': {
-		'templatesNamespace': 'Upcycle.templates',
+		'templatesNamespace': 'upcycle.templates',
 		'label': 'Filters',
 		'clearAllLabel': 'Clear all',
 		'resultsLabel': 'Results',
-		'facets': {}
+		'data': {}
 	},
 	'_create': function(){
+		this._on({'click [data-action="clear-all"]': this.clear});
 		this.element.addClass('filter');
 		this._render();
 	},
+	/**
+	 * Clears all checkboxes (deselects all filters)		
+	 * @return {jQuery} A jQuery object containing the element associated to this widget
+	 */
+	'clear': function(){
+		this.element.find('[type="checkbox"]').each(function(index, checkbox){
+			checkbox.checked = false;
+		});
+		return this.element;
+	},
 	'_render': function(){
-		this.element
+		this.facetlist = this.element
 			.empty()
-			.append(this._getMarkup());
+			.append(this._getMarkup())
+			.find('.facetlist')
+				.facetlist({
+					'data': this.options.data
+				})
+				.data('upcycle-facetlist');
+		this.update();
+	},
+	'update': function(){
+		this.facetlist.update();
 	},
 	'_getMarkup': function(){
-		var facetListTemplate = eval(this.options.templatesNamespace)['facetlist'],
-			facetListMarkup = facetListTemplate(this.options.facets);
-			
-		return facetListMarkup;
+		var filterMarkup = this._getTemplate('filter')(this.options);
+		return filterMarkup;
 	},
-	'_getTemplateContext': function(data){
-		return this.options;
+	'_getTemplate': function(name){
+		return eval(this.options.templatesNamespace)[name];
 	}
 });
 Handlebars.registerHelper('tinyscrollbar', function(){
@@ -268,9 +277,9 @@ Handlebars.registerHelper('tinyscrollbar', function(){
 	};
   
 })(jQuery);
-this["Upcycle"] = this["Upcycle"] || {};
-this["Upcycle"]["templates"] = this["Upcycle"]["templates"] || {};
-this["Upcycle"]["templates"]["facetlist"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+this["upcycle"] = this["upcycle"] || {};
+this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
+this["upcycle"]["templates"]["facetlist"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, options, functionType="function", escapeExpression=this.escapeExpression, self=this, blockHelperMissing=helpers.blockHelperMissing;
@@ -344,9 +353,9 @@ function program6(depth0,data) {
   buffer += "\n</div>";
   return buffer;
   });;
-this["Upcycle"] = this["Upcycle"] || {};
-this["Upcycle"]["templates"] = this["Upcycle"]["templates"] || {};
-this["Upcycle"]["templates"]["filter"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+this["upcycle"] = this["upcycle"] || {};
+this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
+this["upcycle"]["templates"]["filter"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
@@ -356,10 +365,10 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.label) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.label); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</span><span class=\"facet-count\">(</span>\n	<button data-action=\"clear-all\" class=\"btn-link\">";
+    + "</span><span class=\"result-count\"></span>\n	<button data-action=\"clear-all\" class=\"btn-link\">";
   if (stack1 = helpers.clearAllLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.clearAllLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</button>\n</div>";
+    + "</button>\n</div>\n<div class=\"facetlist\"></div>";
   return buffer;
   });;
