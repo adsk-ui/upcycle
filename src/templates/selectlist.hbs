@@ -1,7 +1,7 @@
 <div class="inner">
 	{{#tinyscrollbar}}
 	<ul role="presentation">
-		{{#each facets}}
+		{{#each this}}
 	  		<li role="facet" class="facet">
 	  			<div role="header" class="facet-header">
 			  		<span role="button" data-action="toggle" class="toggle"></span>
@@ -10,8 +10,8 @@
 		  		<ul role="group" class="facet-options">
 		  			{{#each options}}
 			  		<li class="facet-option">
-			  			<input data-group="{{../name}}" data-facet="{{name}}" type="checkbox"{{#if selected}} checked="true"{{/if}}>
-			  			<span class="facet-option-name">{{displayName}}</span>
+			  			<input data-group="{{../name}}" data-facet="{{this}}" type="checkbox"{{#if selected}} checked="true"{{/if}}>
+			  			<span class="facet-option-name">{{this}}</span>
 			  		</li>
 			  		{{/each}}
 		  		</ul>

@@ -27,73 +27,56 @@
   <div id="examples"></div>
   <script type="text/javascript">
   $(function(){
-    var data = {
+    var selectListOptions = {
+      'eventDelay': 1000,
       'facets': [{
         'name': 'date',
         'displayName': 'Date',
-        'options':[{
-          'name': 'today',
-          'displayName': 'Today'
-        },{
-          'name': 'yesterday',
-          'displayName': 'Yesterday',
-          'selected': true
-        }]
+        'options':['Today','Yesterday']
       },{
         'name': 'severity',
         'displayName': 'Severity',
-        'options':[{
-          'name': 'reallyhigh',
-          'displayName': 'Really high'
-        },{
-          'name': 'high',
-          'displayName': 'High'
-        },{
-          'name': 'notsohigh',
-          'displayName': 'Not so high'
-        },{
-          'name': 'medium',
-          'displayName': 'Medium'
-        },{
-          'name': 'mediumlow',
-          'displayName': 'Medium low'
-        },{
-          'name': 'low',
-          'displayName': 'Low'
-        }]
+        'options':['Really high','High','Not so high','Medium','Medium low','Low']
       },{
         'name': 'type',
         'displayName': 'Type',
-        'options':[{
-          'name': 'hotfix',
-          'displayName': 'Hotfix'
-        },{
-          'name': 'coldfix',
-          'displayName': 'Coldfix'
-        },{
-          'name': 'warmfix',
-          'displayName': 'Warmfix'
-        }]
+        'options':['Hotfix','Coldfix','Warmfix']
       }]
     };
 
+    var filterOptions = {
+      'data': [{
+        'name': 'Mike',
+        'age': 10,
+        'greeting': 'Hello'
+      },{
+        'name': 'Aaron',
+        'age': 12,
+        'greeting': 'Hi'
+      },{
+        'name': 'Eddie',
+        'age': 14,
+        'greeting': 'Hey'
+      }],
+      'facets': [{
+        'name': 'name',
+        'displayName': 'Name'
+      }]
+    };
     /**
-     * FacetList
+     * Selectlist
      * ===============================================
      */
-    var facetlist = window.facetlist = $('<div></div>')
+    var selectlist = window.selectlist = $('<div></div>')
       .appendTo('#examples')
-      .facetlist({
-        'data': data,
-        'eventDelay': 1000
-      })
-      .on('facetlistchange', function(event, data){
+      .selectlist(selectListOptions)
+      .on('selectlistchange', function(event, data){
         console.log(event);
         console.log(data);
       }).on('change', function(){
         console.log('changing...');
       })
-      .data('upcycle-facetlist');
+      .data('upcycle-selectlist');
 
 
      /**
@@ -102,8 +85,13 @@
      */ 
     var filter = window.filter = $('<div></div>')
       .appendTo('#examples')
-      .filter({
-        'data': data
+      .filter(filterOptions)
+      .on('filterchange', function(event, data){
+        console.log(event);
+        console.log(data);
+      })
+      .on('change', function(){
+        console.log('filters changing...');
       })
       .data('upcycle-filter');
 
@@ -118,7 +106,7 @@
             className = $('body').prop('className').replace(/( ?)upcycle-\w+/, '$1');
         $body.prop('className', className + 'upcycle-' + themeName);
 
-        facetlist.update();  
+        selectlist.update();  
         filter.update();  
       });
   });

@@ -7,7 +7,7 @@ button[data-action="toggle-theme"] {
 #examples {
   overflow: hidden;
 }
-.facetlist,
+.selectlist,
 .filter {
   float: left;
 }

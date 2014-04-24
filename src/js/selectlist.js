@@ -1,25 +1,22 @@
-$.widget('upcycle.facetlist', {
+$.widget('upcycle.selectlist', {
 	'options': {
 		'templatesNamespace': 'upcycle.templates',
-		'data': {},
+		'facets': [],
 		'eventDelay': 0
 	},
-	'appliedFilters': {},
-	
-	
+	'selection': {},
 	'_create': function(){
 		this._setOptions(this.options);
 		this._on({'change': this._onChange});
-		
 		this._on({'click [role="facet"] > [role="header"]': this._onToggle});
 		this._on({'click button.more, button.less': this.update});
-		this.element.addClass('facetlist'); 
+		this.element.addClass('selectlist'); 
 		this._render();
 	},
 	'_render': function(){
 		this.element
 			.empty()
-			.append(this._getMarkup(this.options.data));
+			.append(this._getMarkup(this.options.facets));
 		this.update();
 	},
 	'update': function(){
@@ -46,56 +43,44 @@ $.widget('upcycle.facetlist', {
 			tinyscrollbar.update('relative');
 		}
 	},
+	'_triggerChangeEvent': function(event, selection){
+		if(!_.isEqual(selection, this.selection)){
+			this.selection = selection;
+			this._trigger('change', event, {'selection': this.selection});	
+		}
+	},
 	'_setOption': function(key, value){
 		$.Widget.prototype._setOption.call(this, key, value);
 		if(key === 'eventDelay'){
-			this._triggerChangeEvent = _.debounce(function(event, appliedFilters){
-				var that = this;
-				if( this._debouncingChangeEvent ){
-					clearInterval(this._debouncingChangeEvent);
-				}
-				this._debouncingChangeEvent = setTimeout(function(){
-					delete that._debouncingChangeEvent;
-					if(!_.isEqual(appliedFilters, that.appliedFilters)){
-						that.appliedFilters = appliedFilters;
-						that._trigger('change', event, {'appliedFilters': that.appliedFilters});	
-					}
-				}, this.options.eventDelay);
-			}, value);
+			this._debouncedTriggerChangeEvent = _.debounce(this._triggerChangeEvent, this.options.eventDelay);
+		}
+		if(key === 'facets'){
+			this.options.facetOptionsCount = _.reduce(value, function(memo, facet){
+				return _.isArray(facet.options) ? memo + facet.options.length : memo;
+			}, 0);
 		}
 	},
 	'_onToggle': function(event){
-		var that = this;
 		$(event.currentTarget).toggleClass('collapsed');
 		this.update();
 	},
 	'_onChange': function(event){
-		var that = this;
-		var appliedFilters = {};
+		var selection = {};
 		this.element.find('[type="checkbox"]').each(function(){
 			if( this.checked ){
 				var group = this.getAttribute('data-group'),
 					facet = this.getAttribute('data-facet');	
-				if(appliedFilters.hasOwnProperty(group)){
-					appliedFilters[group].push( facet );
+				if(selection.hasOwnProperty(group)){
+					selection[group].push( facet );
 				}else{
-					appliedFilters[group] = [facet];
+					selection[group] = [facet];
 				}
 			}
 		});
-		this._triggerChangeEvent(event, appliedFilters);
+		this._debouncedTriggerChangeEvent(event, selection);
 	},
-	'_getTemplateContext': function(data){
-		data = data || {};
-		data.facetCount = data.facets ? data.facets.length : 0;
-		data.facetValuesCount = _.reduce(data.facets, function(memo, facet){
-			return _.isArray(facet.options) ? memo + facet.options.length : memo;
-		}, 0);
-		return data;
-	},
-	'_getMarkup': function(data){
-		var template = eval(this.options.templatesNamespace)['facetlist'],
-			templateContext = this._getTemplateContext(data);
-		return template(templateContext);
+	'_getMarkup': function(facets){
+		var template = eval(this.options.templatesNamespace)['selectlist']
+		return template(this.options.facets);
 	}
 });

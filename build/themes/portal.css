@@ -59,19 +59,19 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff5f5f4', GradientType=0);
   padding: 12px 12px 20px;
 }
-.upcycle-portal .filter .facetlist {
-  width: 100%;
-}
-.upcycle-portal .filter .facetlist .viewport {
-  max-height: 200px;
-}
-.upcycle-portal .filter .facetlist .facetlist-header {
+.upcycle-portal .filter .filter-header {
   padding: 1px 0;
 }
-.upcycle-portal .filter .facetlist .facetlist-title {
+.upcycle-portal .filter .filter-title {
   font-size: 1.4em;
 }
-.upcycle-portal .filter .facetlist .divider {
+.upcycle-portal .filter .selectlist {
+  width: 100%;
+}
+.upcycle-portal .filter .selectlist .viewport {
+  max-height: 200px;
+}
+.upcycle-portal .filter .selectlist .divider {
   margin: 5px 0;
   border-bottom: solid 1px #eeeeee;
 }

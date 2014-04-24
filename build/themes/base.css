@@ -57,29 +57,29 @@
   left: 0;
   top: 0;
 }
-.facetlist {
+.selectlist {
   max-height: 200px;
 }
-.facetlist .scroll-area {
+.selectlist .scroll-area {
   overflow: hidden;
 }
-.facetlist .scroll-area.scrollable .scrollbar {
+.selectlist .scroll-area.scrollable .scrollbar {
   display: block;
 }
-.facetlist .scrollbar {
+.selectlist .scrollbar {
   display: none;
 }
-.facetlist ul {
+.selectlist ul {
   list-style: none;
   margin: 0;
 }
-.facetlist ul li {
+.selectlist ul li {
   padding: 1px;
 }
-.facetlist .facet .facet-header {
+.selectlist .facet .facet-header {
   cursor: pointer;
 }
-.facetlist .facet .facet-header .toggle {
+.selectlist .facet .facet-header .toggle {
   display: inline-block;
   vertical-align: middle;
   line-height: 6.928px;
@@ -89,16 +89,16 @@
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
 }
-.facetlist .facet .facet-header .facet-label {
+.selectlist .facet .facet-header .facet-label {
   margin-left: 3px;
 }
-.facetlist .facet .facet-options {
+.selectlist .facet .facet-options {
   clear: both;
 }
-.facetlist .facet .facet-options input[type="checkbox"] {
+.selectlist .facet .facet-options input[type="checkbox"] {
   margin: 0;
 }
-.facetlist .facet-header.collapsed .toggle {
+.selectlist .facet-header.collapsed .toggle {
   line-height: 8px;
   width: 0;
   height: 0;
@@ -106,9 +106,9 @@
   border-top: 4px solid transparent;
   border-bottom: 4px solid transparent;
 }
-.facetlist .facet-header.collapsed .facet-label {
+.selectlist .facet-header.collapsed .facet-label {
   margin-left: 1px;
 }
-.facetlist .facet-header.collapsed + .facet-options {
+.selectlist .facet-header.collapsed + .facet-options {
   display: none;
 }

@@ -4,9 +4,12 @@ $.widget('upcycle.filter', {
 		'label': 'Filters',
 		'clearAllLabel': 'Clear all',
 		'resultsLabel': 'Results',
-		'data': {}
+		'data': [],
+		'facets': [],
+		'eventDelay': 0
 	},
 	'_create': function(){
+		this._setOptions(this.options);
 		this._on({'click [data-action="clear-all"]': this.clear});
 		this.element.addClass('filter');
 		this._render();
@@ -22,18 +25,40 @@ $.widget('upcycle.filter', {
 		return this.element;
 	},
 	'_render': function(){
-		this.facetlist = this.element
+		var that = this;
+		this.selectlist = this.element
 			.empty()
 			.append(this._getMarkup())
-			.find('.facetlist')
-				.facetlist({
-					'data': this.options.data
+			.find('.selectlist')
+				.selectlist({
+					'facets': this.options.facets,
+					'eventDelay': this.options.eventDelay
 				})
-				.data('upcycle-facetlist');
+				.on('selectlistchange', function(event, data){
+					that._trigger('change', event, data);
+				})
+				.data('upcycle-selectlist');
 		this.update();
 	},
 	'update': function(){
-		this.facetlist.update();
+		this.selectlist.update();
+	},
+	'_setOption': function(key, value){
+		$.Widget.prototype._setOption.call(this, key, value);
+		if(key === 'data' || key === 'facets'){
+			_(this.options.facets).each(function(f){
+				var facetOptions = _(this.options.data)
+					.chain()
+					.pluck(f.name)
+					.uniq()
+					.value();
+				_.extend(f, {'options': facetOptions});
+			}, this);
+		}
+		if(key === 'eventDelay'){
+			if( this.selectlist )
+				this.selectlist.option('eventDelay', value);
+		}
 	},
 	'_getMarkup': function(){
 		var filterMarkup = this._getTemplate('filter')(this.options);
@@ -41,5 +66,9 @@ $.widget('upcycle.filter', {
 	},
 	'_getTemplate': function(name){
 		return eval(this.options.templatesNamespace)[name];
+	},
+	'_getTemplateContext': function(options){
+		
+		return options;
 	}
 });
