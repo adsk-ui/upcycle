@@ -15,7 +15,8 @@ gulp tasks
 - templates: Compiles Handlebars templates in /src/templates to /src/js/templates.js
 - less: Compiles /src/less/main.less to /src/css/main.css
 - test: Wires bower dependencies, source files and unit test files to test runner template and produces /test/runner.html
+- build: Saves concatenated src js to /build/upcycle.js and compiled theme css /build/themes/themename.css
 - watch: runs above tasks when source files change
 
-To do: Create task for building production files from source
+
 
