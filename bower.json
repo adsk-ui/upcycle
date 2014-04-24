@@ -6,7 +6,7 @@
     "admangum <adam.mangum@autodesk.com>"
   ],
   "description": "A home for our efforts to transition one-offs and semi-vetted code into a library of high quality, well tested, reusable components",
-  "main": "dist/js/upcycle.js",
+  "main": ["build/upcycle.js", "build/theme/base.css"],
   "keywords": [
     "js",
     "components"
