@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Upcycle</title>
+  <link rel="stylesheet" href="docs.css">
+  <!-- bower:css -->
+  <link rel="stylesheet" href="../bower_components/mocha/mocha.css" />
+  <link rel="stylesheet" href="../bower_components/bootstrap/docs/assets/css/bootstrap.css" />
+  <!-- endbower -->
+  
+  <!-- inject:css -->
+  <link rel="stylesheet" href="../build/themes/base.css">
+  <link rel="stylesheet" href="../build/themes/portal.css">
+  <!-- endinject -->
+
+  <!-- bower:js -->
+  <script src="../bower_components/jquery/jquery.js"></script>
+  <script src="../bower_components/jquery-ui/ui/jquery.ui.core.js"></script>
+  <script src="../bower_components/jquery-ui/ui/jquery.ui.widget.js"></script>
+  <script src="../bower_components/handlebars/handlebars.js"></script>
+  <script src="../bower_components/underscore/underscore.js"></script>
+  <script src="../bower_components/tinyscrollbar/lib/jquery.tinyscrollbar.js"></script>
+  <script src="../bower_components/mocha/mocha.js"></script>
+  <script src="../bower_components/chai/chai.js"></script>
+  <script src="../bower_components/bootstrap/docs/assets/js/bootstrap.js"></script>
+  <!-- endbower -->
+
+  <!-- inject:source:js -->
+  <script src="../build/upcycle.js"></script>
+  <!-- endinject -->
+  
+</head>
+
+<body>
+  <div class="btn-group">
+    <button type="button" data-value="base" data-action="toggle-theme" class="btn btn-default">Base</button>
+    <button type="button" data-value="portal" data-action="toggle-theme" class="btn btn-default">Portal</button>
+  </div>
+  <div id="examples"></div>
+  <script type="text/javascript">
+  $(function(){
+    var selectListOptions = {
+      'eventDelay': 1000,
+      'facets': [{
+        'name': 'date',
+        'displayName': 'Date',
+        'options':['Today','Yesterday']
+      },{
+        'name': 'severity',
+        'displayName': 'Severity',
+        'options':['Really high','High','Not so high','Medium','Medium low','Low']
+      },{
+        'name': 'type',
+        'displayName': 'Type',
+        'options':['Hotfix','Coldfix','Warmfix']
+      }]
+    };
+
+    var filterOptions = {
+      'data': [{
+        'name': 'Mike',
+        'age': 10,
+        'greeting': 'Hello'
+      },{
+        'name': 'Aaron',
+        'age': 12,
+        'greeting': 'Hi'
+      },{
+        'name': 'Eddie',
+        'age': 14,
+        'greeting': 'Hey'
+      }],
+      'facets': [{
+        'name': 'name',
+        'displayName': 'Name'
+      }]
+    };
+    /**
+     * Selectlist
+     * ===============================================
+     */
+    var selectlist = window.selectlist = $('<div></div>')
+      .appendTo('#examples')
+      .selectlist(selectListOptions)
+      .on('selectlistchange', function(event, data){
+        console.log(event);
+        console.log(data);
+      }).on('change', function(){
+        console.log('changing...');
+      })
+      .data('upcycle-selectlist');
+
+
+     /**
+     * Filters
+     * ===============================================
+     */ 
+    var filter = window.filter = $('<div></div>')
+      .appendTo('#examples')
+      .filter(filterOptions)
+      .on('filterchange', function(event, data){
+        console.log(event);
+        console.log(data);
+      })
+      .on('change', function(){
+        console.log('filters changing...');
+      })
+      .data('upcycle-filter');
+
+    /**
+     * Theme buttons
+     * ===============================================
+     */
+    $('[data-action="toggle-theme"]')
+      .on('click', function(){
+        var $body = $('body'),
+            themeName = $(this).attr('data-value'),
+            className = $('body').prop('className').replace(/( ?)upcycle-\w+/, '$1');
+        $body.prop('className', className + 'upcycle-' + themeName);
+
+        selectlist.update();  
+        filter.update();  
+      });
+  });
+  
+  </script>
+</body>
+</html>

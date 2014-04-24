@@ -1,0 +1,37 @@
+{
+  "name": "tinyscrollbar",
+  "version": "2.1.6",
+  "description": "A lightweight cross browser jQuery based scrollbar.",
+  "main": "lib/jquery.tinyscrollbar.js",
+  "ignore": [
+    "**/.*",
+    "bower.json",
+    "Gruntfile.coffee",
+    "package.json",
+    "README.md"
+  ],
+  "resolutions": {
+    "jquery": "~1.5.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-text-replace": "~0.3.9",
+    "grunt-contrib-compress": "~0.5.2",
+    "grunt-ftp-deploy": "~0.1.1",
+    "grunt-contrib-jshint": "~0.8.0",
+    "baijs": "0.0.1"
+  },
+  "homepage": "https://github.com/wieringen/tinyscrollbar",
+  "_release": "2.1.6",
+  "_resolution": {
+    "type": "version",
+    "tag": "2.1.6",
+    "commit": "d468f8c331e0819d1159ac49ad5b16dcce8f9cb2"
+  },
+  "_source": "https://github.com/wieringen/tinyscrollbar.git",
+  "_target": "~2.1.6",
+  "_originalSource": "https://github.com/wieringen/tinyscrollbar.git"
+}

@@ -1,0 +1,33 @@
+.scroll-area{
+	position: relative;
+	.scrollbar{
+		@scrollbar-width: 6px;
+	    position:absolute;
+	    z-index: 1;
+	    top:0;
+	    right:0;
+	    width:@scrollbar-width;
+	    .track{
+		    height:100%;
+		    width:@scrollbar-width;
+		    position:relative;
+		    .thumb{
+			    height:20px;
+			    width:@scrollbar-width;
+			    cursor:pointer;
+			    overflow:hidden;
+			    position:absolute;
+			    top:0;
+			}
+		}
+	}
+	.viewport{
+		overflow: hidden;
+		position: relative;
+		.overview{
+		    position:relative;
+		    left:0;
+		    top:0;
+		}
+	}
+}

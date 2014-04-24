@@ -1,0 +1,11 @@
+{
+  "name": "Upcycle Project Page",
+  "version": "1.0.0",
+  "ignore": [
+    ".jshintrc",
+    "**/*.txt"
+  ],
+  "dependencies": {
+    "upcycle": "https://github.com/adsk-ui/upcycle.git"
+  }
+}
