@@ -1,17 +1,22 @@
 $.widget('upcycle.filter', {
+	'defaultElement': '<div>',
 	'options': {
 		'templatesNamespace': 'upcycle.templates',
 		'label': 'Filters',
 		'clearAllLabel': 'Clear all',
 		'resultsLabel': 'Results',
+		'resultLabel': 'Result',
 		'data': [],
 		'facets': [],
+		'selectedFacets': [],
+		'searchQuery': '',
 		'eventDelay': 0
 	},
 	'_create': function(){
 		this._setOptions(this.options);
 		this._on({'click [data-action="clear-all"]': this.clear});
-		this.element.addClass('filter');
+		this._on({'selectlistchange': this._onFilterChange});
+		this.element.addClass('up-filter');
 		this._render();
 	},
 	/**
@@ -21,27 +26,43 @@ $.widget('upcycle.filter', {
 	'clear': function(){
 		this.element.find('[type="checkbox"]').each(function(index, checkbox){
 			checkbox.checked = false;
-		});
+		}).trigger('change');
 		return this.element;
-	},
-	'_render': function(){
-		var that = this;
-		this.selectlist = this.element
-			.empty()
-			.append(this._getMarkup())
-			.find('.selectlist')
-				.selectlist({
-					'facets': this.options.facets,
-					'eventDelay': this.options.eventDelay
-				})
-				.on('selectlistchange', function(event, data){
-					that._trigger('change', event, data);
-				})
-				.data('upcycle-selectlist');
-		this.update();
 	},
 	'update': function(){
 		this.selectlist.update();
+	},
+	'search': function(query){
+
+	},
+	'_onSearch': function(event){
+
+	},
+	'_onFilterChange': function(event, data){
+		event.stopPropagation();
+		this.option('selectedFacets', data.selectedFacets);
+		this._triggerChangeEvent(event);
+	},
+	'_triggerChangeEvent': function(event){
+		var filteredData = [],
+			selectedFacets = this.options.selectedFacets;
+		if(!_.isEmpty(this.options.data)){
+			filteredData = _(this.options.data)
+				.chain()
+				.filter(function(obj){
+					return _(selectedFacets).every(function(values, facetName){
+						return _(values).some(function(value){
+							return obj[facetName] === value;
+						});
+					});
+				})
+				.value();
+		}
+		this.option('filteredDataLength', filteredData.length);
+		this._trigger('change', event, {
+			'selectedFacets': this.options.selectedFacets,
+			'filteredData': filteredData
+		});
 	},
 	'_setOption': function(key, value){
 		$.Widget.prototype._setOption.call(this, key, value);
@@ -59,6 +80,27 @@ $.widget('upcycle.filter', {
 			if( this.selectlist )
 				this.selectlist.option('eventDelay', value);
 		}
+		if(key === 'filteredDataLength'){
+			var resultCount = '',
+				resultCountLabel;
+			if(!_.isEmpty(this.options.selectedFacets)){
+				resultCountLabel = value == 1 ? this.options.resultLabel : this.options.resultsLabel;
+				resultCount = $.i18n.prop(resultCountLabel, value);
+			} 
+			this.element.find('.up-filter-header .up-filter-result').text(resultCount);
+		}
+	},
+	'_render': function(){
+		this.selectlist = this.element
+			.empty()
+			.append(this._getMarkup())
+			.find('.up-selectlist')
+				.selectlist({
+					'facets': this.options.facets,
+					'eventDelay': this.options.eventDelay
+				})
+				.data('upcycle-selectlist');
+		this.update();
 	},
 	'_getMarkup': function(){
 		var filterMarkup = this._getTemplate('filter')(this.options);

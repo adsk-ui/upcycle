@@ -1,17 +1,22 @@
 $.widget('upcycle.filter', {
+	'defaultElement': '<div>',
 	'options': {
 		'templatesNamespace': 'upcycle.templates',
 		'label': 'Filters',
 		'clearAllLabel': 'Clear all',
 		'resultsLabel': 'Results',
+		'resultLabel': 'Result',
 		'data': [],
 		'facets': [],
+		'selectedFacets': [],
+		'searchQuery': '',
 		'eventDelay': 0
 	},
 	'_create': function(){
 		this._setOptions(this.options);
 		this._on({'click [data-action="clear-all"]': this.clear});
-		this.element.addClass('filter');
+		this._on({'selectlistchange': this._onFilterChange});
+		this.element.addClass('up-filter');
 		this._render();
 	},
 	/**
@@ -21,27 +26,43 @@ $.widget('upcycle.filter', {
 	'clear': function(){
 		this.element.find('[type="checkbox"]').each(function(index, checkbox){
 			checkbox.checked = false;
-		});
+		}).trigger('change');
 		return this.element;
-	},
-	'_render': function(){
-		var that = this;
-		this.selectlist = this.element
-			.empty()
-			.append(this._getMarkup())
-			.find('.selectlist')
-				.selectlist({
-					'facets': this.options.facets,
-					'eventDelay': this.options.eventDelay
-				})
-				.on('selectlistchange', function(event, data){
-					that._trigger('change', event, data);
-				})
-				.data('upcycle-selectlist');
-		this.update();
 	},
 	'update': function(){
 		this.selectlist.update();
+	},
+	'search': function(query){
+
+	},
+	'_onSearch': function(event){
+
+	},
+	'_onFilterChange': function(event, data){
+		event.stopPropagation();
+		this.option('selectedFacets', data.selectedFacets);
+		this._triggerChangeEvent(event);
+	},
+	'_triggerChangeEvent': function(event){
+		var filteredData = [],
+			selectedFacets = this.options.selectedFacets;
+		if(!_.isEmpty(this.options.data)){
+			filteredData = _(this.options.data)
+				.chain()
+				.filter(function(obj){
+					return _(selectedFacets).every(function(values, facetName){
+						return _(values).some(function(value){
+							return obj[facetName] === value;
+						});
+					});
+				})
+				.value();
+		}
+		this.option('filteredDataLength', filteredData.length);
+		this._trigger('change', event, {
+			'selectedFacets': this.options.selectedFacets,
+			'filteredData': filteredData
+		});
 	},
 	'_setOption': function(key, value){
 		$.Widget.prototype._setOption.call(this, key, value);
@@ -59,6 +80,27 @@ $.widget('upcycle.filter', {
 			if( this.selectlist )
 				this.selectlist.option('eventDelay', value);
 		}
+		if(key === 'filteredDataLength'){
+			var resultCount = '',
+				resultCountLabel;
+			if(!_.isEmpty(this.options.selectedFacets)){
+				resultCountLabel = value == 1 ? this.options.resultLabel : this.options.resultsLabel;
+				resultCount = $.i18n.prop(resultCountLabel, value);
+			} 
+			this.element.find('.up-filter-header .up-filter-result').text(resultCount);
+		}
+	},
+	'_render': function(){
+		this.selectlist = this.element
+			.empty()
+			.append(this._getMarkup())
+			.find('.up-selectlist')
+				.selectlist({
+					'facets': this.options.facets,
+					'eventDelay': this.options.eventDelay
+				})
+				.data('upcycle-selectlist');
+		this.update();
 	},
 	'_getMarkup': function(){
 		var filterMarkup = this._getTemplate('filter')(this.options);
@@ -217,7 +259,7 @@ $.widget('upcycle.selectlist', {
 		this._on({'change': this._onChange});
 		this._on({'click [role="facet"] > [role="header"]': this._onToggle});
 		this._on({'click button.more, button.less': this.update});
-		this.element.addClass('selectlist'); 
+		this.element.addClass('up-selectlist'); 
 		this._render();
 	},
 	'_render': function(){
@@ -234,7 +276,7 @@ $.widget('upcycle.selectlist', {
 		/**
 		 * More/Less
 		 */
-		$viewport.find('.facet-options').each(function(){
+		$viewport.find('.up-facet-options').each(function(){
 			var $facetOptions = $(this);
 			if( $facetOptions.children().length > 4 ){
 				$facetOptions.moreless();
@@ -253,7 +295,7 @@ $.widget('upcycle.selectlist', {
 	'_triggerChangeEvent': function(event, selection){
 		if(!_.isEqual(selection, this.selection)){
 			this.selection = selection;
-			this._trigger('change', event, {'selection': this.selection});	
+			this._trigger('change', event, {'selectedFacets': this.selection});	
 		}
 	},
 	'_setOption': function(key, value){
@@ -299,15 +341,15 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "<div class=\"filter-header\">\n	<span class=\"filter-title\">";
+  buffer += "<div class=\"up-filter-header\">\n	<span class=\"up-filter-title\">";
   if (stack1 = helpers.label) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.label); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</span><span class=\"result-count\"></span>\n	<button data-action=\"clear-all\" class=\"btn-link\">";
+    + "</span><span class=\"up-filter-result\"></span>\n	<button role=\"button\" data-action=\"clear-all\" class=\"btn-link\">";
   if (stack1 = helpers.clearAllLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.clearAllLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</button>\n</div>\n<div class=\"selectlist\"></div>";
+    + "</button>\n</div>\n<div class=\"up-selectlist\"></div>";
   return buffer;
   });;
 this["upcycle"] = this["upcycle"] || {};
@@ -329,51 +371,43 @@ function program1(depth0,data) {
 function program2(depth0,data) {
   
   var buffer = "", stack1, stack2;
-  buffer += "\n	  		<li role=\"facet\" class=\"facet\">\n	  			<div role=\"header\" class=\"facet-header\">\n			  		<span role=\"button\" data-action=\"toggle\" class=\"toggle\"></span>\n			  		<span role=\"label\" data-value=\"";
+  buffer += "\n	  		<li role=\"facet\" class=\"up-facet\">\n	  			<div role=\"header\" class=\"up-facet-header\">\n			  		<span role=\"button\" data-action=\"toggle\"></span>\n			  		<span role=\"label\" data-value=\"";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.name); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\" class=\"facet-label\">";
+    + "\" class=\"up-facet-label\">";
   if (stack1 = helpers.displayName) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.displayName); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</span>\n		  		</div>\n		  		<ul role=\"group\" class=\"facet-options\">\n		  			";
+    + "</span>\n		  		</div>\n		  		<ul role=\"group\" class=\"up-facet-options\">\n		  			";
   stack1 = helpers.each.call(depth0, (depth0 && depth0.options), {hash:{},inverse:self.noop,fn:self.programWithDepth(3, program3, data, depth0),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n		  		</ul>\n		  	</li>\n		  	";
-  stack2 = helpers.unless.call(depth0, ((stack1 = data),stack1 == null || stack1 === false ? stack1 : stack1.last), {hash:{},inverse:self.noop,fn:self.program(6, program6, data),data:data});
+  stack2 = helpers.unless.call(depth0, ((stack1 = data),stack1 == null || stack1 === false ? stack1 : stack1.last), {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n  		";
   return buffer;
   }
 function program3(depth0,data,depth1) {
   
-  var buffer = "", stack1, stack2;
-  buffer += "\n			  		<li class=\"facet-option\">\n			  			<input data-group=\""
+  var buffer = "", stack1;
+  buffer += "\n			  		<li class=\"up-facet-option\">\n			  			<input data-group=\""
     + escapeExpression(((stack1 = (depth1 && depth1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "\" data-facet=\""
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "\" type=\"checkbox\"";
-  stack2 = helpers['if'].call(depth0, (depth0 && depth0.selected), {hash:{},inverse:self.noop,fn:self.program(4, program4, data),data:data});
-  if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += ">\n			  			<span class=\"facet-option-name\">"
+    + "\" type=\"checkbox\">\n			  			<span class=\"up-facet-option-name\">"
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
     + "</span>\n			  		</li>\n			  		";
   return buffer;
   }
-function program4(depth0,data) {
-  
-  
-  return " checked=\"true\"";
-  }
 
-function program6(depth0,data) {
+function program5(depth0,data) {
   
   
   return "	\n	  		<li class=\"divider\"></li>\n	  		";
   }
 
-  buffer += "<div class=\"inner\">\n	";
+  buffer += "<div class=\"up-inner\">\n	";
   options = {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data};
   if (stack1 = helpers.tinyscrollbar) { stack1 = stack1.call(depth0, options); }
   else { stack1 = (depth0 && depth0.tinyscrollbar); stack1 = typeof stack1 === functionType ? stack1.call(depth0, options) : stack1; }
