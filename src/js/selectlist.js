@@ -10,7 +10,7 @@ $.widget('upcycle.selectlist', {
 		this._on({'change': this._onChange});
 		this._on({'click [role="facet"] > [role="header"]': this._onToggle});
 		this._on({'click button.more, button.less': this.update});
-		this.element.addClass('selectlist'); 
+		this.element.addClass('up-selectlist'); 
 		this._render();
 	},
 	'_render': function(){
@@ -27,7 +27,7 @@ $.widget('upcycle.selectlist', {
 		/**
 		 * More/Less
 		 */
-		$viewport.find('.facet-options').each(function(){
+		$viewport.find('.up-facet-options').each(function(){
 			var $facetOptions = $(this);
 			if( $facetOptions.children().length > 4 ){
 				$facetOptions.moreless();
@@ -46,7 +46,7 @@ $.widget('upcycle.selectlist', {
 	'_triggerChangeEvent': function(event, selection){
 		if(!_.isEqual(selection, this.selection)){
 			this.selection = selection;
-			this._trigger('change', event, {'selection': this.selection});	
+			this._trigger('change', event, {'selectedFacets': this.selection});	
 		}
 	},
 	'_setOption': function(key, value){
