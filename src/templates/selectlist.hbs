@@ -1,17 +1,17 @@
-<div class="inner">
+<div class="up-inner">
 	{{#tinyscrollbar}}
 	<ul role="presentation">
 		{{#each this}}
-	  		<li role="facet" class="facet">
-	  			<div role="header" class="facet-header">
-			  		<span role="button" data-action="toggle" class="toggle"></span>
-			  		<span role="label" data-value="{{name}}" class="facet-label">{{displayName}}</span>
+	  		<li role="facet" class="up-facet">
+	  			<div role="header" class="up-facet-header">
+			  		<span role="button" data-action="toggle"></span>
+			  		<span role="label" data-value="{{name}}" class="up-facet-label">{{displayName}}</span>
 		  		</div>
-		  		<ul role="group" class="facet-options">
+		  		<ul role="group" class="up-facet-options">
 		  			{{#each options}}
-			  		<li class="facet-option">
-			  			<input data-group="{{../name}}" data-facet="{{this}}" type="checkbox"{{#if selected}} checked="true"{{/if}}>
-			  			<span class="facet-option-name">{{this}}</span>
+			  		<li class="up-facet-option">
+			  			<input data-group="{{../name}}" data-facet="{{this}}" type="checkbox">
+			  			<span class="up-facet-option-name">{{this}}</span>
 			  		</li>
 			  		{{/each}}
 		  		</ul>

@@ -41,7 +41,7 @@
   padding: 0 2px;
   border: none;
 }
-.upcycle-portal .filter {
+.upcycle-portal .up-filter {
   width: 275px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -59,19 +59,22 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff5f5f4', GradientType=0);
   padding: 12px 12px 20px;
 }
-.upcycle-portal .filter .filter-header {
+.upcycle-portal .up-filter .up-filter-header {
   padding: 1px 0;
 }
-.upcycle-portal .filter .filter-title {
+.upcycle-portal .up-filter .up-filter-title {
   font-size: 1.4em;
 }
-.upcycle-portal .filter .selectlist {
+.upcycle-portal .up-filter .up-filter-result {
+  color: #555555;
+}
+.upcycle-portal .up-filter .up-selectlist {
   width: 100%;
 }
-.upcycle-portal .filter .selectlist .viewport {
+.upcycle-portal .up-filter .up-selectlist .viewport {
   max-height: 200px;
 }
-.upcycle-portal .filter .selectlist .divider {
+.upcycle-portal .up-filter .up-selectlist .divider {
   margin: 5px 0;
   border-bottom: solid 1px #eeeeee;
 }

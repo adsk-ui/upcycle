@@ -16,7 +16,6 @@
   <!-- inject:source:js -->
   <!-- include source files here... --> 
   <!-- endinject -->
-  
 </head>
 
 <body>
@@ -27,89 +26,100 @@
   <div id="examples"></div>
   <script type="text/javascript">
   $(function(){
-    var selectListOptions = {
-      'eventDelay': 1000,
-      'facets': [{
-        'name': 'date',
-        'displayName': 'Date',
-        'options':['Today','Yesterday']
-      },{
-        'name': 'severity',
-        'displayName': 'Severity',
-        'options':['Really high','High','Not so high','Medium','Medium low','Low']
-      },{
-        'name': 'type',
-        'displayName': 'Type',
-        'options':['Hotfix','Coldfix','Warmfix']
-      }]
-    };
+    $.i18n.properties({
+      'name': 'language',
+      'path': '../src/i18n/',
+      'language': 'en-US',
+      'mode': 'map',
+      'callback': initComponents
+    });
 
-    var filterOptions = {
-      'data': [{
-        'name': 'Mike',
-        'age': 10,
-        'greeting': 'Hello'
-      },{
-        'name': 'Aaron',
-        'age': 12,
-        'greeting': 'Hi'
-      },{
-        'name': 'Eddie',
-        'age': 14,
-        'greeting': 'Hey'
-      }],
-      'facets': [{
-        'name': 'name',
-        'displayName': 'Name'
-      }]
-    };
-    /**
-     * Selectlist
-     * ===============================================
-     */
-    var selectlist = window.selectlist = $('<div></div>')
-      .appendTo('#examples')
-      .selectlist(selectListOptions)
-      .on('selectlistchange', function(event, data){
-        console.log(event);
-        console.log(data);
-      }).on('change', function(){
-        console.log('changing...');
-      })
-      .data('upcycle-selectlist');
+    function initComponents(){
+      var selectListOptions = {
+        'eventDelay': 1000,
+        'facets': [{
+          'name': 'date',
+          'displayName': 'Date',
+          'options':['Today','Yesterday']
+        },{
+          'name': 'severity',
+          'displayName': 'Severity',
+          'options':['Really high','High','Not so high','Medium','Medium low','Low']
+        },{
+          'name': 'type',
+          'displayName': 'Type',
+          'options':['Hotfix','Coldfix','Warmfix']
+        }]
+      };
+      var filterOptions = {
+        'data': [{
+          'name': 'Mike',
+          'age': 10,
+          'greeting': 'Hello'
+        },{
+          'name': 'Aaron',
+          'age': 12,
+          'greeting': 'Hi'
+        },{
+          'name': 'Eddie',
+          'age': 14,
+          'greeting': 'Hey'
+        }],
+        'facets': [{
+          'name': 'name',
+          'displayName': 'Name'
+        }],
+        'resultsLabel': 'FILTER_RESULTS',
+        'resultLabel': 'FILTER_RESULT'
+      };
+      /**
+       * Selectlist
+       * ===============================================
+       */
+      var selectlist = window.selectlist = $('<div></div>')
+        .appendTo('#examples')
+        .selectlist(selectListOptions)
+        .on('selectlistchange', function(event, data){
+          console.log(event);
+          console.log(data);
+        }).on('change', function(){
+          console.log('changing...');
+        })
+        .data('upcycle-selectlist');
 
 
-     /**
-     * Filters
-     * ===============================================
-     */ 
-    var filter = window.filter = $('<div></div>')
-      .appendTo('#examples')
-      .filter(filterOptions)
-      .on('filterchange', function(event, data){
-        console.log(event);
-        console.log(data);
-      })
-      .on('change', function(){
-        console.log('filters changing...');
-      })
-      .data('upcycle-filter');
+       /**
+       * Filters
+       * ===============================================
+       */ 
+      var filter = window.filter = $('<div></div>')
+        .appendTo('#examples')
+        .filter(filterOptions)
+        .on('filterchange', function(event, data){
+          console.log(event);
+          console.log(data);
+        })
+        .on('change', function(){
+          console.log('filters changing...');
+        })
+        .data('upcycle-filter');
 
-    /**
-     * Theme buttons
-     * ===============================================
-     */
-    $('[data-action="toggle-theme"]')
-      .on('click', function(){
-        var $body = $('body'),
-            themeName = $(this).attr('data-value'),
-            className = $('body').prop('className').replace(/( ?)upcycle-\w+/, '$1');
-        $body.prop('className', className + 'upcycle-' + themeName);
+      /**
+       * Theme buttons
+       * ===============================================
+       */
+      $('[data-action="toggle-theme"]')
+        .on('click', function(){
+          var $body = $('body'),
+              themeName = $(this).attr('data-value'),
+              className = $('body').prop('className').replace(/( ?)upcycle-\w+/, '$1');
+          $body.prop('className', className + 'upcycle-' + themeName);
 
-        selectlist.update();  
-        filter.update();  
-      });
-  });
+          selectlist.update();  
+          filter.update();  
+        });
+      }
+    });
   
   </script>
 </body>
