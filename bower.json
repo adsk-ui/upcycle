@@ -6,7 +6,10 @@
     "admangum <adam.mangum@autodesk.com>"
   ],
   "description": "A home for our efforts to transition one-offs and semi-vetted code into a library of high quality, well tested, reusable components",
-  "main": ["build/upcycle.js", "build/theme/base.css"],
+  "main": [
+    "build/upcycle.js",
+    "build/theme/base.css"
+  ],
   "keywords": [
     "js",
     "components"
@@ -24,7 +27,8 @@
     "jquery-ui": "~1.10.4",
     "handlebars": "~1.3.0",
     "underscore": "~1.6.0",
-    "tinyscrollbar": "https://github.com/wieringen/tinyscrollbar.git#~2.1.6"
+    "tinyscrollbar": "https://github.com/wieringen/tinyscrollbar.git#~2.1.6",
+    "jquery-i18n-properties": "https://github.com/gejiawen/jquery.i18n.properties.git#1.1.1"
   },
   "devDependencies": {
     "mocha": "~1.18.2",
@@ -38,8 +42,8 @@
         "ui/jquery.ui.widget.js"
       ]
     },
-    "tinyscrollbar":{
-      "main":"lib/jquery.tinyscrollbar.js"
+    "tinyscrollbar": {
+      "main": "lib/jquery.tinyscrollbar.js"
     },
     "mocha": {
       "main": [
