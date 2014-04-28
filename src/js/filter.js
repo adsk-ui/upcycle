@@ -2,10 +2,11 @@ $.widget('upcycle.filter', {
 	'defaultElement': '<div>',
 	'options': {
 		'templatesNamespace': 'upcycle.templates',
-		'label': 'Filters',
-		'clearAllLabel': 'Clear all',
-		'resultsLabel': 'Results',
-		'resultLabel': 'Result',
+		'localizeLabels': true,
+		'label': 'FILTER_FILTER',
+		'clearAllLabel': 'FILTER_CLEAR_ALL',
+		'resultsLabel': 'FILTER_RESULTS',
+		'resultLabel': 'FILTER_RESULT',
 		'data': [],
 		'facets': [],
 		'selectedFacets': [],
@@ -103,14 +104,20 @@ $.widget('upcycle.filter', {
 		this.update();
 	},
 	'_getMarkup': function(){
-		var filterMarkup = this._getTemplate('filter')(this.options);
+		var filterMarkup = this._getTemplate('filter')(this._getTemplateContext(this.options));
 		return filterMarkup;
 	},
 	'_getTemplate': function(name){
 		return eval(this.options.templatesNamespace)[name];
 	},
 	'_getTemplateContext': function(options){
-		
-		return options;
+		var context = _({}).extend(options);
+		if(this.options.localizeLabels){
+			_(context).extend({
+				'label': $.i18n.prop(options.label),
+				'clearAllLabel': $.i18n.prop(options.clearAllLabel)
+			});
+		}
+		return context;
 	}
 });
