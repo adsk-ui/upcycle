@@ -12,33 +12,29 @@
 	.scrollbar{
 		display: none;
 	}
-	.up-facet-list{
+	.up-facets{
 		list-style-type: none;
 		margin: 0;
 		padding: 0;
-		.up-facet{
-			padding: 1px;
-		}
 	}
 	.up-facet{
-		.up-facet-header{
-			cursor: pointer;
-			[role="button"][data-action="toggle"]{
-				display: inline-block;
-				vertical-align: middle;
-				line-height: @toggle-arrow-size * 1.732;
-				#arrow.down(@toggle-arrow-size);
-			}
-			.up-facet-label{
-				margin-left: 3px;
-			}
+		padding: 1px;
+	}
+	.up-facet-header{
+		cursor: pointer;
+		[role="button"][data-action="toggle"]{
+			display: inline-block;
+			vertical-align: middle;
+			line-height: @toggle-arrow-size * 1.732;
+			#arrow.down(@toggle-arrow-size);
 		}
-		.up-facet-options{
-			clear: both;
-			input[type="checkbox"]{
-				margin: 0;
-			}
+		.up-facet-label{
+			margin-left: 3px;
 		}
+	}
+	.up-facet-options{
+		clear: both;
+		list-style: none;
 	}
 	.up-facet-header.collapsed{
 		[role="button"][data-action="toggle"]{
@@ -51,5 +47,8 @@
 	}
 	.up-facet-header.collapsed + .up-facet-options{
 		display: none; 
+	}
+	input[type="checkbox"]{
+		margin: 0;
 	}
 }
