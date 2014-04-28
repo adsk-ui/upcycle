@@ -96,6 +96,7 @@
 .up-selectlist .up-facet-options {
   clear: both;
   list-style: none;
+  margin-left: 15px;
 }
 .up-selectlist .up-facet-header.collapsed [role="button"][data-action="toggle"] {
   line-height: 8px;
