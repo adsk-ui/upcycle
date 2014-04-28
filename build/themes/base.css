@@ -69,11 +69,12 @@
 .up-selectlist .scrollbar {
   display: none;
 }
-.up-selectlist ul {
+.up-selectlist .up-facet-list {
   list-style: none;
   margin: 0;
+  padding: 0;
 }
-.up-selectlist ul li {
+.up-selectlist .up-facet-list .up-facet {
   padding: 1px;
 }
 .up-selectlist .up-facet .up-facet-header {
