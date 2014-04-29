@@ -3,3 +3,5 @@
 npm-debug.log
 bower_components/
 node_modules/
+build/
+src/js/templates.js
