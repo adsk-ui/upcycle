@@ -7,7 +7,7 @@ Setup
 2. Install Node.js, Bower and gulp
 3. Install bower dependencies (from command line in project root, type: bower install)
 4. Install npm dependencies (again from command line type: npm install)
-5. Open /test/runner.html in a browser to see unit tests
+5. Open /test/index.html in a browser to see unit tests
 
 
 gulp tasks
