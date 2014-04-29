@@ -56,9 +56,9 @@ function program2(depth0,data) {
 function program3(depth0,data,depth1) {
   
   var buffer = "", stack1;
-  buffer += "\n			  		<li class=\"up-facet-option\">\n			  			<input data-group=\""
+  buffer += "\n			  		<li class=\"up-facet-option\">\n			  			<input data-facet=\""
     + escapeExpression(((stack1 = (depth1 && depth1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\" data-facet=\""
+    + "\" data-facet-option=\""
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
     + "\" type=\"checkbox\">\n			  			<span class=\"up-facet-option-name\">"
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))

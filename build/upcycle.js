@@ -11,7 +11,8 @@ $.widget('upcycle.filter', {
 		'facets': [],
 		'selectedFacets': [],
 		'searchQuery': '',
-		'eventDelay': 0
+		'eventDelay': 0,
+		'dataExtraction': null
 	},
 	'_create': function(){
 		this._setOptions(this.options);
@@ -19,6 +20,29 @@ $.widget('upcycle.filter', {
 		this._on({'selectlistchange': this._onFilterChange});
 		this.element.addClass('up-filter');
 		this._render();
+	},
+	'set': function(facets, toggle){
+		var changedBoxes = [];
+		this.element.find('[type="checkbox"]')
+			.each(function(){
+				var boxFacetName = this.getAttribute('data-facet'),
+					boxOptionValue = this.getAttribute('data-facet-option'),
+					setThisBox = _(facets).some(function(key, values){
+						values = _.isString(values) ? [values] : _.isArray(values) ? values : [];
+						return key === boxFacetName && _(values).contains(boxOptionValue);
+					}),
+					newCheckedValue;
+				if(setThisBox){
+					newCheckedValue = _.isUndefined(toggle) ? !this.checked : !!toggle;
+					if(newCheckedValue !== this.checked){
+						this.checked = newCheckedValue;
+						changedBoxes.push(this);
+					}
+				}
+			});
+		if(changedBoxes.length)
+			this._trigger('change');
+			// $(changedBoxes).trigger('change');
 	},
 	/**
 	 * Clears all checkboxes (deselects all filters)		
@@ -46,14 +70,16 @@ $.widget('upcycle.filter', {
 	},
 	'_triggerChangeEvent': function(event){
 		var filteredData = [],
-			selectedFacets = this.options.selectedFacets;
+			selectedFacets = this.options.selectedFacets,
+			dataExtraction = this.options.dataExtraction;
 		if(!_.isEmpty(this.options.data)){
 			filteredData = _(this.options.data)
 				.chain()
 				.filter(function(obj){
 					return _(selectedFacets).every(function(values, facetName){
 						return _(values).some(function(value){
-							return obj[facetName] === value;
+							var actualValue = /*_(dataExtraction).isFunction() ? dataExtraction(obj, facetName) :*/ obj[facetName];
+							return actualValue === value;
 						});
 					});
 				})
@@ -324,8 +350,8 @@ $.widget('upcycle.selectlist', {
 		var selection = {};
 		this.element.find('[type="checkbox"]').each(function(){
 			if( this.checked ){
-				var group = this.getAttribute('data-group'),
-					facet = this.getAttribute('data-facet');	
+				var group = this.getAttribute('data-facet'),
+					facet = this.getAttribute('data-facet-option');	
 				if(selection.hasOwnProperty(group)){
 					selection[group].push( facet );
 				}else{
@@ -398,9 +424,9 @@ function program2(depth0,data) {
 function program3(depth0,data,depth1) {
   
   var buffer = "", stack1;
-  buffer += "\n			  		<li class=\"up-facet-option\">\n			  			<input data-group=\""
+  buffer += "\n			  		<li class=\"up-facet-option\">\n			  			<input data-facet=\""
     + escapeExpression(((stack1 = (depth1 && depth1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\" data-facet=\""
+    + "\" data-facet-option=\""
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
     + "\" type=\"checkbox\">\n			  			<span class=\"up-facet-option-name\">"
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))

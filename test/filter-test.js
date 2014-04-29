@@ -65,4 +65,72 @@ describe('filter', function(){
     $checkboxes[1].checked = true;
     $checkboxes.eq(0).trigger('change');
   });
+
+  it('#set toggles checkboxes', function(done){
+    filter
+      .clear()
+      .option({'dataExtraction': null})
+      .element.one('filterchange', function(event, data){
+        expect(data.selectedFacets.name).to.have.length(1);
+        expect(data.selectedFacets.name[0]).to.equal('Mike');
+        done();
+      });
+    // omitting arg after facets to select means, toggle those checkboxes
+    filter.set({
+      'name': 'Mike'
+    });
+  });
+  
+  it('#set sets textboxes explicitly', function(done){
+    filter
+      .clear()
+      .option({'dataExtraction': null})
+      .element.one('filterchange', function(event, data){
+        expect(data.selectedFacets.name).to.be.undefined;
+        done();
+      });
+    // passing false means deselect the checkbox
+    filter.set({
+      'name': 'Mike'
+    }, false);
+  });
+  it('#set sets multiple textboxes explicitly', function(done){
+    filter
+      .clear()
+      .option({'dataExtraction': null})
+      .element.one('filterchange', function(event, data){
+        expect(data.selectedFacets.name).to.be.length(2);
+        expect(data.selectedFacets.name[1]).to.equal('Aaron');
+        done();
+      });
+    // passing true means select the checkbox
+    filter.set({
+      'name': ['Mike', 'Aaron']
+    }, true);
+  });
+
+  it('provides dataExtraction option', function(done){
+    filter.clear();
+    filter.option({
+      'dataExtraction': function(obj, key){
+        return obj.attributes[key];
+      },
+      'data': [{
+        'attributes': {
+          'name': 'Mike'
+        }
+      },{
+        'attributes': {
+          'name': 'Aaron'
+        }
+      }]
+    }).element.one('filterchange.x', function(event, data){
+      expect(data.selectedFacets.name).to.be.length(1);
+      expect(data.filteredData).to.be.length(1);
+      done();
+    });
+    filter.set({
+      'name': 'Mike'
+    });
+  });
 });

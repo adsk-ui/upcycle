@@ -68,8 +68,8 @@ $.widget('upcycle.selectlist', {
 		var selection = {};
 		this.element.find('[type="checkbox"]').each(function(){
 			if( this.checked ){
-				var group = this.getAttribute('data-group'),
-					facet = this.getAttribute('data-facet');	
+				var group = this.getAttribute('data-facet'),
+					facet = this.getAttribute('data-facet-option');	
 				if(selection.hasOwnProperty(group)){
 					selection[group].push( facet );
 				}else{

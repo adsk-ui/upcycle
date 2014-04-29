@@ -11,7 +11,8 @@ $.widget('upcycle.filter', {
 		'facets': [],
 		'selectedFacets': [],
 		'searchQuery': '',
-		'eventDelay': 0
+		'eventDelay': 0,
+		'dataExtraction': null
 	},
 	'_create': function(){
 		this._setOptions(this.options);
@@ -19,6 +20,29 @@ $.widget('upcycle.filter', {
 		this._on({'selectlistchange': this._onFilterChange});
 		this.element.addClass('up-filter');
 		this._render();
+	},
+	'set': function(facets, toggle){
+		var changedBoxes = [];
+		this.element.find('[type="checkbox"]')
+			.each(function(){
+				var boxFacetName = this.getAttribute('data-facet'),
+					boxOptionValue = this.getAttribute('data-facet-option'),
+					setThisBox = _(facets).some(function(values, key){
+						values = _.isString(values) ? [values] : _.isArray(values) ? values : [];
+						return key === boxFacetName && _(values).contains(boxOptionValue);
+					}),
+					newCheckedValue;
+				if(setThisBox){
+					newCheckedValue = _.isUndefined(toggle) ? !this.checked : !!toggle;
+					if(newCheckedValue !== this.checked){
+						this.checked = newCheckedValue;
+						changedBoxes.push(this);
+					}
+				}
+			});
+		if(changedBoxes.length)
+			$(changedBoxes).trigger('change');
+		return this;
 	},
 	/**
 	 * Clears all checkboxes (deselects all filters)		
@@ -28,13 +52,14 @@ $.widget('upcycle.filter', {
 		this.element.find('[type="checkbox"]').each(function(index, checkbox){
 			checkbox.checked = false;
 		}).trigger('change');
-		return this.element;
+		return this;
 	},
 	'update': function(){
 		this.selectlist.update();
+		return this;
 	},
 	'search': function(query){
-
+		return this;
 	},
 	'_onSearch': function(event){
 
@@ -46,14 +71,16 @@ $.widget('upcycle.filter', {
 	},
 	'_triggerChangeEvent': function(event){
 		var filteredData = [],
-			selectedFacets = this.options.selectedFacets;
+			selectedFacets = this.options.selectedFacets,
+			dataExtraction = this.options.dataExtraction;
 		if(!_.isEmpty(this.options.data)){
 			filteredData = _(this.options.data)
 				.chain()
 				.filter(function(obj){
 					return _(selectedFacets).every(function(values, facetName){
 						return _(values).some(function(value){
-							return obj[facetName] === value;
+							var actualValue = _(dataExtraction).isFunction() ? dataExtraction(obj, facetName) : obj[facetName];
+							return actualValue === value;
 						});
 					});
 				})
@@ -68,6 +95,7 @@ $.widget('upcycle.filter', {
 	'_setOption': function(key, value){
 		$.Widget.prototype._setOption.call(this, key, value);
 		if(key === 'data' || key === 'facets'){
+			this.clear();
 			_(this.options.facets).each(function(f){
 				var facetOptions = _(this.options.data)
 					.chain()
