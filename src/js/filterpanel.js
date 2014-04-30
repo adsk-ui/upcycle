@@ -1,12 +1,12 @@
-$.widget('upcycle.filter', {
+$.widget('upcycle.filterpanel', {
 	'defaultElement': '<div>',
 	'options': {
 		'templatesNamespace': 'upcycle.templates',
 		'localizeLabels': true,
-		'label': 'FILTER_FILTER',
-		'clearAllLabel': 'FILTER_CLEAR_ALL',
-		'resultsLabel': 'FILTER_RESULTS',
-		'resultLabel': 'FILTER_RESULT',
+		'label': 'FILTERPANEL_FILTERPANEL',
+		'clearAllLabel': 'FILTERPANEL_CLEAR_ALL',
+		'resultsLabel': 'FILTERPANEL_RESULTS',
+		'resultLabel': 'FILTERPANEL_RESULT',
 		'data': [],
 		'facets': [],
 		'selectedFacets': [],
@@ -18,7 +18,7 @@ $.widget('upcycle.filter', {
 		this._setOptions(this.options);
 		this._on({'click [data-action="clear-all"]': this.clear});
 		this._on({'selectlistchange': this._onFilterChange});
-		this.element.addClass('up-filter');
+		this.element.addClass('up-filterpanel');
 		this._render();
 	},
 	'set': function(facets, toggle){
@@ -116,7 +116,7 @@ $.widget('upcycle.filter', {
 				resultCountLabel = value == 1 ? this.options.resultLabel : this.options.resultsLabel;
 				resultCount = $.i18n.prop(resultCountLabel, value);
 			} 
-			this.element.find('.up-filter-header .up-filter-result').text(resultCount);
+			this.element.find('.up-filterpanel-header .up-filterpanel-result').text(resultCount);
 		}
 	},
 	'_render': function(){
@@ -132,7 +132,7 @@ $.widget('upcycle.filter', {
 		this.update();
 	},
 	'_getMarkup': function(){
-		var filterMarkup = this._getTemplate('filter')(this._getTemplateContext(this.options));
+		var filterMarkup = this._getTemplate('filterpanel')(this._getTemplateContext(this.options));
 		return filterMarkup;
 	},
 	'_getTemplate': function(name){

@@ -8,6 +8,6 @@ button[data-action="toggle-theme"] {
   overflow: hidden;
 }
 .up-selectlist,
-.up-filter {
+.up-filterpanel {
   float: left;
 }

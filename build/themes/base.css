@@ -115,9 +115,9 @@
 .up-selectlist input[type="checkbox"] {
   margin: 0;
 }
-.upcycle-portal .up-filter .up-filter-title {
+.upcycle-portal .up-filterpanel .up-filterpanel-title {
   margin-right: 10px;
 }
-.upcycle-portal .up-filter [role="button"][data-action="clear-all"] {
+.upcycle-portal .up-filterpanel [role="button"][data-action="clear-all"] {
   float: right;
 }

@@ -1,12 +1,12 @@
-$.widget('upcycle.filter', {
+$.widget('upcycle.filterpanel', {
 	'defaultElement': '<div>',
 	'options': {
 		'templatesNamespace': 'upcycle.templates',
 		'localizeLabels': true,
-		'label': 'FILTER_FILTER',
-		'clearAllLabel': 'FILTER_CLEAR_ALL',
-		'resultsLabel': 'FILTER_RESULTS',
-		'resultLabel': 'FILTER_RESULT',
+		'label': 'FILTERPANEL_FILTERPANEL',
+		'clearAllLabel': 'FILTERPANEL_CLEAR_ALL',
+		'resultsLabel': 'FILTERPANEL_RESULTS',
+		'resultLabel': 'FILTERPANEL_RESULT',
 		'data': [],
 		'facets': [],
 		'selectedFacets': [],
@@ -18,7 +18,7 @@ $.widget('upcycle.filter', {
 		this._setOptions(this.options);
 		this._on({'click [data-action="clear-all"]': this.clear});
 		this._on({'selectlistchange': this._onFilterChange});
-		this.element.addClass('up-filter');
+		this.element.addClass('up-filterpanel');
 		this._render();
 	},
 	'set': function(facets, toggle){
@@ -27,7 +27,7 @@ $.widget('upcycle.filter', {
 			.each(function(){
 				var boxFacetName = this.getAttribute('data-facet'),
 					boxOptionValue = this.getAttribute('data-facet-option'),
-					setThisBox = _(facets).some(function(key, values){
+					setThisBox = _(facets).some(function(values, key){
 						values = _.isString(values) ? [values] : _.isArray(values) ? values : [];
 						return key === boxFacetName && _(values).contains(boxOptionValue);
 					}),
@@ -41,8 +41,8 @@ $.widget('upcycle.filter', {
 				}
 			});
 		if(changedBoxes.length)
-			this._trigger('change');
-			// $(changedBoxes).trigger('change');
+			$(changedBoxes).trigger('change');
+		return this;
 	},
 	/**
 	 * Clears all checkboxes (deselects all filters)		
@@ -52,13 +52,14 @@ $.widget('upcycle.filter', {
 		this.element.find('[type="checkbox"]').each(function(index, checkbox){
 			checkbox.checked = false;
 		}).trigger('change');
-		return this.element;
+		return this;
 	},
 	'update': function(){
 		this.selectlist.update();
+		return this;
 	},
 	'search': function(query){
-
+		return this;
 	},
 	'_onSearch': function(event){
 
@@ -78,7 +79,7 @@ $.widget('upcycle.filter', {
 				.filter(function(obj){
 					return _(selectedFacets).every(function(values, facetName){
 						return _(values).some(function(value){
-							var actualValue = /*_(dataExtraction).isFunction() ? dataExtraction(obj, facetName) :*/ obj[facetName];
+							var actualValue = _(dataExtraction).isFunction() ? dataExtraction(obj, facetName) : obj[facetName];
 							return actualValue === value;
 						});
 					});
@@ -94,6 +95,7 @@ $.widget('upcycle.filter', {
 	'_setOption': function(key, value){
 		$.Widget.prototype._setOption.call(this, key, value);
 		if(key === 'data' || key === 'facets'){
+			this.clear();
 			_(this.options.facets).each(function(f){
 				var facetOptions = _(this.options.data)
 					.chain()
@@ -114,7 +116,7 @@ $.widget('upcycle.filter', {
 				resultCountLabel = value == 1 ? this.options.resultLabel : this.options.resultsLabel;
 				resultCount = $.i18n.prop(resultCountLabel, value);
 			} 
-			this.element.find('.up-filter-header .up-filter-result').text(resultCount);
+			this.element.find('.up-filterpanel-header .up-filterpanel-result').text(resultCount);
 		}
 	},
 	'_render': function(){
@@ -130,7 +132,7 @@ $.widget('upcycle.filter', {
 		this.update();
 	},
 	'_getMarkup': function(){
-		var filterMarkup = this._getTemplate('filter')(this._getTemplateContext(this.options));
+		var filterMarkup = this._getTemplate('filterpanel')(this._getTemplateContext(this.options));
 		return filterMarkup;
 	},
 	'_getTemplate': function(name){
@@ -368,17 +370,17 @@ $.widget('upcycle.selectlist', {
 });
 this["upcycle"] = this["upcycle"] || {};
 this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
-this["upcycle"]["templates"]["filter"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+this["upcycle"]["templates"]["filterpanel"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "<div class=\"up-filter-header\">\n	<span class=\"up-filter-title\">";
+  buffer += "<div class=\"up-filterpanel-header\">\n	<span class=\"up-filterpanel-title\">";
   if (stack1 = helpers.label) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.label); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</span><span class=\"up-filter-result\"></span>\n	<button role=\"button\" data-action=\"clear-all\" class=\"btn-link\">";
+    + "</span><span class=\"up-filterpanel-result\"></span>\n	<button role=\"button\" data-action=\"clear-all\" class=\"btn-link\">";
   if (stack1 = helpers.clearAllLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.clearAllLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)

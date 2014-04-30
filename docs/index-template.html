@@ -51,7 +51,7 @@
           'options':['Hotfix','Coldfix','Warmfix']
         }]
       };
-      var filterOptions = {
+      var filterpanelOptions = {
         'data': [{
           'name': 'Mike',
           'age': 10,
@@ -69,8 +69,8 @@
           'name': 'name',
           'displayName': 'Name'
         }],
-        'resultsLabel': 'FILTER_RESULTS',
-        'resultLabel': 'FILTER_RESULT'
+        'resultsLabel': 'FILTERPANEL_RESULTS',
+        'resultLabel': 'FILTERPANEL_RESULT'
       };
       /**
        * Selectlist
@@ -92,17 +92,17 @@
        * Filters
        * ===============================================
        */ 
-      var filter = window.filter = $('<div></div>')
+      var filterpanel = window.filterpanel = $('<div></div>')
         .appendTo('#examples')
-        .filter(filterOptions)
-        .on('filterchange', function(event, data){
+        .filterpanel(filterpanelOptions)
+        .on('filterpanelchange', function(event, data){
           console.log(event);
           console.log(data);
         })
         .on('change', function(){
           console.log('filters changing...');
         })
-        .data('upcycle-filter');
+        .data('upcycle-filterpanel');
 
       /**
        * Theme buttons
@@ -116,7 +116,7 @@
           $body.prop('className', className + 'upcycle-' + themeName);
 
           selectlist.update();  
-          filter.update();  
+          filterpanel.update();  
         });
       }
     });
