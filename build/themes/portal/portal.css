@@ -51,6 +51,24 @@
   border: none;
   box-shadow: none;
 }
+.upcycle-portal .up-btn-filter {
+  background: #ffffff url("img/filterpanel.png") top left no-repeat;
+  width: 28px;
+  height: 28px;
+  background-position: -11px -103px;
+  text-indent: -99999px;
+}
+.upcycle-portal .open .up-btn-filter {
+  width: 28px;
+  height: 28px;
+  background-color: #eeeeee;
+  background-position: -11px -42px;
+}
+.upcycle-portal .up-btn-filter-count-badge {
+  width: 13px;
+  height: 13px;
+  background-position: -10px -80px;
+}
 .upcycle-portal .up-facet-header [role="button"][data-action="toggle"] {
   margin-top: -2px;
 }
