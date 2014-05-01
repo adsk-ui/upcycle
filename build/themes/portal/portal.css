@@ -72,9 +72,9 @@
   height: 28px;
   background-color: #cbcbcb !important;
   background-position: -11px -42px;
-  -webkit-box-shadow: inset 0px 0px 3px 2px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: inset 0px 0px 3px 2px rgba(0, 0, 0, 0.15);
-  box-shadow: inset 0px 0px 3px 2px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 0.15);
 }
 .upcycle-portal .up-btn-filter-count-badge {
   width: 13px;
