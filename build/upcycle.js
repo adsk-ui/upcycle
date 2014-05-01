@@ -380,11 +380,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.label) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.label); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</span><span class=\"up-filterpanel-result\"></span>\n	<button role=\"button\" data-action=\"clear-all\" class=\"btn-link\">";
+    + "</span><span class=\"up-filterpanel-result\"></span>\n	<span class=\"pull-right\">\n		<button role=\"button\" data-action=\"clear-all\" class=\"btn-link\">";
   if (stack1 = helpers.clearAllLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.clearAllLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</button>\n</div>\n<div class=\"up-selectlist\"></div>";
+    + "</button>\n		<button data-action=\"close\" class=\"btn up-btn-close-x\">close</button>\n	</span>\n</div>\n<div class=\"up-selectlist\"></div>";
   return buffer;
   });;
 this["upcycle"] = this["upcycle"] || {};

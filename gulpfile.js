@@ -20,6 +20,7 @@ var paths = {
 	},
     themes: {
         less: "themes/**/main.less",
+        img: "themes/**/*.png",
         base: {
             less: "themes/base/less/*.less",
             lessMain: "themes/base/less/base.less",
@@ -77,10 +78,14 @@ gulp.task('less', function(){
         .pipe(plugin.less({paths: [paths.themes.less]}))
         .pipe(plugin.rename(function(path){
             path.basename = path.dirname.substring(0, path.dirname.indexOf('/'));
-            path.dirname = '';  
+            path.dirname = path.basename + '/';  
         }))
         .pipe(gulp.dest(paths.build.themes))
         .on('error', plugin.util.log);
+});
+gulp.task('img', function(){
+    return gulp.src(paths.themes.img)
+        .pipe(gulp.dest(paths.build.themes));
 });
 /**
  * Concat the source Javascript files and save to
@@ -129,12 +134,12 @@ gulp.task('docs', function(){
             devDependencies: true
         }))
         .pipe(plugin.inject(gulp.src(paths.build.js, {read: false}), {starttag:'<!-- inject:source:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
-        .pipe(plugin.inject(gulp.src(paths.build.themes+'/*.css', {read: false}), {starttag:'<!-- inject:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
+        .pipe(plugin.inject(gulp.src(paths.build.themes+'/**/*.css', {read: false}), {starttag:'<!-- inject:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
         .pipe(plugin.rename(paths.docs.index.replace(filePathRegex, '')))
         .pipe(gulp.dest(paths.docs.dir));
 });
 
-gulp.task('build', ['templates', 'js', 'less', 'docs']);
+gulp.task('build', ['templates', 'js', 'less', 'img', 'docs']);
 gulp.task('watch', function () {
     gulp.watch(paths.themes.base.less, ['less']);
     gulp.watch([paths.themes.base.css, paths.src.js], ['test']);

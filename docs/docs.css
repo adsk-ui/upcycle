@@ -1,5 +1,6 @@
 body {
   padding: 50px;
+  background-color: #ececec;
 }
 button[data-action="toggle-theme"] {
   margin-bottom: 20px;
