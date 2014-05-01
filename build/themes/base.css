@@ -25,22 +25,22 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-.scroll-area {
+.upcycle .scroll-area {
   position: relative;
 }
-.scroll-area .scrollbar {
+.upcycle .scroll-area .scrollbar {
   position: absolute;
   z-index: 1;
   top: 0;
   right: 0;
   width: 6px;
 }
-.scroll-area .scrollbar .track {
+.upcycle .scroll-area .scrollbar .track {
   height: 100%;
   width: 6px;
   position: relative;
 }
-.scroll-area .scrollbar .track .thumb {
+.upcycle .scroll-area .scrollbar .track .thumb {
   height: 20px;
   width: 6px;
   cursor: pointer;
@@ -48,11 +48,11 @@
   position: absolute;
   top: 0;
 }
-.scroll-area .viewport {
+.upcycle .scroll-area .viewport {
   overflow: hidden;
   position: relative;
 }
-.scroll-area .viewport .overview {
+.upcycle .scroll-area .viewport .overview {
   position: relative;
   left: 0;
   top: 0;
@@ -115,9 +115,9 @@
 .up-selectlist input[type="checkbox"] {
   margin: 0;
 }
-.upcycle-portal .up-filterpanel .up-filterpanel-title {
+.up-filterpanel .up-filterpanel-title {
   margin-right: 10px;
 }
-.upcycle-portal .up-filterpanel [role="button"][data-action="clear-all"] {
+.up-filterpanel [role="button"][data-action="clear-all"] {
   float: right;
 }
