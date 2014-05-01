@@ -52,7 +52,8 @@
   box-shadow: none;
 }
 .upcycle-portal .up-btn-filter {
-  background: #ffffff url("img/filterpanel.png") top left no-repeat;
+  background: #ffffff top left no-repeat;
+  background-image: url("img/filterpanel.png") !important;
   width: 28px;
   height: 28px;
   background-position: -11px -103px;
@@ -61,7 +62,7 @@
 .upcycle-portal .open .up-btn-filter {
   width: 28px;
   height: 28px;
-  background-color: #eeeeee;
+  background-color: #cbcbcb !important;
   background-position: -11px -42px;
 }
 .upcycle-portal .up-btn-filter-count-badge {
