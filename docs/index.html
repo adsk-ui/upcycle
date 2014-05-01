@@ -32,7 +32,7 @@
   <!-- endinject -->
 </head>
 
-<body>
+<body class="upcycle">
   <div class="btn-group">
     <button type="button" data-value="base" data-action="toggle-theme" class="btn btn-default">Base</button>
     <button type="button" data-value="portal" data-action="toggle-theme" class="btn btn-default">Portal</button>
@@ -82,6 +82,12 @@
         'facets': [{
           'name': 'name',
           'displayName': 'Name'
+        },{
+          'name': 'age',
+          'displayName': 'Age'
+        },{
+          'name':'greeting',
+          'displayName': 'Greeting'
         }],
         'resultsLabel': 'FILTERPANEL_RESULTS',
         'resultLabel': 'FILTERPANEL_RESULT'
@@ -127,7 +133,7 @@
           var $body = $('body'),
               themeName = $(this).attr('data-value'),
               className = $('body').prop('className').replace(/( ?)upcycle-\w+/, '$1');
-          $body.prop('className', className + 'upcycle-' + themeName);
+          $body.prop('className', className + ' upcycle-' + themeName);
 
           selectlist.update();  
           filterpanel.update();  
