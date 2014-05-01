@@ -1,0 +1,107 @@
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.clearfix:after {
+  clear: both;
+}
+.hide-text {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+.input-block-level {
+  display: block;
+  width: 100%;
+  min-height: 30px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.scroll-area .scrollbar .track {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: rgba(153, 153, 153, 0);
+}
+.scroll-area .scrollbar .track .thumb {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #999999;
+}
+.upcycle-portal .btn-link {
+  padding: 0 2px;
+  border: none;
+}
+.upcycle-portal .up-btn-close-x {
+  text-indent: -99999px;
+  background: url("img/filterpanel.png") top left no-repeat;
+  width: 28px;
+  height: 22px;
+  background-position: -10px -10px;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+.upcycle-portal .up-facet-header [role="button"][data-action="toggle"] {
+  margin-top: -2px;
+}
+.upcycle-portal .up-filterpanel {
+  width: 275px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.1);
+  background-color: #fbfbfb;
+  background-image: -moz-linear-gradient(top, #ffffff, #f5f5f4);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f5f5f4));
+  background-image: -webkit-linear-gradient(top, #ffffff, #f5f5f4);
+  background-image: -o-linear-gradient(top, #ffffff, #f5f5f4);
+  background-image: linear-gradient(to bottom, #ffffff, #f5f5f4);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff5f5f4', GradientType=0);
+  padding: 8px 10px 15px;
+}
+.upcycle-portal .up-filterpanel .up-filterpanel-header {
+  padding: 1px 0 8px;
+  border-bottom: solid 1px #eeeeee;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+.upcycle-portal .up-filterpanel .up-filterpanel-title {
+  font-size: 18px;
+}
+.upcycle-portal .up-filterpanel [role="button"][data-action="clear-all"] {
+  font-size: inherit;
+}
+.upcycle-portal .up-filterpanel .up-btn-close-x {
+  margin-right: -5px;
+}
+.upcycle-portal .up-filterpanel .up-facet-header {
+  color: #555555;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+.upcycle-portal .up-filterpanel .up-facet-options {
+  color: #6f6f6f;
+}
+.upcycle-portal .up-filterpanel .up-selectlist {
+  width: 100%;
+}
+.upcycle-portal .up-filterpanel .up-selectlist .viewport {
+  max-height: 200px;
+}
+.upcycle-portal .up-filterpanel .up-selectlist .divider {
+  margin: 5px 0;
+  border-bottom: solid 1px #eeeeee;
+}
