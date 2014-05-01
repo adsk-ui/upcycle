@@ -116,7 +116,7 @@
   margin: 0;
 }
 .up-filterpanel .up-filterpanel-title {
-  margin-right: 10px;
+  margin-right: 5px;
 }
 .up-filterpanel [role="button"][data-action="clear-all"] {
   float: right;
