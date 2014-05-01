@@ -80,12 +80,14 @@ $.widget('upcycle.filterpanel', {
 					return _(selectedFacets).every(function(values, facetName){
 						return _(values).some(function(value){
 							var actualValue = _(dataExtraction).isFunction() ? dataExtraction(obj, facetName) : obj[facetName];
-							return actualValue === value;
+							return actualValue == value;
 						});
 					});
 				})
 				.value();
 		}
+		console.log('change filter data length to: '+filteredData.length);
+		console.log(selectedFacets);
 		this.option('filteredDataLength', filteredData.length);
 		this._trigger('change', event, {
 			'selectedFacets': this.options.selectedFacets,
@@ -116,6 +118,7 @@ $.widget('upcycle.filterpanel', {
 				resultCountLabel = value == 1 ? this.options.resultLabel : this.options.resultsLabel;
 				resultCount = $.i18n.prop(resultCountLabel, value);
 			} 
+			console.log('update result count: '+resultCount);
 			this.element.find('.up-filterpanel-header .up-filterpanel-result').text(resultCount);
 		}
 	},
