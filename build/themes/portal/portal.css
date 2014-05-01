@@ -60,6 +60,9 @@
   text-indent: -99999px;
   border-top: none;
   border-color: #ddd;
+  -webkit-box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 .upcycle-portal .open .up-btn-filter {
   width: 28px;
