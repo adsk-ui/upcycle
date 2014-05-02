@@ -139,7 +139,7 @@ gulp.task('docs', function(){
         .pipe(gulp.dest(paths.docs.dir));
 });
 
-gulp.task('build', ['templates', 'js', 'less', 'img', 'docs']);
+gulp.task('build', ['templates', 'js', 'less', 'img', 'docs', 'test']);
 gulp.task('watch', function () {
     gulp.watch(paths.themes.base.less, ['less']);
     gulp.watch([paths.themes.base.css, paths.src.js], ['test']);
