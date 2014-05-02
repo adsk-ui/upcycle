@@ -37,50 +37,28 @@
   border-radius: 3px;
   background-color: #999999;
 }
-.upcycle-portal .btn-link {
-  padding: 0 2px;
-  border: none;
+.upcycle-portal .up-facetlist {
+  font-size: 12px;
 }
-.upcycle-portal .up-btn-close-x {
-  text-indent: -99999px;
-  background: url("img/filterpanel.png") top left no-repeat;
-  width: 28px;
-  height: 22px;
-  background-position: -10px -10px;
-  background-color: transparent;
-  border: none;
-  box-shadow: none !important;
+.upcycle-portal .up-facetlist [role="label"] {
+  display: block;
+  float: left;
+  margin-right: 5px;
+  line-height: 29px;
 }
-.upcycle-portal .up-btn-filter {
-  background: #ffffff top left no-repeat;
-  background-image: url("img/filterpanel.png") !important;
-  width: 28px;
-  height: 28px;
-  background-position: -11px -103px;
-  text-indent: -99999px;
-  border-top: none;
-  border-color: #ddd;
+.upcycle-portal .up-facetlist .up-facets {
+  float: left;
+  margin: 0;
+  padding: 0;
+  max-width: 80%;
 }
-.upcycle-portal .up-btn-filter,
-.upcycle-portal .up-btn-filter:hover {
-  -webkit-box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.1);
-  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.1);
-}
-.upcycle-portal .open .up-btn-filter {
-  width: 28px;
-  height: 28px;
-  background-color: #cbcbcb !important;
-  background-position: -11px -42px;
-  border: solid 1px #bbb;
-  -webkit-box-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 0.15);
-  box-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 0.15);
-}
-.upcycle-portal .up-btn-filter-count-badge {
-  width: 13px;
-  height: 13px;
-  background-position: -10px -80px;
+.upcycle-portal .up-facetlist .up-facet {
+  float: left;
+  background: white;
+  margin: 0 5px 5px 0;
+  padding: 4px 0px 4px 8px;
+  color: #999999;
+  border-radius: 3px;
 }
 .upcycle-portal .up-filterpanel {
   width: 275px;

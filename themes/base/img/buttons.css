@@ -1,6 +1,7 @@
-.filterpanel{ background:url("filterpanel.png") top left no-repeat; }
+.buttons{ background:url("buttons.png") top left no-repeat; }
 .up-btn-close-x{ width:28px; height:22px; background-position:-10px -10px; }
 .up-btn-filter-open{ width:28px; height:28px; background-position:-10px -42px; }
 .up-btn-filter-count-badge{ width:13px; height:13px; background-position:-10px -80px; }
 .up-btn-filter{ width:28px; height:28px; background-position:-10px -103px; }
+.up-btn-close-x-small{ width:20px; height:20px; background-position:-10px -141px; }
 

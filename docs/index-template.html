@@ -23,12 +23,16 @@
     <button type="button" data-value="base" data-action="toggle-theme" class="btn btn-default">Base</button>
     <button type="button" data-value="portal" data-action="toggle-theme" class="btn btn-default">Portal</button>
   </div>
+  
   <div id="examples">
+    <h3>Facetlist</h3>
+    <div class="up-facetlist"></div>
     <h3>Filter Panel</h3>
     <div class="up-filterpanel"></div>
     <h3>Selectlist</h3>
     <div class="up-selectlist"></div>
   </div>
+
   <script type="text/javascript">
   $(function(){
     $.i18n.properties({
@@ -91,6 +95,29 @@
         'resultsLabel': 'FILTERPANEL_RESULTS',
         'resultLabel': 'FILTERPANEL_RESULT'
       };
+       /**
+       * Facetlist
+       * ===============================================
+       */
+      var facetlist = window.facetlist = $('.up-facetlist')
+        .facetlist({
+          // 'facets': selectListOptions.facets
+        })
+        .data('upcycle-facetlist');
+       /**
+       * Filters
+       * ===============================================
+       */ 
+      var filterpanel = window.filterpanel = $('.up-filterpanel')
+        .filterpanel(filterpanelOptions)
+        .on('filterpanelchange', function(event, data){
+          // console.log(event);
+          facetlist.option('facets', data.selectedFacets);
+        })
+        .on('change', function(){
+          // console.log('filters changing...');
+        })
+        .data('upcycle-filterpanel');
       /**
        * Selectlist
        * ===============================================
@@ -106,20 +133,6 @@
         .data('upcycle-selectlist');
 
 
-       /**
-       * Filters
-       * ===============================================
-       */ 
-      var filterpanel = window.filterpanel = $('.up-filterpanel')
-        .filterpanel(filterpanelOptions)
-        .on('filterpanelchange', function(event, data){
-          // console.log(event);
-          console.log(data);
-        })
-        .on('change', function(){
-          // console.log('filters changing...');
-        })
-        .data('upcycle-filterpanel');
 
       /**
        * Theme buttons

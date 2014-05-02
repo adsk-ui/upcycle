@@ -1,0 +1,12 @@
+<div class="up-inner">
+	<span role="label">{{label}}</span>
+	<ul role="presentation" class="up-facets">
+		{{#each facets}}
+			{{#each options}}
+			<li class="up-facet" data-facet="{{../name}}" data-facet-option="{{this}}">
+				<span class="up-facet-name">{{../displayName}}</span>: <span class="up-facet-option">{{this}}</span><button role="button" data-action="remove" class="btn up-btn-close-x-small">remove</button>
+			</li>
+			{{/each}}
+		{{/each}}
+	</ul>
+</div>

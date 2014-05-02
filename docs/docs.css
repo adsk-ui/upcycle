@@ -8,3 +8,6 @@ button[data-action="toggle-theme"] {
 #examples {
   overflow: hidden;
 }
+h3 {
+  clear: both;
+}
