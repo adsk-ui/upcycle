@@ -7,35 +7,63 @@ $.widget('upcycle.facetlist', {
 	},
 	'_create': function(){
 		this._on({'click [role="button"][data-action="remove"]': this._onRemove});
-		this.element.addClass('up-facetlist');
+		// this.element.addClass('up-facetlist');
 		this._render();
 	},
 	'_render': function(){
-		this.element
-			.empty()
-			.html(this._getMarkup());
+		this.element.html(this._getMarkup());
 		return this;
 	},
-	'remove': function(name, option){
-		this.options.facets = _(this.options.facets).reject(function(facet){
-			if(facet.name === name){
-				facet.options = _(facet.options).without(option); 
+	'add': function(facetsToAdd){
+		var facets = this.options.facets;
+		facetsToAdd = _.isArray(facetsToAdd) ? facetsToAdd : _.isObject(facetsToAdd) ? [facetsToAdd] : [];
+		
+		_(facetsToAdd).each(function(facetToAdd){
+			var existing = _(facets).findWhere({'name': facetToAdd.name});
+			if(existing){
+				existing.options = _(existing.options.concat(facetToAdd.options)).uniq();
+			}else{
+				facets.push(facetToAdd);
+			}
+		}, this);
+		return this._setOption('facets', facets);
+	},
+	'remove': function(facetsToRemove){
+		facetsToRemove = _.isArray(facetsToRemove) ? facetsToRemove : _.isObject(facetsToRemove) ? [facetsToRemove] : [];
+		var facets = _(this.options.facets).reject(function(facet){
+			var remove = _(facetsToRemove).findWhere({'name': facet.name});
+			if(remove){
+				facet.options = _(facet.options).difference(remove.options);
 			}
 			return !facet.options.length;
+		}, this);
+		this._trigger('remove', null, {
+			'removedFacets': facetsToRemove
 		});
-		return this._render();
+		return this._setOption('facets', facets);
+			
+	},
+	'reset': function(){
+		return this._setOption('facets', []);
 	},
 	'_setOption': function(key, value){
-		$.Widget.prototype._setOption.call(this, key, value);
+		this._super(key, value);
 		if(key === 'facets'){
 			this._render();
+			this._trigger('change', null, {
+				'facets': this.options.facets
+			});
 		}
+		return this;
 	},
 	'_onRemove': function(event){
 		var $item = $(event.currentTarget).parent(),
 			name = $item.attr('data-facet'),
 			option = $item.attr('data-facet-option');
-		return this.remove(name, option);
+		return this.remove({
+			'name': name,
+			'options': [option]
+		});
 	},
 	'_getMarkup': function(){
 		var template = eval(this.options.templatesNamespace)['facetlist'];
@@ -51,14 +79,3 @@ $.widget('upcycle.facetlist', {
 		return context;
 	}
 });
-
-
-/*
-
-
-facetlist.set(facets);
-facetlist.add(facets);
-facetlist.remove(facets);
-
-
- */

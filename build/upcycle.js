@@ -7,35 +7,63 @@ $.widget('upcycle.facetlist', {
 	},
 	'_create': function(){
 		this._on({'click [role="button"][data-action="remove"]': this._onRemove});
-		this.element.addClass('up-facetlist');
+		// this.element.addClass('up-facetlist');
 		this._render();
 	},
 	'_render': function(){
-		this.element
-			.empty()
-			.html(this._getMarkup());
+		this.element.html(this._getMarkup());
 		return this;
 	},
-	'remove': function(name, option){
-		this.options.facets = _(this.options.facets).reject(function(facet){
-			if(facet.name === name){
-				facet.options = _(facet.options).without(option); 
+	'add': function(facetsToAdd){
+		var facets = this.options.facets;
+		facetsToAdd = _.isArray(facetsToAdd) ? facetsToAdd : _.isObject(facetsToAdd) ? [facetsToAdd] : [];
+		
+		_(facetsToAdd).each(function(facetToAdd){
+			var existing = _(facets).findWhere({'name': facetToAdd.name});
+			if(existing){
+				existing.options = _(existing.options.concat(facetToAdd.options)).uniq();
+			}else{
+				facets.push(facetToAdd);
+			}
+		}, this);
+		return this._setOption('facets', facets);
+	},
+	'remove': function(facetsToRemove){
+		facetsToRemove = _.isArray(facetsToRemove) ? facetsToRemove : _.isObject(facetsToRemove) ? [facetsToRemove] : [];
+		var facets = _(this.options.facets).reject(function(facet){
+			var remove = _(facetsToRemove).findWhere({'name': facet.name});
+			if(remove){
+				facet.options = _(facet.options).difference(remove.options);
 			}
 			return !facet.options.length;
+		}, this);
+		this._trigger('remove', null, {
+			'removedFacets': facetsToRemove
 		});
-		return this._render();
+		return this._setOption('facets', facets);
+			
+	},
+	'reset': function(){
+		return this._setOption('facets', []);
 	},
 	'_setOption': function(key, value){
-		$.Widget.prototype._setOption.call(this, key, value);
+		this._super(key, value);
 		if(key === 'facets'){
 			this._render();
+			this._trigger('change', null, {
+				'facets': this.options.facets
+			});
 		}
+		return this;
 	},
 	'_onRemove': function(event){
 		var $item = $(event.currentTarget).parent(),
 			name = $item.attr('data-facet'),
 			option = $item.attr('data-facet-option');
-		return this.remove(name, option);
+		return this.remove({
+			'name': name,
+			'options': [option]
+		});
 	},
 	'_getMarkup': function(){
 		var template = eval(this.options.templatesNamespace)['facetlist'];
@@ -51,17 +79,6 @@ $.widget('upcycle.facetlist', {
 		return context;
 	}
 });
-
-
-/*
-
-
-facetlist.set(facets);
-facetlist.add(facets);
-facetlist.remove(facets);
-
-
- */
 $.widget('upcycle.filterpanel', {
 	'defaultElement': '<div>',
 	'options': {
@@ -74,37 +91,37 @@ $.widget('upcycle.filterpanel', {
 		'data': [],
 		'facets': [],
 		'selectedFacets': [],
-		'searchQuery': '',
 		'eventDelay': 0,
 		'dataExtraction': null
 	},
 	'_create': function(){
-		this._setOptions(this.options);
 		this._on({'click [data-action="clear-all"]': this.clear});
 		this._on({'selectlistchange': this._onFilterChange});
 		this.element.addClass('up-filterpanel');
-		this._render();
+		this._setOptions(this.options);
+		// this._render();
 	},
-	'set': function(facets, toggle){
+	'set': function(facets, options){
 		var changedBoxes = [];
+		options = options || {};
+		facets = _.isArray(facets) ? facets : _.isObject(facets) ? [facets] : [];
 		this.element.find('[type="checkbox"]')
 			.each(function(){
 				var boxFacetName = this.getAttribute('data-facet'),
 					boxOptionValue = this.getAttribute('data-facet-option'),
-					setThisBox = _(facets).some(function(values, key){
-						values = _.isString(values) ? [values] : _.isArray(values) ? values : [];
-						return key === boxFacetName && _(values).contains(boxOptionValue);
+					setThisBox = _(facets).some(function(facet){
+						return facet.name === boxFacetName && _(facet.options).contains(boxOptionValue);
 					}),
 					newCheckedValue;
 				if(setThisBox){
-					newCheckedValue = _.isUndefined(toggle) ? !this.checked : !!toggle;
+					newCheckedValue = _.isUndefined(options.toggle) ? !this.checked : !!options.toggle;
 					if(newCheckedValue !== this.checked){
 						this.checked = newCheckedValue;
 						changedBoxes.push(this);
 					}
 				}
 			});
-		if(changedBoxes.length)
+		if(changedBoxes.length && !options.silent)
 			$(changedBoxes).trigger('change');
 		return this;
 	},
@@ -112,26 +129,25 @@ $.widget('upcycle.filterpanel', {
 	 * Clears all checkboxes (deselects all filters)		
 	 * @return {jQuery} A jQuery object containing the element associated to this widget
 	 */
-	'clear': function(){
-		this.element.find('[type="checkbox"]').each(function(index, checkbox){
+	'clear': function(options){
+		var changed, $checkboxes;
+		options = options || {};
+		$checkboxes = this.element.find('[type="checkbox"]').each(function(index, checkbox){
+			if(checkbox.checked)
+				changed = true;
 			checkbox.checked = false;
-		}).trigger('change');
+		});
+		if(changed && !options.silent)
+			$checkboxes.trigger('change');
 		return this;
 	},
 	'update': function(){
 		this.selectlist.update();
 		return this;
 	},
-	'search': function(query){
-		return this;
-	},
-	'_onSearch': function(event){
-
-	},
 	'_onFilterChange': function(event, data){
 		event.stopPropagation();
 		this.option('selectedFacets', data.selectedFacets);
-		this._triggerChangeEvent(event);
 	},
 	'_triggerChangeEvent': function(event){
 		var filteredData = [],
@@ -150,14 +166,10 @@ $.widget('upcycle.filterpanel', {
 				})
 				.value();
 		}
-		this.option('filteredDataLength', filteredData.length);
-		this._trigger('change', event, {
-			'selectedFacets': this.options.selectedFacets,
-			'filteredData': filteredData
-		});
+		this._setOption('filteredData', filteredData);
 	},
 	'_setOption': function(key, value){
-		$.Widget.prototype._setOption.call(this, key, value);
+		this._super(key, value);
 		if(key === 'data' || key === 'facets'){
 			this.clear();
 			_(this.options.facets).each(function(f){
@@ -168,19 +180,29 @@ $.widget('upcycle.filterpanel', {
 					.value();
 				_.extend(f, {'options': facetOptions});
 			}, this);
+			this._render();
 		}
 		if(key === 'eventDelay'){
 			if( this.selectlist )
 				this.selectlist.option('eventDelay', value);
 		}
-		if(key === 'filteredDataLength'){
+		if(key === 'filteredData'){
 			var resultCount = '',
 				resultCountLabel;
 			if(!_.isEmpty(this.options.selectedFacets)){
-				resultCountLabel = value == 1 ? this.options.resultLabel : this.options.resultsLabel;
-				resultCount = $.i18n.prop(resultCountLabel, value);
+				resultCountLabel = value.length == 1 ? this.options.resultLabel : this.options.resultsLabel;
+				resultCount = $.i18n.prop(resultCountLabel, value.length);
 			} 
 			this.element.find('.up-filterpanel-header .up-filterpanel-result').text(resultCount);
+
+			this._trigger('change', event, {
+				'selectedFacets': this.options.selectedFacets,
+				'filteredData': this.options.filteredData
+			});
+		}
+
+		if(key === 'selectedFacets'){
+			this._triggerChangeEvent(event);
 		}
 	},
 	'_render': function(){
@@ -346,27 +368,27 @@ Handlebars.registerHelper('tinyscrollbar', function(){
 	};
   
 })(jQuery);
-$.widget('upcycle.selectlist', {
+$.widget('upcycle.selectlist', $.upcycle.facetlist, {
 	'options': {
 		'templatesNamespace': 'upcycle.templates',
-		'facets': [],
 		'selectedFacets': [],
 		'eventDelay': 0
 	},
 	'_create': function(){
+		this._super();
 		this._setOptions(this.options);
 		this._on({'change': this._onChange});
 		this._on({'click [role="facet"] > [role="header"]': this._onToggle});
 		this._on({'click button.more, button.less': this.update});
-		this.element.addClass('up-selectlist'); 
+		this.element
+			.addClass('up-selectlist')
+			.removeClass('up-facetlist'); 
 		this._render();
 	},
-	'_render': function(){
-		this.element
-			.empty()
-			.append(this._getMarkup(this.options.facets));
-		this.update();
-	},
+	// '_render': function(){
+	// 	this.element.html(this._getMarkup());
+	// 	return this.update();
+	// },
 	'update': function(){
 		var $scrollArea = this.element.find('.scroll-area'),
 			$viewport = $scrollArea.find('.viewport'),
@@ -392,6 +414,7 @@ $.widget('upcycle.selectlist', {
 		}else if(tinyscrollbar){
 			tinyscrollbar.update('relative');
 		}
+		return this;
 	},
 	'_triggerChangeEvent': function(event, selectedFacets){
 		if(!_.isEqual(selectedFacets, this.options.selectedFacets)){
@@ -400,7 +423,7 @@ $.widget('upcycle.selectlist', {
 		}
 	},
 	'_setOption': function(key, value){
-		$.Widget.prototype._setOption.call(this, key, value);
+		this._super(key, value);
 		if(key === 'eventDelay'){
 			this._debouncedTriggerChangeEvent = _.debounce(this._triggerChangeEvent, this.options.eventDelay);
 		}
@@ -439,7 +462,7 @@ $.widget('upcycle.selectlist', {
 		}, this);
 		this._debouncedTriggerChangeEvent(event, selectedFacetList);
 	},
-	'_getMarkup': function(facets){
+	'_getMarkup': function(){
 		var template = eval(this.options.templatesNamespace)['selectlist']
 		return template(this.options.facets);
 	}

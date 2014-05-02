@@ -95,11 +95,15 @@
         'resultsLabel': 'FILTERPANEL_RESULTS',
         'resultLabel': 'FILTERPANEL_RESULT'
       };
+      var facetlist, filterpanel, selectlist;
        /**
        * Facetlist
        * ===============================================
        */
-      var facetlist = window.facetlist = $('.up-facetlist')
+      facetlist = window.facetlist = $('.up-facetlist')
+        .on('facetlistremove', function(event, data){
+          filterpanel.set(data.removedFacets, {'toggle':false});
+        })
         .facetlist({
           // 'facets': selectListOptions.facets
         })
@@ -108,7 +112,7 @@
        * Filters
        * ===============================================
        */ 
-      var filterpanel = window.filterpanel = $('.up-filterpanel')
+      filterpanel = window.filterpanel = $('#examples > .up-filterpanel')
         .filterpanel(filterpanelOptions)
         .on('filterpanelchange', function(event, data){
           // console.log(event);
@@ -122,7 +126,7 @@
        * Selectlist
        * ===============================================
        */
-      var selectlist = window.selectlist = $('.up-selectlist')
+      selectlist = window.selectlist = $('#examples > .up-selectlist')
         .selectlist(selectListOptions)
         .on('selectlistchange', function(event, data){
           // console.log(event);

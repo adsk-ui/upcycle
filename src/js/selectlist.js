@@ -1,24 +1,24 @@
-$.widget('upcycle.selectlist', {
+$.widget('upcycle.selectlist', $.upcycle.facetlist, {
 	'options': {
 		'templatesNamespace': 'upcycle.templates',
-		'facets': [],
 		'selectedFacets': [],
 		'eventDelay': 0
 	},
 	'_create': function(){
+		this._super();
 		this._setOptions(this.options);
 		this._on({'change': this._onChange});
 		this._on({'click [role="facet"] > [role="header"]': this._onToggle});
 		this._on({'click button.more, button.less': this.update});
-		this.element.addClass('up-selectlist'); 
+		this.element
+			.addClass('up-selectlist')
+			.removeClass('up-facetlist'); 
 		this._render();
 	},
-	'_render': function(){
-		this.element
-			.empty()
-			.append(this._getMarkup(this.options.facets));
-		this.update();
-	},
+	// '_render': function(){
+	// 	this.element.html(this._getMarkup());
+	// 	return this.update();
+	// },
 	'update': function(){
 		var $scrollArea = this.element.find('.scroll-area'),
 			$viewport = $scrollArea.find('.viewport'),
@@ -44,6 +44,7 @@ $.widget('upcycle.selectlist', {
 		}else if(tinyscrollbar){
 			tinyscrollbar.update('relative');
 		}
+		return this;
 	},
 	'_triggerChangeEvent': function(event, selectedFacets){
 		if(!_.isEqual(selectedFacets, this.options.selectedFacets)){
@@ -52,7 +53,7 @@ $.widget('upcycle.selectlist', {
 		}
 	},
 	'_setOption': function(key, value){
-		$.Widget.prototype._setOption.call(this, key, value);
+		this._super(key, value);
 		if(key === 'eventDelay'){
 			this._debouncedTriggerChangeEvent = _.debounce(this._triggerChangeEvent, this.options.eventDelay);
 		}
@@ -91,7 +92,7 @@ $.widget('upcycle.selectlist', {
 		}, this);
 		this._debouncedTriggerChangeEvent(event, selectedFacetList);
 	},
-	'_getMarkup': function(facets){
+	'_getMarkup': function(){
 		var template = eval(this.options.templatesNamespace)['selectlist']
 		return template(this.options.facets);
 	}
