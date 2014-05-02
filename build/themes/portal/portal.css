@@ -82,9 +82,6 @@
   height: 13px;
   background-position: -10px -80px;
 }
-.upcycle-portal .up-facet-header [role="button"][data-action="toggle"] {
-  margin-top: -2px;
-}
 .upcycle-portal .up-filterpanel {
   width: 275px;
   -webkit-border-radius: 4px;
@@ -126,9 +123,6 @@
 }
 .upcycle-portal .up-filterpanel .up-facet-options {
   color: #6f6f6f;
-}
-.upcycle-portal .up-filterpanel .up-selectlist {
-  width: 100%;
 }
 .upcycle-portal .up-filterpanel .up-selectlist .viewport {
   max-height: 200px;

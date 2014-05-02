@@ -317,7 +317,9 @@ $.widget('upcycle.selectlist', {
 		$viewport.find('.up-facet-options').each(function(){
 			var $facetOptions = $(this);
 			if( $facetOptions.children().length > 4 ){
-				$facetOptions.moreless();
+				$facetOptions.moreless({
+					'minItems': 4
+				});
 			}
 		});
 		/**

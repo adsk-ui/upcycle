@@ -1,6 +1,6 @@
 .up-selectlist{
 	@toggle-arrow-size: 4px;
-	max-height: 200px;
+	
 	.scroll-area{
 		overflow: hidden;
 	}
@@ -19,23 +19,36 @@
 	}
 	.up-facet{
 		padding: 1px;
+		
 	}
 	.up-facet-header{
 		cursor: pointer;
 		[role="button"][data-action="toggle"]{
 			display: inline-block;
-			vertical-align: middle;
+			vertical-align: top;
+			margin-top: 0.5em;
 			line-height: @toggle-arrow-size * 1.732;
 			#arrow.down(@toggle-arrow-size);
 		}
 		.up-facet-label{
+			line-height: 1.2em;
 			margin-left: 1px;
+			width: 90%;
+			display: inline-block;
 		}
 	}
 	.up-facet-options{
 		clear: both;
 		list-style: none;
 		margin-left: 15px; 
+	}
+	.up-facet-option{
+		white-space: normal;
+	}
+	.up-facet-option-name{
+		display: inline-block;
+		width: 90%;
+		line-height: 1.2em;
 	}
 	.up-facet-header.collapsed{
 		[role="button"][data-action="toggle"]{
@@ -50,6 +63,8 @@
 		display: none; 
 	}
 	input[type="checkbox"]{
-		margin-top: -3px;
+		display: inline-block;
+		vertical-align: top;
+		margin-top: 0.2em;
 	}
 }
