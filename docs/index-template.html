@@ -23,7 +23,12 @@
     <button type="button" data-value="base" data-action="toggle-theme" class="btn btn-default">Base</button>
     <button type="button" data-value="portal" data-action="toggle-theme" class="btn btn-default">Portal</button>
   </div>
-  <div id="examples"></div>
+  <div id="examples">
+    <h3>Filter Panel</h3>
+    <div class="up-filterpanel"></div>
+    <h3>Selectlist</h3>
+    <div class="up-selectlist"></div>
+  </div>
   <script type="text/javascript">
   $(function(){
     $.i18n.properties({
@@ -90,12 +95,11 @@
        * Selectlist
        * ===============================================
        */
-      var selectlist = window.selectlist = $('<div></div>')
-        .appendTo('#examples')
+      var selectlist = window.selectlist = $('.up-selectlist')
         .selectlist(selectListOptions)
         .on('selectlistchange', function(event, data){
           // console.log(event);
-          // console.log(data);
+          console.log(data);
         }).on('change', function(){
           // console.log('changing...');
         })
@@ -106,12 +110,11 @@
        * Filters
        * ===============================================
        */ 
-      var filterpanel = window.filterpanel = $('<div></div>')
-        .appendTo('#examples')
+      var filterpanel = window.filterpanel = $('.up-filterpanel')
         .filterpanel(filterpanelOptions)
         .on('filterpanelchange', function(event, data){
           // console.log(event);
-          // console.log(data);
+          console.log(data);
         })
         .on('change', function(){
           // console.log('filters changing...');

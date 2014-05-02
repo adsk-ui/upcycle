@@ -1,3 +1,29 @@
+$.widget('upcycle.facetlist', {
+	'options': {
+		
+	},
+	'_create': function(){
+
+	},
+	'_render': function(){
+
+	},
+	'_getMarkup': function(facets){
+		var template = eval(this.options.templatesNamespace)['facetlist']
+		return template(this.options.facets);
+	}
+});
+
+
+/*
+
+
+facetlist.set(facets);
+facetlist.add(facets);
+facetlist.remove(facets);
+
+
+ */
 $.widget('upcycle.filterpanel', {
 	'defaultElement': '<div>',
 	'options': {
@@ -77,17 +103,15 @@ $.widget('upcycle.filterpanel', {
 			filteredData = _(this.options.data)
 				.chain()
 				.filter(function(obj){
-					return _(selectedFacets).every(function(values, facetName){
-						return _(values).some(function(value){
-							var actualValue = _(dataExtraction).isFunction() ? dataExtraction(obj, facetName) : obj[facetName];
-							return actualValue == value;
+					return _(selectedFacets).every(function(facet){
+						return _(facet.options).some(function(option){
+							var actualValue = _(dataExtraction).isFunction() ? dataExtraction(obj, facet.name) : obj[facet.name];
+							return actualValue == option;
 						});
 					});
 				})
 				.value();
 		}
-		console.log('change filter data length to: '+filteredData.length);
-		console.log(selectedFacets);
 		this.option('filteredDataLength', filteredData.length);
 		this._trigger('change', event, {
 			'selectedFacets': this.options.selectedFacets,
@@ -118,7 +142,6 @@ $.widget('upcycle.filterpanel', {
 				resultCountLabel = value == 1 ? this.options.resultLabel : this.options.resultsLabel;
 				resultCount = $.i18n.prop(resultCountLabel, value);
 			} 
-			console.log('update result count: '+resultCount);
 			this.element.find('.up-filterpanel-header .up-filterpanel-result').text(resultCount);
 		}
 	},
@@ -289,9 +312,9 @@ $.widget('upcycle.selectlist', {
 	'options': {
 		'templatesNamespace': 'upcycle.templates',
 		'facets': [],
+		'selectedFacets': [],
 		'eventDelay': 0
 	},
-	'selection': {},
 	'_create': function(){
 		this._setOptions(this.options);
 		this._on({'change': this._onChange});
@@ -332,10 +355,10 @@ $.widget('upcycle.selectlist', {
 			tinyscrollbar.update('relative');
 		}
 	},
-	'_triggerChangeEvent': function(event, selection){
-		if(!_.isEqual(selection, this.selection)){
-			this.selection = selection;
-			this._trigger('change', event, {'selectedFacets': this.selection});	
+	'_triggerChangeEvent': function(event, selectedFacets){
+		if(!_.isEqual(selectedFacets, this.options.selectedFacets)){
+			this.options.selectedFacets = selectedFacets;
+			this._trigger('change', event, {'selectedFacets': this.options.selectedFacets});	
 		}
 	},
 	'_setOption': function(key, value){
@@ -354,19 +377,29 @@ $.widget('upcycle.selectlist', {
 		this.update();
 	},
 	'_onChange': function(event){
-		var selection = {};
+		var selectedFacets = {},
+			selectedFacetList = [],
+			facet, option;
 		this.element.find('[type="checkbox"]').each(function(){
 			if( this.checked ){
-				var group = this.getAttribute('data-facet'),
-					facet = this.getAttribute('data-facet-option');	
-				if(selection.hasOwnProperty(group)){
-					selection[group].push( facet );
+				facet = this.getAttribute('data-facet'),
+				option = this.getAttribute('data-facet-option');	
+				if(selectedFacets.hasOwnProperty(facet)){
+					selectedFacets[facet].push( option );
 				}else{
-					selection[group] = [facet];
+					selectedFacets[facet] = [option];
 				}
 			}
 		});
-		this._debouncedTriggerChangeEvent(event, selection);
+		selectedFacetList = _(selectedFacets).map(function(options, name){
+			facet = _(this.options.facets).findWhere({'name': name});
+			return facet ? {
+				'name': name,
+				'displayName': facet.displayName,
+				'options': options
+			} : null;
+		}, this);
+		this._debouncedTriggerChangeEvent(event, selectedFacetList);
 	},
 	'_getMarkup': function(facets){
 		var template = eval(this.options.templatesNamespace)['selectlist']
