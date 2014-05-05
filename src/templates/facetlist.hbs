@@ -3,7 +3,7 @@
 	<ul role="presentation" class="up-facets">
 		{{#each facets}}
 			{{#each options}}
-			<li class="up-facet" data-facet="{{../name}}" data-facet-option="{{this}}">
+			<li class="up-facet" data-facet="{{../name}}" data-facet-option="{{{this}}}">
 				<span class="up-facet-option">{{this}}</span><button role="button" data-action="remove" class="btn up-btn-close-x-small">remove</button>
 			</li>
 			{{/each}}

@@ -54,6 +54,8 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 		options = options || {};
 		_(facets).each(function(f){
 			_(f.options).each(function(o){
+				// find reusable solution for selecting attribute values with backslashes?
+				o = o.replace(/\\/, '\\\\');
 				checkbox = $checkboxes.filter('[data-facet="'+f.name+'"][data-facet-option="'+o+'"]').get(0);
 				if(checkbox){
 					checked = _.isBoolean(stateValue) ? stateValue : !checkbox.checked;
