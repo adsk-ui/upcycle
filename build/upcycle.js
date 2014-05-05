@@ -468,6 +468,11 @@ Handlebars.registerHelper('tinyscrollbar', function(){
 			$.data(this, 'moreLess', $this);
 			methods[$this.settings.openByDefault ? 'more' : 'less'].call($this);
 		},
+		'destroy': function(){
+			var $this = this;
+			$this.more.remove();
+			$this.less.remove();
+		},
 		'update': function(){
 			var $this = this;
 			if( $this.clipItems ){
@@ -566,9 +571,7 @@ function program2(depth0,data,depth1) {
     + escapeExpression(((stack1 = (depth1 && depth1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "\" data-facet-option=\""
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "\">\n				<span class=\"up-facet-name\">"
-    + escapeExpression(((stack1 = (depth1 && depth1.displayName)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "</span>: <span class=\"up-facet-option\">"
+    + "\">\n				<span class=\"up-facet-option\">"
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
     + "</span><button role=\"button\" data-action=\"remove\" class=\"btn up-btn-close-x-small\">remove</button>\n			</li>\n			";
   return buffer;
