@@ -1,3 +1,6 @@
+$.widget('upcycle.base', {
+	
+});
 $.widget('upcycle.facetlist', {
 	'options': {
 		'templatesNamespace': 'upcycle.templates',
@@ -14,56 +17,123 @@ $.widget('upcycle.facetlist', {
 		this.element.html(this._getMarkup());
 		return this;
 	},
-	'add': function(facetsToAdd){
-		var facets = this.options.facets;
+	'add': function(facetsToAdd, options){
 		facetsToAdd = _.isArray(facetsToAdd) ? facetsToAdd : _.isObject(facetsToAdd) ? [facetsToAdd] : [];
-		
+		options = options || {};
+		var facets = this.options.facets,
+			added = [];
 		_(facetsToAdd).each(function(facetToAdd){
-			var existing = _(facets).findWhere({'name': facetToAdd.name});
+			var existing = _(facets).findWhere({'name': facetToAdd.name}),
+				preExistingOptionsLength;
 			if(existing){
+				preExistingOptionsLength = existing.options.length;
 				existing.options = _(existing.options.concat(facetToAdd.options)).uniq();
+				if(preExistingOptionsLength < existing.options.length)
+					added.push(facetToAdd);
 			}else{
 				facets.push(facetToAdd);
+				added.push(facetToAdd);
 			}
 		}, this);
-		return this._setOption('facets', facets);
+		if(added.length && !options.silent){
+			this._trigger(':facets:add', null, {
+				'facets': added
+			});
+		}
+		return this._setOption('facets', facets, options);
 	},
-	'remove': function(facetsToRemove){
-		facetsToRemove = _.isArray(facetsToRemove) ? facetsToRemove : _.isObject(facetsToRemove) ? [facetsToRemove] : [];
-		var facets = _(this.options.facets).reject(function(facet){
-			var remove = _(facetsToRemove).findWhere({'name': facet.name});
-			if(remove){
-				facet.options = _(facet.options).difference(remove.options);
-			}
-			return !facet.options.length;
-		}, this);
-		this._trigger('remove', null, {
-			'removedFacets': facetsToRemove
-		});
-		return this._setOption('facets', facets);
+	// 'remove': function(facetsToRemove, options){
+	// 	facetsToRemove = _.isArray(facetsToRemove) ? facetsToRemove : _.isObject(facetsToRemove) ? [facetsToRemove] : [];
+	// 	options = options || {};
+	// 	var remainingOptions,
+	// 		removed = [],
+	// 		facets = _(this.options.facets).reject(function(facet){
+	// 			var remove = _(facetsToRemove).findWhere({'name': facet.name});
+	// 			if(remove){
+	// 				remainingOptions = _(facet.options).difference(remove.options);
+	// 				if(!remainingOptions.length){
+	// 					removed.push(facet);
+	// 					return true;
+	// 				}
+	// 				facet.options = remainingOptions;
+	// 			}
+	// 		}, this);
+	// 	if(removed.length && !options.silent){
+	// 		this._trigger(':facets:remove', null, {
+	// 			'facets': removed
+	// 		});
+	// 	}
+	// 	return this._setOption('facets', facets, options);
 			
+	// },
+	'remove': function(facetsToRemove, options){
+		var removed = [],
+			facets = this.options.facets,
+			match;
+		options = options || {};
+		facetsToRemove = _.isArray(facetsToRemove) ? facetsToRemove : _.isObject(facetsToRemove) ? [facetsToRemove] : [];
+		_(facetsToRemove).each(function(facetToRemove){
+			match =  _(facets).findWhere({'name': facetToRemove.name});
+			if(match){
+				var toRemoveOptions = _.intersection(facetToRemove.options, match.options);
+				match.options = _.difference(facetToRemove.options, match.options);
+				facetToRemove.options = toRemoveOptions;
+				if(!match.options.length){
+					facets = _(facets).without(match);
+				}
+				removed.push(facetToRemove);
+			}
+		});
+		if(removed.length && !options.silent){
+			this._trigger(':facets:remove', null, {
+				'facets': removed
+			});
+		}
+		return this._setOption('facets', facets, options);
 	},
-	'reset': function(){
-		return this._setOption('facets', []);
+	'reset': function(facets, options){
+		options = options || {};
+		if(!options.silent){
+			if(this.options.facets.length){
+				this._trigger(':facets:remove', null, {
+					'facets': this.options.facets
+				});
+			}
+			if(facets && facets.length){
+				this._trigger(':facets:add', null, {
+					'facets': facets
+				});
+			}
+		}
+		return this._setOption('facets', facets || [], options);
 	},
-	'_setOption': function(key, value){
+	'_setOption': function(key, value, options){
 		this._super(key, value);
+		options = options || {};
 		if(key === 'facets'){
 			this._render();
-			this._trigger('change', null, {
-				'facets': this.options.facets
-			});
+			if(!options.silent){
+				this._trigger(':facets:changed', null, {
+					'facets': this.options.facets
+				});
+			}
 		}
 		return this;
 	},
 	'_onRemove': function(event){
 		var $item = $(event.currentTarget).parent(),
-			name = $item.attr('data-facet'),
-			option = $item.attr('data-facet-option');
+			facetAtts = this._getFacetAtts($item);
 		return this.remove({
-			'name': name,
-			'options': [option]
+			'name': facetAtts.name,
+			'options': [facetAtts.option]
 		});
+	},
+	'_getFacetAtts': function(element){
+		element = element instanceof $ ? element.get(0) : element;
+		return {
+			'name': element.getAttribute('data-facet'),
+			'option': element.getAttribute('data-facet-option')
+		};
 	},
 	'_getMarkup': function(){
 		var template = eval(this.options.templatesNamespace)['facetlist'];
@@ -79,99 +149,168 @@ $.widget('upcycle.facetlist', {
 		return context;
 	}
 });
-$.widget('upcycle.filterpanel', {
-	'defaultElement': '<div>',
+$.widget('upcycle.selectlist', $.upcycle.facetlist, {
 	'options': {
 		'templatesNamespace': 'upcycle.templates',
+		'eventDelay': 0
+	},
+	'_create': function(){
+		this._super();
+		this._setOptions(this.options);
+		this._on({'change': this._onSelectionChange});
+		this._on({'click [role="facet"] > [role="header"]': this._onToggleFacetHeader});
+		this._on({'click button.more, button.less': this.update});
+		this.element
+			.addClass('up-selectlist')
+			.removeClass('up-facetlist'); 
+		this._render();
+	},
+	'_render': function(){
+		this.element.html(this._getMarkup());
+		return this.update();
+	},
+	'update': function(){
+		var $scrollArea = this.element.find('.scroll-area'),
+			$viewport = $scrollArea.find('.viewport'),
+			needsScrollbar = $viewport.prop('scrollHeight') > $viewport.prop('clientHeight'),
+			tinyscrollbar = $scrollArea.data('plugin_tinyscrollbar');
+		/**
+		 * More/Less
+		 */
+		$viewport.find('.up-facet-options').each(function(){
+			var $facetOptions = $(this);
+			if( $facetOptions.children().length > 4 ){
+				$facetOptions.moreless({
+					'minItems': 4
+				});
+			}
+		});
+		/**
+		 * Scrollbar
+		 */
+		$scrollArea.toggleClass('scrollable', needsScrollbar);
+		if(needsScrollbar && !tinyscrollbar){
+			$scrollArea.tinyscrollbar();
+		}else if(tinyscrollbar){
+			tinyscrollbar.update('relative');
+		}
+		return this;
+	},
+	'checkboxToggle': function(facets, stateValue, options){
+		var $changed = $(),
+			$checkboxes = this.element.find('[type="checkbox"]'),
+			checked,
+			checkbox;
+		options = options || {};
+		_(facets).each(function(f){
+			_(f.options).each(function(o){
+				checkbox = $checkboxes.filter('[data-facet="'+f.name+'"][data-facet-option="'+o+'"]').get(0);
+				if(checkbox){
+					checked = _.isBoolean(stateValue) ? stateValue : !checkbox.checked;
+					if(checked !== checkbox.checked)
+						$changed = $changed.add(checkbox);
+					checkbox.checked = checked;
+				}
+			});
+		});
+		if($changed.length && !options.silent)
+			$changed.trigger('change');
+		return this;
+	},
+	'checkboxToggleAll': function(stateValue, options){
+		var $changed = $(),
+			$checkboxes = this.element.find('[type="checkbox"]'),
+			checked;
+		options = options || {};
+		$checkboxes.each(function(i, checkbox){
+			checked = _.isBoolean(stateValue) ? stateValue : !checkbox.checked;
+			if(checked !== checkbox.checked)
+				$changed = $changed.add(checkbox);
+			checkbox.checked = checked;
+		});
+		if($changed.length && !options.silent)
+			this._onSelectionChange(null);
+		return this;
+	},
+	
+	'_triggerChangeEvent': function(event, selectedFacets){
+		this._trigger(':selection:changed', event, {'facets': selectedFacets});	
+	},
+	'_setOption': function(key, value){
+		this._super(key, value);
+		if(key === 'eventDelay'){
+			this._debouncedTriggerChangeEvent = _.debounce(this._triggerChangeEvent, this.options.eventDelay);
+		}
+	},
+	'_onToggleFacetHeader': function(event){
+		$(event.currentTarget).toggleClass('collapsed');
+		this.update();
+	},
+	'_onSelectionChange': function(event){
+		this._debouncedTriggerChangeEvent(event, this._getSelectedFacetList());
+	},
+	'_getSelectedFacetList': function(){
+		var selectedFacets = {},
+			selectedFacetList = [],
+			facet, name, option;
+		this.element.find('[type="checkbox"]').each(function(){
+			if( this.checked ){
+				name = this.getAttribute('data-facet');
+				option = this.getAttribute('data-facet-option');	
+				if(selectedFacets.hasOwnProperty(name)){
+					selectedFacets[name].push( option );
+				}else{
+					selectedFacets[name] = [option];
+				}
+			}
+		});
+		selectedFacetList = _(selectedFacets).reduce(function(memo, options, name){
+			facet = _(this.options.facets).findWhere({'name': name});
+			if(facet){
+				memo.push({
+					'name': facet.name,
+					'displayName': facet.displayName,
+					'options': options
+				});
+			}
+			return memo;
+		}, [], this);
+		return selectedFacetList;
+	},
+	'_getMarkup': function(){
+		var template = eval(this.options.templatesNamespace)['selectlist']
+		return template(this.options.facets);
+	}
+});
+$.widget('upcycle.filterpanel', $.upcycle.selectlist, {
+	'options': {
+		'templatesNamespace': 'upcycle.templates',
+		'data': [],
 		'localizeLabels': true,
 		'label': 'FILTERPANEL_FILTERPANEL',
 		'clearAllLabel': 'FILTERPANEL_CLEAR_ALL',
 		'resultsLabel': 'FILTERPANEL_RESULTS',
-		'resultLabel': 'FILTERPANEL_RESULT',
-		'data': [],
-		'facets': [],
-		'selectedFacets': [],
-		'eventDelay': 0,
-		'dataExtraction': null
+		'resultLabel': 'FILTERPANEL_RESULT'
 	},
 	'_create': function(){
-		this._on({'click [data-action="clear-all"]': this.clear});
-		this._on({'selectlistchange': this._onFilterChange});
-		this.element.addClass('up-filterpanel');
+		this._super();
+		this._on({'click [data-action="clear-all"]': function(){this.checkboxToggleAll(false);}});
+		this.element
+			.addClass('up-filterpanel')
+			.removeClass('up-selectlist');
 		this._setOptions(this.options);
-		// this._render();
 	},
-	'set': function(facets, options){
-		var changedBoxes = [];
-		options = options || {};
-		facets = _.isArray(facets) ? facets : _.isObject(facets) ? [facets] : [];
-		this.element.find('[type="checkbox"]')
-			.each(function(){
-				var boxFacetName = this.getAttribute('data-facet'),
-					boxOptionValue = this.getAttribute('data-facet-option'),
-					setThisBox = _(facets).some(function(facet){
-						return facet.name === boxFacetName && _(facet.options).contains(boxOptionValue);
-					}),
-					newCheckedValue;
-				if(setThisBox){
-					newCheckedValue = _.isUndefined(options.toggle) ? !this.checked : !!options.toggle;
-					if(newCheckedValue !== this.checked){
-						this.checked = newCheckedValue;
-						changedBoxes.push(this);
-					}
-				}
-			});
-		if(changedBoxes.length && !options.silent)
-			$(changedBoxes).trigger('change');
-		return this;
+	'_triggerChangeEvent': function(event, selectedFacets, selectedData){
+		this._trigger(':selection:changed', event, {'facets': selectedFacets, 'data': selectedData});	
 	},
-	/**
-	 * Clears all checkboxes (deselects all filters)		
-	 * @return {jQuery} A jQuery object containing the element associated to this widget
-	 */
-	'clear': function(options){
-		var changed, $checkboxes;
-		options = options || {};
-		$checkboxes = this.element.find('[type="checkbox"]').each(function(index, checkbox){
-			if(checkbox.checked)
-				changed = true;
-			checkbox.checked = false;
-		});
-		if(changed && !options.silent)
-			$checkboxes.trigger('change');
-		return this;
-	},
-	'update': function(){
-		this.selectlist.update();
-		return this;
-	},
-	'_onFilterChange': function(event, data){
-		event.stopPropagation();
-		this.option('selectedFacets', data.selectedFacets);
-	},
-	'_triggerChangeEvent': function(event){
-		var filteredData = [],
-			selectedFacets = this.options.selectedFacets,
-			dataExtraction = this.options.dataExtraction;
-		if(!_.isEmpty(this.options.data)){
-			filteredData = _(this.options.data)
-				.chain()
-				.filter(function(obj){
-					return _(selectedFacets).every(function(facet){
-						return _(facet.options).some(function(option){
-							var actualValue = _(dataExtraction).isFunction() ? dataExtraction(obj, facet.name) : obj[facet.name];
-							return actualValue == option;
-						});
-					});
-				})
-				.value();
-		}
-		this._setOption('filteredData', filteredData);
+	'_onSelectionChange': function(event){
+		var selectedFacetList = this._getSelectedFacetList(),
+			selectedData = this._getSelectedData(selectedFacetList);
+		this._debouncedTriggerChangeEvent(event, selectedFacetList, selectedData);
 	},
 	'_setOption': function(key, value){
 		this._super(key, value);
 		if(key === 'data' || key === 'facets'){
-			this.clear();
 			_(this.options.facets).each(function(f){
 				var facetOptions = _(this.options.data)
 					.chain()
@@ -182,40 +321,21 @@ $.widget('upcycle.filterpanel', {
 			}, this);
 			this._render();
 		}
-		if(key === 'eventDelay'){
-			if( this.selectlist )
-				this.selectlist.option('eventDelay', value);
-		}
-		if(key === 'filteredData'){
-			var resultCount = '',
-				resultCountLabel;
-			if(!_.isEmpty(this.options.selectedFacets)){
-				resultCountLabel = value.length == 1 ? this.options.resultLabel : this.options.resultsLabel;
-				resultCount = $.i18n.prop(resultCountLabel, value.length);
-			} 
-			this.element.find('.up-filterpanel-header .up-filterpanel-result').text(resultCount);
-
-			this._trigger('change', event, {
-				'selectedFacets': this.options.selectedFacets,
-				'filteredData': this.options.filteredData
-			});
-		}
-
-		if(key === 'selectedFacets'){
-			this._triggerChangeEvent(event);
-		}
 	},
-	'_render': function(){
-		this.selectlist = this.element
-			.empty()
-			.append(this._getMarkup())
-			.find('.up-selectlist')
-				.selectlist({
-					'facets': this.options.facets,
-					'eventDelay': this.options.eventDelay
-				})
-				.data('upcycle-selectlist');
-		this.update();
+	'_getSelectedData': function(facets){
+		var data = this.options.data,
+			selectedData = [],
+			item;
+		_(facets).each(function(f){
+			_(f.options).each(function(o){
+				item = _(data).find(function(d){
+					return d[f.name] == o;
+				});
+				if(item)
+					selectedData.push(item);
+			});
+		});
+		return selectedData;
 	},
 	'_getMarkup': function(){
 		var filterMarkup = this._getTemplate('filterpanel')(this._getTemplateContext(this.options));
@@ -225,7 +345,9 @@ $.widget('upcycle.filterpanel', {
 		return eval(this.options.templatesNamespace)[name];
 	},
 	'_getTemplateContext': function(options){
-		var context = _({}).extend(options);
+		var context = _({
+			'selectlist': this._getTemplate('selectlist')(this.options.facets)
+		}).extend(options);
 		if(this.options.localizeLabels){
 			_(context).extend({
 				'label': $.i18n.prop(options.label),
@@ -368,105 +490,6 @@ Handlebars.registerHelper('tinyscrollbar', function(){
 	};
   
 })(jQuery);
-$.widget('upcycle.selectlist', $.upcycle.facetlist, {
-	'options': {
-		'templatesNamespace': 'upcycle.templates',
-		'selectedFacets': [],
-		'eventDelay': 0
-	},
-	'_create': function(){
-		this._super();
-		this._setOptions(this.options);
-		this._on({'change': this._onChange});
-		this._on({'click [role="facet"] > [role="header"]': this._onToggle});
-		this._on({'click button.more, button.less': this.update});
-		this.element
-			.addClass('up-selectlist')
-			.removeClass('up-facetlist'); 
-		this._render();
-	},
-	// '_render': function(){
-	// 	this.element.html(this._getMarkup());
-	// 	return this.update();
-	// },
-	'update': function(){
-		var $scrollArea = this.element.find('.scroll-area'),
-			$viewport = $scrollArea.find('.viewport'),
-			needsScrollbar = $viewport.prop('scrollHeight') > $viewport.prop('clientHeight'),
-			tinyscrollbar = $scrollArea.data('plugin_tinyscrollbar');
-		/**
-		 * More/Less
-		 */
-		$viewport.find('.up-facet-options').each(function(){
-			var $facetOptions = $(this);
-			if( $facetOptions.children().length > 4 ){
-				$facetOptions.moreless({
-					'minItems': 4
-				});
-			}
-		});
-		/**
-		 * Scrollbar
-		 */
-		$scrollArea.toggleClass('scrollable', needsScrollbar);
-		if(needsScrollbar && !tinyscrollbar){
-			$scrollArea.tinyscrollbar();
-		}else if(tinyscrollbar){
-			tinyscrollbar.update('relative');
-		}
-		return this;
-	},
-	'_triggerChangeEvent': function(event, selectedFacets){
-		if(!_.isEqual(selectedFacets, this.options.selectedFacets)){
-			this.options.selectedFacets = selectedFacets;
-			this._trigger('change', event, {'selectedFacets': this.options.selectedFacets});	
-		}
-	},
-	'_setOption': function(key, value){
-		this._super(key, value);
-		if(key === 'eventDelay'){
-			this._debouncedTriggerChangeEvent = _.debounce(this._triggerChangeEvent, this.options.eventDelay);
-		}
-		if(key === 'facets'){
-			this.options.facetOptionsCount = _.reduce(value, function(memo, facet){
-				return _.isArray(facet.options) ? memo + facet.options.length : memo;
-			}, 0);
-		}
-	},
-	'_onToggle': function(event){
-		$(event.currentTarget).toggleClass('collapsed');
-		this.update();
-	},
-	'_onChange': function(event){
-		var selectedFacets = {},
-			selectedFacetList = [],
-			facet, option;
-		this.element.find('[type="checkbox"]').each(function(){
-			if( this.checked ){
-				facet = this.getAttribute('data-facet'),
-				option = this.getAttribute('data-facet-option');	
-				if(selectedFacets.hasOwnProperty(facet)){
-					selectedFacets[facet].push( option );
-				}else{
-					selectedFacets[facet] = [option];
-				}
-			}
-		});
-		selectedFacetList = _(selectedFacets).map(function(options, name){
-			facet = _(this.options.facets).findWhere({'name': name});
-			return facet ? {
-				'name': name,
-				'displayName': facet.displayName,
-				'options': options
-			} : null;
-		}, this);
-		this._debouncedTriggerChangeEvent(event, selectedFacetList);
-	},
-	'_getMarkup': function(){
-		var template = eval(this.options.templatesNamespace)['selectlist']
-		return template(this.options.facets);
-	}
-});
 this["upcycle"] = this["upcycle"] || {};
 this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
 this["upcycle"]["templates"]["facetlist"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -524,7 +547,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.clearAllLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.clearAllLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</button>\n		<button data-action=\"close\" class=\"btn up-btn-close-x\">close</button>\n	</span>\n</div>\n<div class=\"up-selectlist\"></div>";
+    + "</button>\n		<button data-action=\"close\" class=\"btn up-btn-close-x\">close</button>\n	</span>\n</div>\n<div class=\"up-selectlist\">";
+  if (stack1 = helpers.selectlist) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.selectlist); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</div>";
   return buffer;
   });;
 this["upcycle"] = this["upcycle"] || {};

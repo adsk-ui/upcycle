@@ -55,7 +55,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.clearAllLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.clearAllLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</button>\n		<button data-action=\"close\" class=\"btn up-btn-close-x\">close</button>\n	</span>\n</div>\n<div class=\"up-selectlist\"></div>";
+    + "</button>\n		<button data-action=\"close\" class=\"btn up-btn-close-x\">close</button>\n	</span>\n</div>\n<div class=\"up-selectlist\">";
+  if (stack1 = helpers.selectlist) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.selectlist); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</div>";
   return buffer;
   });;
 this["upcycle"] = this["upcycle"] || {};

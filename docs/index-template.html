@@ -100,9 +100,9 @@
        * Facetlist
        * ===============================================
        */
-      facetlist = window.facetlist = $('.up-facetlist')
-        .on('facetlistremove', function(event, data){
-          filterpanel.set(data.removedFacets, {'toggle':false});
+      facetlist = window.facetlist = $('#examples > .up-facetlist')
+        .on('facetlist:facets:remove', function(event, data){
+          filterpanel.checkboxToggle(data.facets, false, {'silent': true});
         })
         .facetlist({
           // 'facets': selectListOptions.facets
@@ -113,14 +113,10 @@
        * ===============================================
        */ 
       filterpanel = window.filterpanel = $('#examples > .up-filterpanel')
+        .on('filterpanel:selection:changed', function(event, data){
+          facetlist.reset(data.facets, {'silent': true});
+        })
         .filterpanel(filterpanelOptions)
-        .on('filterpanelchange', function(event, data){
-          // console.log(event);
-          facetlist.option('facets', data.selectedFacets);
-        })
-        .on('change', function(){
-          // console.log('filters changing...');
-        })
         .data('upcycle-filterpanel');
       /**
        * Selectlist
@@ -128,9 +124,9 @@
        */
       selectlist = window.selectlist = $('#examples > .up-selectlist')
         .selectlist(selectListOptions)
-        .on('selectlistchange', function(event, data){
+        .on('selectlist:selection:changed', function(event, data){
           // console.log(event);
-          console.log(data);
+          // console.log(data);
         }).on('change', function(){
           // console.log('changing...');
         })

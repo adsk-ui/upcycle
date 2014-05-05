@@ -31,6 +31,7 @@
     "mocha-phantomjs": "^3.3.2",
     "gulp-define-module": "^0.1.0",
     "gulp-declare": "^0.2.0",
-    "gulp-less": "^1.2.3"
+    "gulp-less": "^1.2.3",
+    "gulp-order": "^1.0.6"
   }
 }

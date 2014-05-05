@@ -1,24 +1,23 @@
 $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 	'options': {
 		'templatesNamespace': 'upcycle.templates',
-		'selectedFacets': [],
 		'eventDelay': 0
 	},
 	'_create': function(){
 		this._super();
 		this._setOptions(this.options);
-		this._on({'change': this._onChange});
-		this._on({'click [role="facet"] > [role="header"]': this._onToggle});
+		this._on({'change': this._onSelectionChange});
+		this._on({'click [role="facet"] > [role="header"]': this._onToggleFacetHeader});
 		this._on({'click button.more, button.less': this.update});
 		this.element
 			.addClass('up-selectlist')
 			.removeClass('up-facetlist'); 
 		this._render();
 	},
-	// '_render': function(){
-	// 	this.element.html(this._getMarkup());
-	// 	return this.update();
-	// },
+	'_render': function(){
+		this.element.html(this._getMarkup());
+		return this.update();
+	},
 	'update': function(){
 		var $scrollArea = this.element.find('.scroll-area'),
 			$viewport = $scrollArea.find('.viewport'),
@@ -46,51 +45,86 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 		}
 		return this;
 	},
+	'checkboxToggle': function(facets, stateValue, options){
+		var $changed = $(),
+			$checkboxes = this.element.find('[type="checkbox"]'),
+			checked,
+			checkbox;
+		options = options || {};
+		_(facets).each(function(f){
+			_(f.options).each(function(o){
+				checkbox = $checkboxes.filter('[data-facet="'+f.name+'"][data-facet-option="'+o+'"]').get(0);
+				if(checkbox){
+					checked = _.isBoolean(stateValue) ? stateValue : !checkbox.checked;
+					if(checked !== checkbox.checked)
+						$changed = $changed.add(checkbox);
+					checkbox.checked = checked;
+				}
+			});
+		});
+		if($changed.length && !options.silent)
+			$changed.trigger('change');
+		return this;
+	},
+	'checkboxToggleAll': function(stateValue, options){
+		var $changed = $(),
+			$checkboxes = this.element.find('[type="checkbox"]'),
+			checked;
+		options = options || {};
+		$checkboxes.each(function(i, checkbox){
+			checked = _.isBoolean(stateValue) ? stateValue : !checkbox.checked;
+			if(checked !== checkbox.checked)
+				$changed = $changed.add(checkbox);
+			checkbox.checked = checked;
+		});
+		if($changed.length && !options.silent)
+			this._onSelectionChange(null);
+		return this;
+	},
+	
 	'_triggerChangeEvent': function(event, selectedFacets){
-		if(!_.isEqual(selectedFacets, this.options.selectedFacets)){
-			this.options.selectedFacets = selectedFacets;
-			this._trigger('change', event, {'selectedFacets': this.options.selectedFacets});	
-		}
+		this._trigger(':selection:changed', event, {'facets': selectedFacets});	
 	},
 	'_setOption': function(key, value){
 		this._super(key, value);
 		if(key === 'eventDelay'){
 			this._debouncedTriggerChangeEvent = _.debounce(this._triggerChangeEvent, this.options.eventDelay);
 		}
-		if(key === 'facets'){
-			this.options.facetOptionsCount = _.reduce(value, function(memo, facet){
-				return _.isArray(facet.options) ? memo + facet.options.length : memo;
-			}, 0);
-		}
 	},
-	'_onToggle': function(event){
+	'_onToggleFacetHeader': function(event){
 		$(event.currentTarget).toggleClass('collapsed');
 		this.update();
 	},
-	'_onChange': function(event){
+	'_onSelectionChange': function(event){
+		this._debouncedTriggerChangeEvent(event, this._getSelectedFacetList());
+	},
+	'_getSelectedFacetList': function(){
 		var selectedFacets = {},
 			selectedFacetList = [],
-			facet, option;
+			facet, name, option;
 		this.element.find('[type="checkbox"]').each(function(){
 			if( this.checked ){
-				facet = this.getAttribute('data-facet'),
+				name = this.getAttribute('data-facet');
 				option = this.getAttribute('data-facet-option');	
-				if(selectedFacets.hasOwnProperty(facet)){
-					selectedFacets[facet].push( option );
+				if(selectedFacets.hasOwnProperty(name)){
+					selectedFacets[name].push( option );
 				}else{
-					selectedFacets[facet] = [option];
+					selectedFacets[name] = [option];
 				}
 			}
 		});
-		selectedFacetList = _(selectedFacets).map(function(options, name){
+		selectedFacetList = _(selectedFacets).reduce(function(memo, options, name){
 			facet = _(this.options.facets).findWhere({'name': name});
-			return facet ? {
-				'name': name,
-				'displayName': facet.displayName,
-				'options': options
-			} : null;
-		}, this);
-		this._debouncedTriggerChangeEvent(event, selectedFacetList);
+			if(facet){
+				memo.push({
+					'name': facet.name,
+					'displayName': facet.displayName,
+					'options': options
+				});
+			}
+			return memo;
+		}, [], this);
+		return selectedFacetList;
 	},
 	'_getMarkup': function(){
 		var template = eval(this.options.templatesNamespace)['selectlist']
