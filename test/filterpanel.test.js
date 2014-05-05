@@ -45,75 +45,25 @@ describe('filterpanel', function(){
     expect(facets).to.have.length(2);
     expect(facets[0].options).to.have.length(0);
   });
-  it('includes selected facets with change events', function(done){
-    filterpanel.option({
-      'data': filterOptions
-    });
-    filterpanel.element.one('filterpanelchange', function(event, data){
-      expect(data.selectedFacets[0].options).to.have.length(1);
-      done();
-    });
+  it('renders selectlist internally', function(){
+    filterpanel.reset();
+    filterpanel.option(filterOptions);
     var $checkboxes = filterpanel.element.find('[type="checkbox"]');
-    $checkboxes[0].checked = true;
-    $checkboxes.eq(0).trigger('change');
+    expect($checkboxes).to.have.length(7);
   });
   it('includes filtered dataset with change events', function(done){
-    filterpanel.option('data', filterOptions.data);
-    filterpanel.element.one('filterpanelchange', function(event, data){
-      expect(data.filteredData).not.to.be.undefined;
-      expect(data.filteredData).to.have.length(3);
+    filterpanel.option(filterOptions);
+    filterpanel.element.one('filterpanel:selection:changed', function(event, data){
+      expect(data.data).not.to.be.undefined;
+      expect(data.data).to.have.length(3);
+      expect(data.data[0].name).to.equal('Mike');
+      expect(data.data[1].name).to.equal('Aaron');
       done();
     });
     var $checkboxes = filterpanel.element.find('[type="checkbox"]');
     $checkboxes[0].checked = true;
     $checkboxes[1].checked = true;
     $checkboxes.eq(0).trigger('change');
-  });
-
-  it('#set toggles checkboxes', function(done){
-    filterpanel
-      .clear()
-      .option({'dataExtraction': null})
-      .element.one('filterpanelchange', function(event, data){
-        expect(data.selectedFacets[0].options).to.have.length(1);
-        expect(data.selectedFacets[0].options[0]).to.equal('Mike');
-        done();
-      });
-    // omitting arg after facets to select means, toggle those checkboxes
-    filterpanel.set({
-      'name': 'name',
-      'options': ['Mike']
-    });
-  });
-  
-  it('#set sets textboxes explicitly', function(done){
-    filterpanel
-      .clear()
-      .option({'dataExtraction': null})
-      .element.one('filterpanelchange', function(event, data){
-        expect(data.selectedFacets).to.have.length(0);
-        done();
-      });
-    // passing false means deselect the checkbox
-    filterpanel.set({
-      'name': 'name',
-      'options': ['Mike']
-    }, {'toggle': false});
-  });
-  it('#set sets multiple textboxes explicitly', function(done){
-    filterpanel
-      .clear()
-      .option({'dataExtraction': null})
-      .element.one('filterpanelchange', function(event, data){
-        expect(data.selectedFacets[0].options).to.be.length(2);
-        expect(data.selectedFacets[0].options[1]).to.equal('Aaron');
-        done();
-      });
-    // passing true means select the checkbox
-    filterpanel.set({
-      'name': 'name',
-      'options': ['Mike', 'Aaron']
-    }, {'toggle':true});
   });
 
   xit('provides dataExtraction option', function(done){

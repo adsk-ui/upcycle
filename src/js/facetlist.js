@@ -14,56 +14,124 @@ $.widget('upcycle.facetlist', {
 		this.element.html(this._getMarkup());
 		return this;
 	},
-	'add': function(facetsToAdd){
-		var facets = this.options.facets;
+	'add': function(facetsToAdd, options){
 		facetsToAdd = _.isArray(facetsToAdd) ? facetsToAdd : _.isObject(facetsToAdd) ? [facetsToAdd] : [];
-		
+		options = options || {};
+		var facets = this.options.facets,
+			added = [];
 		_(facetsToAdd).each(function(facetToAdd){
-			var existing = _(facets).findWhere({'name': facetToAdd.name});
+			var existing = _(facets).findWhere({'name': facetToAdd.name}),
+				preExistingOptionsLength;
 			if(existing){
+				preExistingOptionsLength = existing.options.length;
 				existing.options = _(existing.options.concat(facetToAdd.options)).uniq();
+				if(preExistingOptionsLength < existing.options.length)
+					added.push(facetToAdd);
 			}else{
 				facets.push(facetToAdd);
+				added.push(facetToAdd);
 			}
 		}, this);
-		return this._setOption('facets', facets);
+		if(added.length && !options.silent){
+			this._trigger(':facets:add', null, {
+				'facets': added
+			});
+		}
+		return this._setOption('facets', facets, options);
 	},
-	'remove': function(facetsToRemove){
+	'remove': function(facetsToRemove, options){
 		facetsToRemove = _.isArray(facetsToRemove) ? facetsToRemove : _.isObject(facetsToRemove) ? [facetsToRemove] : [];
-		var facets = _(this.options.facets).reject(function(facet){
-			var remove = _(facetsToRemove).findWhere({'name': facet.name});
-			if(remove){
-				facet.options = _(facet.options).difference(remove.options);
-			}
-			return !facet.options.length;
-		}, this);
-		this._trigger('remove', null, {
-			'removedFacets': facetsToRemove
-		});
-		return this._setOption('facets', facets);
+		options = options || {};
+		var remainingOptions,
+			removedOptions,
+			removed = [],
+			facets = _(this.options.facets).reject(function(facet){
+				var toRemove = _(facetsToRemove).findWhere({'name': facet.name});
+				if(toRemove){
+					remainingOptions = _(facet.options).difference(toRemove.options);
+					removedOptions = _(facet.options).intersection(toRemove.options);
+					facet.options = remainingOptions;
+					toRemove.options = removedOptions;
+					removed.push(toRemove);
+					return !remainingOptions.length;
+				}
+			});
+		if(removed.length && !options.silent){
+			this._trigger(':facets:remove', null, {
+				'facets': removed
+			});
+		}
+		return this._setOption('facets', facets, options);
 			
 	},
-	'reset': function(){
-		return this._setOption('facets', []);
+	// 'remove': function(facetsToRemove, options){
+	// 	var removed = [],
+	// 		facets = this.options.facets,
+	// 		match;
+	// 	options = options || {};
+	// 	facetsToRemove = _.isArray(facetsToRemove) ? facetsToRemove : _.isObject(facetsToRemove) ? [facetsToRemove] : [];
+	// 	_(facetsToRemove).each(function(facetToRemove){
+	// 		match =  _(facets).findWhere({'name': facetToRemove.name});
+	// 		if(match){
+	// 			var toRemoveOptions = _.intersection(facetToRemove.options, match.options);
+	// 			match.options = _.difference(facetToRemove.options, match.options);
+	// 			facetToRemove.options = toRemoveOptions;
+	// 			if(!match.options.length){
+	// 				facets = _(facets).without(match);
+	// 			}
+	// 			removed.push(facetToRemove);
+	// 		}
+	// 	});
+	// 	if(removed.length && !options.silent){
+	// 		this._trigger(':facets:remove', null, {
+	// 			'facets': removed
+	// 		});
+	// 	}
+	// 	return this._setOption('facets', facets, options);
+	// },
+	'reset': function(facets, options){
+		options = options || {};
+		if(!options.silent){
+			if(this.options.facets.length){
+				this._trigger(':facets:remove', null, {
+					'facets': this.options.facets
+				});
+			}
+			if(facets && facets.length){
+				this._trigger(':facets:add', null, {
+					'facets': facets
+				});
+			}
+		}
+		return this._setOption('facets', facets || [], options);
 	},
-	'_setOption': function(key, value){
+	'_setOption': function(key, value, options){
 		this._super(key, value);
+		options = options || {};
 		if(key === 'facets'){
 			this._render();
-			this._trigger('change', null, {
-				'facets': this.options.facets
-			});
+			if(!options.silent){
+				this._trigger(':facets:changed', null, {
+					'facets': this.options.facets
+				});
+			}
 		}
 		return this;
 	},
 	'_onRemove': function(event){
 		var $item = $(event.currentTarget).parent(),
-			name = $item.attr('data-facet'),
-			option = $item.attr('data-facet-option');
+			facetAtts = this._getFacetAtts($item);
 		return this.remove({
-			'name': name,
-			'options': [option]
+			'name': facetAtts.name,
+			'options': [facetAtts.option]
 		});
+	},
+	'_getFacetAtts': function(element){
+		element = element instanceof $ ? element.get(0) : element;
+		return {
+			'name': element.getAttribute('data-facet'),
+			'option': element.getAttribute('data-facet-option')
+		};
 	},
 	'_getMarkup': function(){
 		var template = eval(this.options.templatesNamespace)['facetlist'];

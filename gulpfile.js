@@ -9,6 +9,11 @@ var paths = {
         css: "src/css/*.css",
         jsDir:"src/js",
         js:"src/js/*.js",
+        jsOrder: ['**/base.js', 
+        '**/facetlist.js',
+        '**/selectlist.js',
+        '**/facetlist.js',
+        '**/*.js'],
         templates: "src/templates/*.hbs",
         lessDir: "src/less",
         less: "src/less/*.less"
@@ -48,6 +53,7 @@ var paths = {
 	testDir: "test",
     buildDir: "build"
 };
+
 var filePathRegex = /(\w+(?=\/)|\/)/g;
 gulp.task('clean', function(){
     gulp.src(paths.build.dir, {read: false})
@@ -94,6 +100,7 @@ gulp.task('img', function(){
  */
 gulp.task('js', function(){
     return gulp.src(paths.src.js)
+        .pipe(plugin.order(paths.src.jsOrder))
         .pipe(plugin.concat(paths.build.dir + '/upcycle.js'))
         .pipe(plugin.rename(function(path){
             path.dirname = '';
@@ -111,7 +118,7 @@ gulp.task('test', function() {
         .pipe(wiredep.stream({
             devDependencies: true
         }))
-        .pipe(plugin.inject(gulp.src(paths.src.js, {read: false}), {starttag:'<!-- inject:source:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
+        .pipe(plugin.inject(gulp.src(paths.src.js, {read: false}).pipe(plugin.order(paths.src.jsOrder)), {starttag:'<!-- inject:source:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
         .pipe(plugin.inject(gulp.src(paths.test.js, {read: false}), {starttag:'<!-- inject:tests:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
         .pipe(plugin.rename(paths.test.runner.replace(filePathRegex, '')))
         .pipe(gulp.dest(paths.testDir));
