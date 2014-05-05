@@ -19,7 +19,8 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 		return this.update();
 	},
 	'update': function(){
-		var $scrollArea = this.element.find('.scroll-area'),
+		var that = this,
+			$scrollArea = this.element.find('.scroll-area'),
 			$viewport = $scrollArea.find('.viewport'),
 			needsScrollbar = $viewport.prop('scrollHeight') > $viewport.prop('clientHeight'),
 			tinyscrollbar = $scrollArea.data('plugin_tinyscrollbar');
@@ -30,7 +31,7 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 			var $facetOptions = $(this);
 			if( $facetOptions.children().length > 4 ){
 				$facetOptions.moreless({
-					'minItems': 4
+					'minItems': that.options.moreLessMin
 				});
 			}
 		});
