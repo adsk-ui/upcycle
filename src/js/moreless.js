@@ -57,6 +57,11 @@
 			$.data(this, 'moreLess', $this);
 			methods[$this.settings.openByDefault ? 'more' : 'less'].call($this);
 		},
+		'destroy': function(){
+			var $this = this;
+			$this.more.remove();
+			$this.less.remove();
+		},
 		'update': function(){
 			var $this = this;
 			if( $this.clipItems ){
