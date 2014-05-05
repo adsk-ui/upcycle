@@ -55,7 +55,7 @@ describe('filterpanel', function(){
     filterpanel.option(filterOptions);
     filterpanel.element.one('filterpanel:selection:changed', function(event, data){
       expect(data.data).not.to.be.undefined;
-      expect(data.data).to.have.length(2);
+      expect(data.data).to.have.length(3);
       expect(data.data[0].name).to.equal('Mike');
       expect(data.data[1].name).to.equal('Aaron');
       done();

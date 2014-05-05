@@ -116,7 +116,7 @@
        */
       facetlist = window.facetlist = $('#examples > .up-facetlist')
         .on('facetlist:facets:remove', function(event, data){
-          filterpanel.checkboxToggle(data.facets, false, {'silent': true});
+          filterpanel.checkboxToggle(data.facets, false);
         })
         .facetlist({
           // 'facets': selectListOptions.facets

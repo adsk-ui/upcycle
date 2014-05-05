@@ -2,6 +2,7 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 	'options': {
 		'templatesNamespace': 'upcycle.templates',
 		'data': [],
+		'selectedData': [],
 		'localizeLabels': true,
 		'label': 'FILTERPANEL_FILTERPANEL',
 		'clearAllLabel': 'FILTERPANEL_CLEAR_ALL',
@@ -20,9 +21,11 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 		this._trigger(':selection:changed', event, {'facets': selectedFacets, 'data': selectedData});	
 	},
 	'_onSelectionChange': function(event){
-		var selectedFacetList = this._getSelectedFacetList(),
-			selectedData = this._getSelectedData(selectedFacetList);
-		this._debouncedTriggerChangeEvent(event, selectedFacetList, selectedData);
+		var selectedFacets = this._getSelectedFacetList(),
+			selectedData = this._getSelectedData(selectedFacets);
+		this._setOption('selectedFacets', selectedFacets);
+		this._setOption('selectedData', selectedData);
+		this._debouncedTriggerChangeEvent(event, selectedFacets, selectedData);
 	},
 	'_setOption': function(key, value){
 		this._super(key, value);
@@ -37,20 +40,28 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 			}, this);
 			this._render();
 		}
+		if(key === 'selectedData'){
+			var resultCount = '',
+				resultCountLabel;
+			if(!_.isEmpty(this.options.selectedFacets)){
+				resultCountLabel = value.length == 1 ? this.options.resultLabel : this.options.resultsLabel;
+				resultCount = $.i18n.prop(resultCountLabel, value.length);
+			} 
+			this.element.find('.up-filterpanel-header .up-filterpanel-result').text(resultCount);
+		}
 	},
-	'_getSelectedData': function(facets){
-		var data = this.options.data,
-			selectedData = [],
-			item;
-		_(facets).each(function(f){
-			_(f.options).each(function(o){
-				item = _(data).find(function(d){
-					return d[f.name] == o;
+	'_getSelectedData': function(selectedFacets){
+		var selectedData = _(this.options.data)
+			.chain()
+			.filter(function(obj){
+				return _(selectedFacets).every(function(facet){
+					return _(facet.options).some(function(option){
+						var actualValue = obj[facet.name];
+						return actualValue == option;
+					});
 				});
-				if(item)
-					selectedData.push(item);
-			});
-		});
+			})
+			.value();
 		return selectedData;
 	},
 	'_getMarkup': function(){

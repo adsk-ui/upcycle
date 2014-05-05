@@ -42,55 +42,56 @@ $.widget('upcycle.facetlist', {
 		}
 		return this._setOption('facets', facets, options);
 	},
-	// 'remove': function(facetsToRemove, options){
-	// 	facetsToRemove = _.isArray(facetsToRemove) ? facetsToRemove : _.isObject(facetsToRemove) ? [facetsToRemove] : [];
-	// 	options = options || {};
-	// 	var remainingOptions,
-	// 		removed = [],
-	// 		facets = _(this.options.facets).reject(function(facet){
-	// 			var remove = _(facetsToRemove).findWhere({'name': facet.name});
-	// 			if(remove){
-	// 				remainingOptions = _(facet.options).difference(remove.options);
-	// 				if(!remainingOptions.length){
-	// 					removed.push(facet);
-	// 					return true;
-	// 				}
-	// 				facet.options = remainingOptions;
-	// 			}
-	// 		}, this);
-	// 	if(removed.length && !options.silent){
-	// 		this._trigger(':facets:remove', null, {
-	// 			'facets': removed
-	// 		});
-	// 	}
-	// 	return this._setOption('facets', facets, options);
-			
-	// },
 	'remove': function(facetsToRemove, options){
-		var removed = [],
-			facets = this.options.facets,
-			match;
-		options = options || {};
 		facetsToRemove = _.isArray(facetsToRemove) ? facetsToRemove : _.isObject(facetsToRemove) ? [facetsToRemove] : [];
-		_(facetsToRemove).each(function(facetToRemove){
-			match =  _(facets).findWhere({'name': facetToRemove.name});
-			if(match){
-				var toRemoveOptions = _.intersection(facetToRemove.options, match.options);
-				match.options = _.difference(facetToRemove.options, match.options);
-				facetToRemove.options = toRemoveOptions;
-				if(!match.options.length){
-					facets = _(facets).without(match);
+		options = options || {};
+		var remainingOptions,
+			removedOptions,
+			removed = [],
+			facets = _(this.options.facets).reject(function(facet){
+				var toRemove = _(facetsToRemove).findWhere({'name': facet.name});
+				if(toRemove){
+					remainingOptions = _(facet.options).difference(toRemove.options);
+					removedOptions = _(facet.options).intersection(toRemove.options);
+					facet.options = remainingOptions;
+					toRemove.options = removedOptions;
+					removed.push(toRemove);
+					return !remainingOptions.length;
 				}
-				removed.push(facetToRemove);
-			}
-		});
+			});
 		if(removed.length && !options.silent){
 			this._trigger(':facets:remove', null, {
 				'facets': removed
 			});
 		}
 		return this._setOption('facets', facets, options);
+			
 	},
+	// 'remove': function(facetsToRemove, options){
+	// 	var removed = [],
+	// 		facets = this.options.facets,
+	// 		match;
+	// 	options = options || {};
+	// 	facetsToRemove = _.isArray(facetsToRemove) ? facetsToRemove : _.isObject(facetsToRemove) ? [facetsToRemove] : [];
+	// 	_(facetsToRemove).each(function(facetToRemove){
+	// 		match =  _(facets).findWhere({'name': facetToRemove.name});
+	// 		if(match){
+	// 			var toRemoveOptions = _.intersection(facetToRemove.options, match.options);
+	// 			match.options = _.difference(facetToRemove.options, match.options);
+	// 			facetToRemove.options = toRemoveOptions;
+	// 			if(!match.options.length){
+	// 				facets = _(facets).without(match);
+	// 			}
+	// 			removed.push(facetToRemove);
+	// 		}
+	// 	});
+	// 	if(removed.length && !options.silent){
+	// 		this._trigger(':facets:remove', null, {
+	// 			'facets': removed
+	// 		});
+	// 	}
+	// 	return this._setOption('facets', facets, options);
+	// },
 	'reset': function(facets, options){
 		options = options || {};
 		if(!options.silent){
@@ -286,6 +287,7 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 	'options': {
 		'templatesNamespace': 'upcycle.templates',
 		'data': [],
+		'selectedData': [],
 		'localizeLabels': true,
 		'label': 'FILTERPANEL_FILTERPANEL',
 		'clearAllLabel': 'FILTERPANEL_CLEAR_ALL',
@@ -304,9 +306,11 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 		this._trigger(':selection:changed', event, {'facets': selectedFacets, 'data': selectedData});	
 	},
 	'_onSelectionChange': function(event){
-		var selectedFacetList = this._getSelectedFacetList(),
-			selectedData = this._getSelectedData(selectedFacetList);
-		this._debouncedTriggerChangeEvent(event, selectedFacetList, selectedData);
+		var selectedFacets = this._getSelectedFacetList(),
+			selectedData = this._getSelectedData(selectedFacets);
+		this._setOption('selectedFacets', selectedFacets);
+		this._setOption('selectedData', selectedData);
+		this._debouncedTriggerChangeEvent(event, selectedFacets, selectedData);
 	},
 	'_setOption': function(key, value){
 		this._super(key, value);
@@ -321,20 +325,28 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 			}, this);
 			this._render();
 		}
+		if(key === 'selectedData'){
+			var resultCount = '',
+				resultCountLabel;
+			if(!_.isEmpty(this.options.selectedFacets)){
+				resultCountLabel = value.length == 1 ? this.options.resultLabel : this.options.resultsLabel;
+				resultCount = $.i18n.prop(resultCountLabel, value.length);
+			} 
+			this.element.find('.up-filterpanel-header .up-filterpanel-result').text(resultCount);
+		}
 	},
-	'_getSelectedData': function(facets){
-		var data = this.options.data,
-			selectedData = [],
-			item;
-		_(facets).each(function(f){
-			_(f.options).each(function(o){
-				item = _(data).find(function(d){
-					return d[f.name] == o;
+	'_getSelectedData': function(selectedFacets){
+		var selectedData = _(this.options.data)
+			.chain()
+			.filter(function(obj){
+				return _(selectedFacets).every(function(facet){
+					return _(facet.options).some(function(option){
+						var actualValue = obj[facet.name];
+						return actualValue == option;
+					});
 				});
-				if(item)
-					selectedData.push(item);
-			});
-		});
+			})
+			.value();
 		return selectedData;
 	},
 	'_getMarkup': function(){
