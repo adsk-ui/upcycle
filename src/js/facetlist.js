@@ -22,13 +22,13 @@ $.widget('upcycle.facetlist', {
 		 * More/Less
 		 */
 		var $facets = this.element.find('.up-facets')
-		if( $facets.children().length > this.options.moreLessMin ){
-			$facets.moreless({
-				'minItems': this.options.moreLessMin,
-				'linkContainer': this.options.moreLessLinkContainer,
-				'openByDefault': this.options.moreLessOpenByDefault
-			});
-		}
+		
+		$facets.moreless({
+			'minItems': this.options.moreLessMin,
+			'linkContainer': this.options.moreLessLinkContainer,
+			'openByDefault': this.options.moreLessOpenByDefault
+		});
+		
 		return this;		
 	},
 	'add': function(facetsToAdd, options){
