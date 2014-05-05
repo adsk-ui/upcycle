@@ -108,6 +108,9 @@ $.widget('upcycle.facetlist', {
 				});
 			}
 		}
+		if(key === 'moreLessMin'){
+			this._render();
+		}
 		return this;
 	},
 	'_onRemove': function(event){
