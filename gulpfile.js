@@ -9,7 +9,9 @@ var paths = {
         css: "src/css/*.css",
         jsDir:"src/js",
         js:"src/js/*.js",
-        jsOrder: ['**/base.js', 
+        jsOrder: [
+        '**/jquery.extensions.js',
+        '**/base.js', 
         '**/facetlist.js',
         '**/selectlist.js',
         '**/facetlist.js',
