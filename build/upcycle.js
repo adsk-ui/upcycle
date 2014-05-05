@@ -1,3 +1,34 @@
+(function($){
+	$.fn.positionRelativeTo = function( obj ){
+		var $trg = ( obj instanceof jQuery ) ? obj : $(obj),
+			$context = this,
+			trgPos = {top:0, left:0}, pos;
+		var safety = -100;
+		do{
+			pos = $context.position();
+			trgPos.top += pos.top;
+			trgPos.left += pos.left;
+			$context = $context.offsetParent();
+			safety++;
+		}while( $trg.length && !$context.is($trg) && !$context.is('body') );
+		return trgPos;
+	};
+	$.fn.countSamePositionY = function(stopAt){
+		var positions = [], toc = {}, top;
+		$.each(this, function(){
+			top = $(this).position().top;
+			if( !toc.hasOwnProperty(top) ){
+				if( stopAt && stopAt === positions.length )
+					return false;
+				toc[top] = true;
+				positions.push({'top': top, 'count': 1});
+			}else{
+				positions[positions.length - 1].count++;
+			}
+		});
+		return positions;
+	};
+})(jQuery);
 $.widget('upcycle.base', {
 	
 });
@@ -110,6 +141,9 @@ $.widget('upcycle.facetlist', {
 					'facets': this.options.facets
 				});
 			}
+		}
+		if(key === 'moreLessMin'){
+			this._render();
 		}
 		return this;
 	},
@@ -393,6 +427,19 @@ Handlebars.registerHelper('tinyscrollbar', function(){
 		},
 		'getSelector': function(obj){
 			return obj ? obj instanceof jQuery ? obj : $(obj) : null;
+		},
+		'getMinItems': function(){
+			var $this = this,
+				minItems = $this.settings.minItems,
+				minItemsByPosition = [];
+			if(_.isString(minItems)){
+				switch(minItems){
+					case "same-y":
+						minItemsByPosition = internal.items.call(this).countSamePositionY(1);
+						break;
+				}
+			}
+			return minItemsByPosition.length ? minItemsByPosition[0].count : minItems;
 		}
 	},
 	methods = {
@@ -431,16 +478,17 @@ Handlebars.registerHelper('tinyscrollbar', function(){
 			var $this = this,
 				$items = internal.items.call($this),
 				$item,
-				numberToClip = $items.length - $this.settings.minItems;
+				minItems = internal.getMinItems.call(this),
+				numberToClip = $items.length - minItems;
 			
 			$this.less.hide();
 			
 			if( numberToClip > 0 ){
 				$items.each(function(itemIndex, item){
 					$item = $(item);
-					if( itemIndex === $this.settings.minItems - 1 ){
+					if( itemIndex === minItems - 1 ){
 						$item.addClass('more-less-last');
-					}else if( itemIndex >= $this.settings.minItems ){
+					}else if( itemIndex >= minItems ){
 						$item.hide();
 					} 
 				});
@@ -452,17 +500,17 @@ Handlebars.registerHelper('tinyscrollbar', function(){
 		},
 		'more': function(){
 			var $this = this,
-				$items = internal.items.call($this);
+				$items = internal.items.call($this),
+				minItems = internal.getMinItems.call($this);
 			$items
 				.removeClass('more-less-last')
 				.show();
 			
 			$this.more.hide();
 			
-			if( $items.length > $this.settings.minItems ){
+			if( $items.length > minItems ){
 				if( $this.settings.less )
 					this.less.show();
-					// $this.$linkContainer.append($this.less);
 				$this.clipItems = false;	
 			}
 		},

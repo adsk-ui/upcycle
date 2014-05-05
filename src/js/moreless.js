@@ -16,6 +16,19 @@
 		},
 		'getSelector': function(obj){
 			return obj ? obj instanceof jQuery ? obj : $(obj) : null;
+		},
+		'getMinItems': function(){
+			var $this = this,
+				minItems = $this.settings.minItems,
+				minItemsByPosition = [];
+			if(_.isString(minItems)){
+				switch(minItems){
+					case "same-y":
+						minItemsByPosition = internal.items.call(this).countSamePositionY(1);
+						break;
+				}
+			}
+			return minItemsByPosition.length ? minItemsByPosition[0].count : minItems;
 		}
 	},
 	methods = {
@@ -54,16 +67,17 @@
 			var $this = this,
 				$items = internal.items.call($this),
 				$item,
-				numberToClip = $items.length - $this.settings.minItems;
+				minItems = internal.getMinItems.call(this),
+				numberToClip = $items.length - minItems;
 			
 			$this.less.hide();
 			
 			if( numberToClip > 0 ){
 				$items.each(function(itemIndex, item){
 					$item = $(item);
-					if( itemIndex === $this.settings.minItems - 1 ){
+					if( itemIndex === minItems - 1 ){
 						$item.addClass('more-less-last');
-					}else if( itemIndex >= $this.settings.minItems ){
+					}else if( itemIndex >= minItems ){
 						$item.hide();
 					} 
 				});
@@ -75,17 +89,17 @@
 		},
 		'more': function(){
 			var $this = this,
-				$items = internal.items.call($this);
+				$items = internal.items.call($this),
+				minItems = internal.getMinItems.call($this);
 			$items
 				.removeClass('more-less-last')
 				.show();
 			
 			$this.more.hide();
 			
-			if( $items.length > $this.settings.minItems ){
+			if( $items.length > minItems ){
 				if( $this.settings.less )
 					this.less.show();
-					// $this.$linkContainer.append($this.less);
 				$this.clipItems = false;	
 			}
 		},
