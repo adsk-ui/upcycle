@@ -454,12 +454,12 @@ Handlebars.registerHelper('tinyscrollbar', function(){
 			$this.settings = $.extend({}, defaults, options);
 			$this.settings.linkClass = $this.settings.linkClass ? ' ' + $this.settings.linkClass : '';
 			$this.$linkContainer = internal.getSelector($this.settings.linkContainer) || $this;
-			$this.more = $('<button class="btn-link more'+$this.settings.linkClass+'">'+$this.settings.more+'</button>')
+			$this.more = $('<button type="button" class="btn btn-link more'+$this.settings.linkClass+'">'+$this.settings.more+'</button>')
 				.click(function(event){
 					event.preventDefault();
 					methods.more.call($this);
 				}).hide();
-			$this.less = $('<button class="btn-link less'+$this.settings.linkClass+'">'+$this.settings.less+'</button>')
+			$this.less = $('<button type="button" class="btn btn-link less'+$this.settings.linkClass+'">'+$this.settings.less+'</button>')
 				.click(function(event){
 					event.preventDefault();
 					methods.less.call($this);
@@ -568,12 +568,13 @@ function program1(depth0,data) {
   }
 function program2(depth0,data,depth1) {
   
-  var buffer = "", stack1;
+  var buffer = "", stack1, stack2;
   buffer += "\n			<li class=\"up-facet\" data-facet=\""
     + escapeExpression(((stack1 = (depth1 && depth1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\" data-facet-option=\""
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "\">\n				<span class=\"up-facet-option\">"
+    + "\" data-facet-option=\"";
+  stack2 = (typeof depth0 === functionType ? depth0.apply(depth0) : depth0);
+  if(stack2 || stack2 === 0) { buffer += stack2; }
+  buffer += "\">\n				<span class=\"up-facet-option\">"
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
     + "</span><button role=\"button\" data-action=\"remove\" class=\"btn up-btn-close-x-small\">remove</button>\n			</li>\n			";
   return buffer;
