@@ -31,19 +31,21 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 		this._super(key, value);
 		if(key === 'data' || key === 'facets'){
 			_(this.options.facets).each(function(f){
-				var facetOptions = _(this.options.data)
-					.chain()
-					.pluck(f.name)
-					.uniq()
-					.value();
-				_.extend(f, {'options': facetOptions});
+				if( !_.isEmpty(this.options.data) ){
+					var facetOptions = _(this.options.data)
+						.chain()
+						.pluck(f.name)
+						.uniq()
+						.value();
+					_.extend(f, {'options': facetOptions});
+				}
 			}, this);
 			this._render();
 		}
 		if(key === 'selectedData'){
 			var resultCount = '',
 				resultCountLabel;
-			if(!_.isEmpty(this.options.selectedFacets)){
+			if(!_.isEmpty(this.options.selectedFacets) && !_.isEmpty(this.options.data)){
 				resultCountLabel = value.length == 1 ? this.options.resultLabel : this.options.resultsLabel;
 				resultCount = $.i18n.prop(resultCountLabel, value.length);
 			} 

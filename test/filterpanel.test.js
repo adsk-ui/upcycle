@@ -37,8 +37,10 @@ describe('filterpanel', function(){
 		expect(facets[1].options).to.have.length(4);
 	});
   it('does not attempt to determine facet options if data source not provided', function(){
+    filterpanel.reset();
     filterpanel.option({
-      'data': null
+      'data': null,
+      'facets': filterOptions.facets
     });
     var facets = filterpanel.option('facets');
     expect(facets).to.be.a('array');

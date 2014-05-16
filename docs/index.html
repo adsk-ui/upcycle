@@ -109,6 +109,13 @@
         'resultsLabel': 'FILTERPANEL_RESULTS',
         'resultLabel': 'FILTERPANEL_RESULT'
       };
+      var filterpanelOptions2 = {
+        'facets':[{
+          'name': 'name',
+          'displayName': 'Name',
+          'options': ["Hello", "hi"]
+        }]
+      }
       var facetlist, filterpanel, selectlist;
        /**
        * Facetlist
@@ -130,7 +137,7 @@
         .on('filterpanel:selection:changed', function(event, data){
           facetlist.reset(data.facets, {'silent': true});
         })
-        .filterpanel(filterpanelOptions)
+        .filterpanel(filterpanelOptions2)
         .data('upcycle-filterpanel');
       /**
        * Selectlist
