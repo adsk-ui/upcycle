@@ -187,6 +187,9 @@
   vertical-align: top;
   margin-top: 0.2em;
 }
+.up-filterpanel .up-filterpanel-header {
+  overflow: hidden;
+}
 .up-filterpanel .up-filterpanel-title {
   margin-right: 5px;
 }
