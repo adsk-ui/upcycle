@@ -40,12 +40,18 @@ describe('filterpanel', function(){
     filterpanel.reset();
     filterpanel.option({
       'data': null,
-      'facets': filterOptions.facets
+      'facets': [{
+        'name': 'name',
+        'displayName': 'Name'
+      },{
+        'name': 'age',
+        'displayName': 'Age'
+      }]
     });
     var facets = filterpanel.option('facets');
     expect(facets).to.be.a('array');
     expect(facets).to.have.length(2);
-    expect(facets[0].options).to.have.length(0);
+    expect(facets[0].options).to.be.undefined;
   });
   it('renders selectlist internally', function(){
     filterpanel.reset();
