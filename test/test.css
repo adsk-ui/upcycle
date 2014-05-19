@@ -1,0 +1,12 @@
+table.editable {
+  margin: 50px;
+}
+table.editable .odd {
+  background: #ddd;
+}
+table.editable .even {
+  background: #f5f5f5;
+}
+table.editable td {
+  padding: 10px;
+}

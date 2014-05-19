@@ -21,7 +21,9 @@ var paths = {
         less: "src/less/*.less"
 	},
 	test: {
+        dir: "test",
 		js:"test/*.js",
+        less:"test/*.less",
 		runnerTemplate: "test/runner-template.html",
 		runner: "test/index.html"
 	},
@@ -116,6 +118,10 @@ gulp.task('js', function(){
  * @return {[type]} [description]
  */
 gulp.task('test', function() {
+    gulp.src(paths.test.dir + '/test.less')
+        .pipe(plugin.less({paths: [paths.test.dir + '/test.less']}))
+        .pipe(gulp.dest(paths.test.dir));
+
     gulp.src(paths.test.runnerTemplate)
         .pipe(wiredep.stream({
             devDependencies: true
@@ -151,6 +157,6 @@ gulp.task('docs', function(){
 gulp.task('build', ['templates', 'js', 'less', 'img', 'docs', 'test']);
 gulp.task('watch', function () {
     gulp.watch(paths.themes.base.less, ['less']);
-    gulp.watch([paths.themes.base.css, paths.src.js], ['test']);
+    gulp.watch([paths.themes.base.css, paths.src.js, paths.test.less], ['test']);
     gulp.watch(paths.src.templates, ['templates']);
 });

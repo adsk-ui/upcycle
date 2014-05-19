@@ -24,10 +24,14 @@ $.widget('upcycle.editable', {
 	},
 	'_create': function(){
 		this._on({
-			'click .editable': this._onEdit
+			'click .editable': this._onEdit,
+			'change .editable': this._onEditChange
 		});
 	},
 	'_onEdit': function(event){
-		alert(event);
+		// $(event.currentTarget)
+	},
+	'_onEditChange': function(event){
+
 	}
 });
