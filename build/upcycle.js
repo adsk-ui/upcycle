@@ -30,7 +30,9 @@
 	};
 })(jQuery);
 $.widget('upcycle.base', {
-	
+	'options':{
+		'localizeLabels': true
+	}
 });
 $.widget('upcycle.facetlist', {
 	'options': {
@@ -312,37 +314,83 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 		return template(this.options.facets);
 	}
 });
-$.widget('upcycle.editable.view', {
+$.widget('upcycle.editpanel', $.upcycle.base, {
 	'options':{
-
+		'defaultElement': 'div',
+		'editElement': null
 	}, 
 	'_create': function(){
+		this._on({
+			'change': this._onEditChange
+		});
 		this._render();
 	},
 	'_render': function(){
 		this.element.html(this._getMarkup());
 	},
-	'_getMarkup': function(){
-		var template = upcycle.templates['editable-view'];
-		return template(this._getTemplateContext(this.options));
+	'_onEditChange': function(event){
+		this._trigger(':value:change', event, {
+			'newValue': event.target.value,
+			'editElement': this.options.editElement 
+		});
+		this._trigger(':done', event);
 	},
-	'_getTemplateContext': function(options){
-		var context = {};
+	'_getMarkup': function(){
+		var template = upcycle.templates['editable-editpanel'];
+		return template(this._getTemplateContext(this.options.editElement, this.options.localizeLabels));
+	},
+	'_getTemplateContext': function(editElement, localizeLabels){
+		var context = {},
+			newValueLabel, origValueLabel, newValuePlaceholder;
+		if(editElement){
+			newValueLabel = editElement.getAttribute('data-edit-new');
+			origValueLabel = editElement.getAttribute('data-edit-og');
+			newValuePlaceholder = editElement.getAttribute('data-edit-enter');
+			context = {
+				'newValueLabel': localizeLabels ? $.i18n.prop(newValueLabel) : newValueLabel,
+				'origValueLabel': localizeLabels ? $.i18n.prop(origValueLabel) : origValueLabel,
+				'newValuePlaceholder': localizeLabels ? $.i18n.prop(newValuePlaceholder) : newValuePlaceholder,
+				'origValue': editElement.getAttribute('data-edit-og-value')
+			};
+		}
 		return context;
+	},
+	'_destroy': function(){
+		this.element.remove();
 	}
 });
-$.widget('upcycle.editable', {
+
+
+$.widget('upcycle.editable', $.upcycle.base, {
 	'options': {
-		'view': 'upcycle.editable.view',
-		'viewContainer': null
+		'editWidgetName': 'editpanel',
+		'editWidgetContainer': null
 	},
 	'_create': function(){
 		this._on({
-			'click .editable': this._onEdit
+			'click .editable': this._initEditWidget
 		});
 	},
-	'_onEdit': function(event){
-		alert(event);
+	'_initEditWidget': function(event){
+		var editWidgetName = this.options.editWidgetName,
+			$container = this.options.editWidgetContainer ? $(this.options.editWidgetContainer) : this.element;
+		
+		this.editWidget = $.upcycle[this.options.editWidgetName]({
+			'editElement': event.target
+		});
+
+		$container
+			.on(this.editWidget.widgetEventPrefix+':value:change', this._updateTargetElement)
+			.on(this.editWidget.widgetEventPrefix+':done', this._destroyEditWidget)
+			.append(this.editWidget.element);
+
+	},
+	'_destroyEditWidget': function(){
+		this.editWidget.destroy();
+		this.editWidget = null;
+	},
+	'_updateTargetElement': function(event, data){
+		$(data.editElement).html(data.newValue);
 	}
 });
 $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
@@ -585,6 +633,50 @@ Handlebars.registerHelper('tinyscrollbar', function(){
 	};
   
 })(jQuery);
+this["upcycle"] = this["upcycle"] || {};
+this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
+this["upcycle"]["templates"]["editable-editpanel"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  
+  return "<span class=\"asterisk\"></span>";
+  }
+
+function program3(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n	<div class=\"bottom\">\n		<p>\n			";
+  if (stack1 = helpers.origValueLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.origValueLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "<br/><b>\"";
+  if (stack1 = helpers.origValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.origValue); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\"</b>\n		</p>\n		<button role=\"button\" data-action=\"revert\" class=\"btn locale\" data-i18n=\"EDITABLE_REVERT\"></button>\n	</div>\n	";
+  return buffer;
+  }
+
+  buffer += "<div>\n	<label class=\"white\">";
+  if (stack1 = helpers.newValueLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.newValueLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1);
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.origValue), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += ":</label><input type=\"textarea\" class=\"square\" placeholder=\"";
+  if (stack1 = helpers.newValuePlaceholder) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.newValuePlaceholder); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\"></input>\n	";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.origValue), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</div>\n";
+  return buffer;
+  });;
 this["upcycle"] = this["upcycle"] || {};
 this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
 this["upcycle"]["templates"]["facetlist"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {

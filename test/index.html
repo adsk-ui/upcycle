@@ -51,11 +51,22 @@
   <!-- endinject -->
 
   <script>
-    if (window.mochaPhantomJS) {
-      mochaPhantomJS.run();
-    } else {
-      mocha.run();
+  $.i18n.properties({
+    'name': 'language',
+    'path': '../src/i18n/',
+    'language': 'en-US',
+    'mode': 'map',
+    'callback': function(success){
+      if(_.isEmpty($.i18n.map))
+        return;
+      if (window.mochaPhantomJS) {
+        mochaPhantomJS.run();
+      } else {
+        mocha.run();
+      }
     }
+  }); 
+  
   </script>
 </body>
 </html>
