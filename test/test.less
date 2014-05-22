@@ -1,7 +1,15 @@
 #sandbox{
-	@import url('bower_components/bootstrap/less/bootstrap.less');
+	margin: 0;
+	  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	  font-size: 14px;
+	  line-height: 20px;
+	  color: #333333;
+	  background-color: #ffffff;
+	@import 'bower_components/bootstrap/less/bootstrap.less';
 }
-table.editable{
+
+
+table.upcycle-editable{
 	margin: 50px;
 	.odd{
 		background: #ddd;
@@ -12,4 +20,26 @@ table.editable{
 	td{
 		padding: 10px;
 	}
+}
+.upcycle-editpanel{
+	// position: absolute;
+	padding: 10px;
+	background: #ddd;
+	// .arrow{
+	// 	position: absolute;
+	// 	width: 0;
+	// 	height: 0;
+	// 	border-width: 11px;
+	// 	border-color: transparent;
+	// 	border-style: solid;
+	// }
+	// &.bottom{
+	// 	margin-top: 11px;
+	// 	.arrow{
+	// 		top: -22px;
+	// 		left: 50%;
+	// 		margin-left: -11px;
+	// 		border-bottom-color: rgba(0,0,0,0.8);
+	// 	}
+	// }
 }

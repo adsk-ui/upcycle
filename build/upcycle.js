@@ -31,7 +31,16 @@
 })(jQuery);
 $.widget('upcycle.base', {
 	'options':{
+		'templates': 'upcycle.templates',
+		'templateName': '',
 		'localizeLabels': true
+	},
+	'_getMarkup': function(){
+		var template = this._getTemplate();
+		return template(this._getTemplateContext.apply(this, arguments));
+	},
+	'_getTemplate': function(){
+		return eval(this.option('templates'))[this.option('templateName')];
 	}
 });
 $.widget('upcycle.facetlist', {
@@ -314,84 +323,129 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 		return template(this.options.facets);
 	}
 });
-$.widget('upcycle.editpanel', $.upcycle.base, {
-	'options':{
-		'defaultElement': 'div',
-		'editElement': null
-	}, 
-	'_create': function(){
-		this._on({
-			'change': this._onEditChange
-		});
-		this._render();
-	},
-	'_render': function(){
-		this.element.html(this._getMarkup());
-	},
-	'_onEditChange': function(event){
-		this._trigger(':value:change', event, {
-			'newValue': event.target.value,
-			'editElement': this.options.editElement 
-		});
-		this._trigger(':done', event);
-	},
-	'_getMarkup': function(){
-		var template = upcycle.templates['editable-editpanel'];
-		return template(this._getTemplateContext(this.options.editElement, this.options.localizeLabels));
-	},
-	'_getTemplateContext': function(editElement, localizeLabels){
-		var context = {},
-			newValueLabel, origValueLabel, newValuePlaceholder;
-		if(editElement){
-			newValueLabel = editElement.getAttribute('data-edit-new');
-			origValueLabel = editElement.getAttribute('data-edit-og');
-			newValuePlaceholder = editElement.getAttribute('data-edit-enter');
-			context = {
-				'newValueLabel': localizeLabels ? $.i18n.prop(newValueLabel) : newValueLabel,
-				'origValueLabel': localizeLabels ? $.i18n.prop(origValueLabel) : origValueLabel,
-				'newValuePlaceholder': localizeLabels ? $.i18n.prop(newValuePlaceholder) : newValuePlaceholder,
-				'origValue': editElement.getAttribute('data-edit-og-value')
-			};
-		}
-		return context;
-	},
-	'_destroy': function(){
-		this.element.remove();
-	}
-});
+// $.widget('upcycle.editpanel', $.upcycle.base, {
+// 	'options':{
+// 		'defaultElement': 'div',
+// 		'targetElement': null
+// 	}, 
+// 	'_create': function(){
+// 		this._setOption('targetElementInitialValue', this.option('targetElement').text());
+// 		this._on({
+// 			'change': this._onEditChange
+// 		});
+// 		this.element.addClass(this.widgetFullName);
+// 		this._render();
+// 	},
+// 	'_render': function(){
+// 		this.element.html(this._getMarkup());
+// 	},
+// 	'_onEditChange': function(event){
+// 		if(this.options.targetElementInitialValue !== event.target.value){
+// 			this._trigger(':value:change', event, {
+// 				'targetElementOldValue': this.option('targetElementInitialValue'),
+// 				'targetElementNewValue': event.target.value,
+// 				'targetElement': this.option('targetElement') 
+// 			});
+// 		}
+// 		this._trigger(':done', event);
+// 	},
+// 	'_getMarkup': function(){
+// 		var template = upcycle.templates['editable-editpanel'];
+// 		return template(this._getTemplateContext(this.option('targetElement'), this.option('localizeLabels')));
+// 	},
+// 	'_getTemplateContext': function(targetElement, localizeLabels){
+// 		var context = {},
+// 			newValueLabel, origValueLabel, newValuePlaceholder;
+// 		if(targetElement){
+// 			newValueLabel = targetElement.attr('data-edit-new');
+// 			origValueLabel = targetElement.attr('data-edit-og');
+// 			newValuePlaceholder = targetElement.attr('data-edit-enter');
+// 			context = {
+// 				'newValueLabel': localizeLabels ? $.i18n.prop(newValueLabel) : newValueLabel,
+// 				'origValueLabel': localizeLabels ? $.i18n.prop(origValueLabel) : origValueLabel,
+// 				'newValuePlaceholder': localizeLabels ? $.i18n.prop(newValuePlaceholder) : newValuePlaceholder,
+// 				'origValue': targetElement.attr('data-edit-og-value')
+// 			};
+// 		}
+// 		return context;
+// 	},
+// 	'_destroy': function(){
+// 		this.element.remove();
+// 	}
+// });
 
 
 $.widget('upcycle.editable', $.upcycle.base, {
 	'options': {
-		'editWidgetName': 'editpanel',
-		'editWidgetContainer': null
+		'templateName': 'editable-editpanel',
+		'widgetName': 'editpanel',
+		'widgetContainer': null,
+		'widgetPlacement': 'bottom'
 	},
 	'_create': function(){
 		this._on({
-			'click .editable': this._initEditWidget
+			'click .editable': this._onEditOpen
 		});
+		this.element.addClass(this.widgetFullName);
 	},
-	'_initEditWidget': function(event){
-		var editWidgetName = this.options.editWidgetName,
-			$container = this.options.editWidgetContainer ? $(this.options.editWidgetContainer) : this.element;
-		
-		this.editWidget = $.upcycle[this.options.editWidgetName]({
-			'editElement': event.target
-		});
+	'_onEditOpen': function(event){
+		event.stopPropagation();
+		this._initWidget(event.currentTarget);
+	},
+	'_onEditChange': function(event){
+		if(this.option('targetElementInitialValue') !== event.target.value){
+			this._updateTargetElement(this.$targetElement, event.target.value);
+			this._trigger(':value:change', event, {
+				'oldValue': this.option('targetElementInitialValue'),
+				'newValue': event.target.value,
+				'targetElement': this.option('targetElement') 
+			});
+		}
+		this._destroyWidget();
+	},
+	'_initWidget': function(targetElement){
+		if(this.$targetElement)
+			this._destroyWidget();
 
-		$container
-			.on(this.editWidget.widgetEventPrefix+':value:change', this._updateTargetElement)
-			.on(this.editWidget.widgetEventPrefix+':done', this._destroyEditWidget)
-			.append(this.editWidget.element);
-
+		var $targetElement = this.$targetElement = $(targetElement);
+		$targetElement
+			.popover({
+				'container': this.option('widgetContainer') || this.element,
+				'html': true,
+				'placement': this.option('widgetPlacement'),
+				'content': this._getMarkup($targetElement)
+			})
+			.popover('show')
+			.data('popover')
+				.tip()
+					.on('change', _.bind(this._onEditChange, this));
+		this.option('targetElementInitialValue', $targetElement.text());
 	},
-	'_destroyEditWidget': function(){
-		this.editWidget.destroy();
-		this.editWidget = null;
+	'_destroyWidget': function(){
+		this.$targetElement.data('popover').tip().off();
+		this.$targetElement.popover('destroy');
+		this.$targetElement = null;
 	},
-	'_updateTargetElement': function(event, data){
-		$(data.editElement).html(data.newValue);
-	}
+	'_updateTargetElement': function(targetElement, targetElementNewValue){
+		targetElement.text(targetElementNewValue);
+	},
+	'_getTemplateContext': function($targetElement){
+		var context = {},
+			localizeLabels = this.option('localizeLabels'),
+			newValueLabel, origValueLabel, newValuePlaceholder;
+		if($targetElement){
+			newValueLabel = $targetElement.attr('data-edit-new');
+			origValueLabel = $targetElement.attr('data-edit-og');
+			newValuePlaceholder = $targetElement.attr('data-edit-enter');
+			context = {
+				'newValueLabel': localizeLabels ? $.i18n.prop(newValueLabel) : newValueLabel,
+				'origValueLabel': localizeLabels ? $.i18n.prop(origValueLabel) : origValueLabel,
+				'newValuePlaceholder': localizeLabels ? $.i18n.prop(newValuePlaceholder) : newValuePlaceholder,
+				'origValue': $targetElement.attr('data-edit-og-value')
+			};
+		}
+		return context;
+	},
 });
 $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 	'options': {
@@ -649,7 +703,7 @@ function program1(depth0,data) {
 function program3(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n	<div class=\"bottom\">\n		<p>\n			";
+  buffer += "\n<div class=\"bottom\">\n	<p>\n		";
   if (stack1 = helpers.origValueLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.origValueLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
@@ -657,11 +711,11 @@ function program3(depth0,data) {
   if (stack1 = helpers.origValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.origValue); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\"</b>\n		</p>\n		<button role=\"button\" data-action=\"revert\" class=\"btn locale\" data-i18n=\"EDITABLE_REVERT\"></button>\n	</div>\n	";
+    + "\"</b>\n	</p>\n	<button role=\"button\" data-action=\"revert\" class=\"btn locale\" data-i18n=\"EDITABLE_REVERT\"></button>\n</div>\n";
   return buffer;
   }
 
-  buffer += "<div>\n	<label class=\"white\">";
+  buffer += "<label class=\"white\">";
   if (stack1 = helpers.newValueLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.newValueLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1);
@@ -671,10 +725,10 @@ function program3(depth0,data) {
   if (stack1 = helpers.newValuePlaceholder) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.newValuePlaceholder); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\"></input>\n	";
+    + "\"></input>\n";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.origValue), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</div>\n";
+  buffer += "\n\n";
   return buffer;
   });;
 this["upcycle"] = this["upcycle"] || {};

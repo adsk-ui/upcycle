@@ -1,5 +1,5 @@
 describe('editable', function(){
-	var table = '<table class="editable">' +
+	var table = '<table>' +
       '<thead>'+
         '<tr>'+
         	'<td>Name</td>'+
@@ -8,7 +8,7 @@ describe('editable', function(){
       '</thead>'+
       '<tbody>' +
         '<tr class="odd">' +
-          '<td>Mike</td>'+
+          '<td class="editable">Mike</td>'+
           '<td>Hello</td>'+
         '</tr>'+
         '<tr class="even">' +
@@ -23,10 +23,17 @@ describe('editable', function(){
     '</table>';
 
     var editable = $(table).appendTo('#sandbox').editable({
-      'editWidgetContainer': '#sandbox'
+      'widgetContainer': '#sandbox'
     }).data('upcycle-editable');
 
-    it('does something', function(){
-    	expect(true).to.be.true;
+    xit("triggers change event when the edited element's value changes", function(done){
+    	editable.element.one('editable:value:change', function(event, data){
+        expect(data.targetElement.text()).to.equal('Hiya');
+        done();
+      });
+      editable._onEditChange(null, {
+        'targetElement': $('#sandbox table.upcycle-editable td.editable').eq(1),
+        'targetElementNewValue': 'Hiya'
+      });
     });
 });

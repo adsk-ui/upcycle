@@ -1,79 +1,74 @@
-$.widget('upcycle.editpanel', $.upcycle.base, {
-	'options':{
-		'defaultElement': 'div',
-		'editElement': null
-	}, 
+$.widget('upcycle.editable', $.upcycle.base, {
+	'options': {
+		'templateName': 'editable-editpanel',
+		'widgetName': 'editpanel',
+		'widgetContainer': null,
+		'widgetPlacement': 'bottom'
+	},
 	'_create': function(){
 		this._on({
-			'change': this._onEditChange
+			'click .editable': this._onEditOpen
 		});
-		this._render();
+		this.element.addClass(this.widgetFullName);
 	},
-	'_render': function(){
-		this.element.html(this._getMarkup());
+	'_onEditOpen': function(event){
+		event.stopPropagation();
+		this._initWidget(event.currentTarget);
 	},
 	'_onEditChange': function(event){
-		this._trigger(':value:change', event, {
-			'newValue': event.target.value,
-			'editElement': this.options.editElement 
-		});
-		this._trigger(':done', event);
+		if(this.option('targetElementInitialValue') !== event.target.value){
+			this._updateTargetElement(this.$targetElement, event.target.value);
+			this._trigger(':value:change', event, {
+				'oldValue': this.option('targetElementInitialValue'),
+				'newValue': event.target.value,
+				'targetElement': this.option('targetElement') 
+			});
+		}
+		this._destroyWidget();
 	},
-	'_getMarkup': function(){
-		var template = upcycle.templates['editable-editpanel'];
-		return template(this._getTemplateContext(this.options.editElement, this.options.localizeLabels));
+	'_initWidget': function(targetElement){
+		if(this.$targetElement && this.$targetElement[0] === targetElement)
+			return;
+		if(this.$targetElement)
+			this._destroyWidget();
+
+		var $targetElement = this.$targetElement = $(targetElement);
+		$targetElement
+			.popover({
+				'container': this.option('widgetContainer') || this.element,
+				'html': true,
+				'placement': this.option('widgetPlacement'),
+				'content': this._getMarkup($targetElement)
+			})
+			.popover('show')
+			.data('popover')
+				.tip()
+					.on('change', _.bind(this._onEditChange, this));
+		this.option('targetElementInitialValue', $targetElement.text());
 	},
-	'_getTemplateContext': function(editElement, localizeLabels){
+	'_destroyWidget': function(){
+		this.$targetElement.data('popover').tip().off();
+		this.$targetElement.popover('destroy');
+		this.$targetElement = null;
+	},
+	'_updateTargetElement': function(targetElement, targetElementNewValue){
+		targetElement.text(targetElementNewValue);
+	},
+	'_getTemplateContext': function($targetElement){
 		var context = {},
+			localizeLabels = this.option('localizeLabels'),
 			newValueLabel, origValueLabel, newValuePlaceholder;
-		if(editElement){
-			newValueLabel = editElement.getAttribute('data-edit-new');
-			origValueLabel = editElement.getAttribute('data-edit-og');
-			newValuePlaceholder = editElement.getAttribute('data-edit-enter');
+		if($targetElement){
+			newValueLabel = $targetElement.attr('data-edit-new');
+			origValueLabel = $targetElement.attr('data-edit-og');
+			newValuePlaceholder = $targetElement.attr('data-edit-enter');
 			context = {
 				'newValueLabel': localizeLabels ? $.i18n.prop(newValueLabel) : newValueLabel,
 				'origValueLabel': localizeLabels ? $.i18n.prop(origValueLabel) : origValueLabel,
 				'newValuePlaceholder': localizeLabels ? $.i18n.prop(newValuePlaceholder) : newValuePlaceholder,
-				'origValue': editElement.getAttribute('data-edit-og-value')
+				'origValue': $targetElement.attr('data-edit-og-value')
 			};
 		}
 		return context;
 	},
-	'_destroy': function(){
-		this.element.remove();
-	}
-});
-
-
-$.widget('upcycle.editable', $.upcycle.base, {
-	'options': {
-		'editWidgetName': 'editpanel',
-		'editWidgetContainer': null
-	},
-	'_create': function(){
-		this._on({
-			'click .editable': this._initEditWidget
-		});
-	},
-	'_initEditWidget': function(event){
-		var editWidgetName = this.options.editWidgetName,
-			$container = this.options.editWidgetContainer ? $(this.options.editWidgetContainer) : this.element;
-		
-		this.editWidget = $.upcycle[this.options.editWidgetName]({
-			'editElement': event.target
-		});
-
-		$container
-			.on(this.editWidget.widgetEventPrefix+':value:change', this._updateTargetElement)
-			.on(this.editWidget.widgetEventPrefix+':done', this._destroyEditWidget)
-			.append(this.editWidget.element);
-
-	},
-	'_destroyEditWidget': function(){
-		this.editWidget.destroy();
-		this.editWidget = null;
-	},
-	'_updateTargetElement': function(event, data){
-		$(data.editElement).html(data.newValue);
-	}
 });

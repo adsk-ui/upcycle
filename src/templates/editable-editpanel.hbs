@@ -1,11 +1,10 @@
-<div>
-	<label class="white">{{newValueLabel}}{{#if origValue}}<span class="asterisk"></span>{{/if}}:</label><input type="textarea" class="square" placeholder="{{newValuePlaceholder}}"></input>
-	{{#if origValue}}
-	<div class="bottom">
-		<p>
-			{{origValueLabel}}<br/><b>"{{origValue}}"</b>
-		</p>
-		<button role="button" data-action="revert" class="btn locale" data-i18n="EDITABLE_REVERT"></button>
-	</div>
-	{{/if}}
+<label class="white">{{newValueLabel}}{{#if origValue}}<span class="asterisk"></span>{{/if}}:</label><input type="textarea" class="square" placeholder="{{newValuePlaceholder}}"></input>
+{{#if origValue}}
+<div class="bottom">
+	<p>
+		{{origValueLabel}}<br/><b>"{{origValue}}"</b>
+	</p>
+	<button role="button" data-action="revert" class="btn locale" data-i18n="EDITABLE_REVERT"></button>
 </div>
+{{/if}}
+

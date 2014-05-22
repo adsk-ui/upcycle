@@ -14,7 +14,7 @@ function program1(depth0,data) {
 function program3(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n	<div class=\"bottom\">\n		<p>\n			";
+  buffer += "\n<div class=\"bottom\">\n	<p>\n		";
   if (stack1 = helpers.origValueLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.origValueLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
@@ -22,11 +22,11 @@ function program3(depth0,data) {
   if (stack1 = helpers.origValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.origValue); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\"</b>\n		</p>\n		<button role=\"button\" data-action=\"revert\" class=\"btn locale\" data-i18n=\"EDITABLE_REVERT\"></button>\n	</div>\n	";
+    + "\"</b>\n	</p>\n	<button role=\"button\" data-action=\"revert\" class=\"btn locale\" data-i18n=\"EDITABLE_REVERT\"></button>\n</div>\n";
   return buffer;
   }
 
-  buffer += "<div>\n	<label class=\"white\">";
+  buffer += "<label class=\"white\">";
   if (stack1 = helpers.newValueLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.newValueLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1);
@@ -36,10 +36,10 @@ function program3(depth0,data) {
   if (stack1 = helpers.newValuePlaceholder) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.newValuePlaceholder); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\"></input>\n	";
+    + "\"></input>\n";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.origValue), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</div>\n";
+  buffer += "\n\n";
   return buffer;
   });;
 this["upcycle"] = this["upcycle"] || {};
