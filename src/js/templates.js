@@ -1,6 +1,6 @@
 this["upcycle"] = this["upcycle"] || {};
 this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
-this["upcycle"]["templates"]["editable-editpanel"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+this["upcycle"]["templates"]["editable"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
@@ -15,14 +15,18 @@ function program3(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n<div class=\"bottom\">\n	<p>\n		";
-  if (stack1 = helpers.origValueLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.origValueLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  if (stack1 = helpers.defaultValueLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.defaultValueLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
     + "<br/><b>\"";
-  if (stack1 = helpers.origValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.origValue); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.defaultValue); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\"</b>\n	</p>\n	<button role=\"button\" data-action=\"revert\" class=\"btn locale\" data-i18n=\"EDITABLE_REVERT\"></button>\n</div>\n";
+    + "\"</b>\n	</p>\n	<button role=\"button\" data-action=\"revert\" class=\"btn locale\">";
+  if (stack1 = helpers.defaultButtonLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.defaultButtonLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</button>\n</div>\n";
   return buffer;
   }
 
@@ -30,14 +34,14 @@ function program3(depth0,data) {
   if (stack1 = helpers.newValueLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.newValueLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1);
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.origValue), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.defaultValue), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += ":</label><input type=\"textarea\" class=\"square\" placeholder=\"";
+  buffer += ":</label><input type=\"text\" placeholder=\"";
   if (stack1 = helpers.newValuePlaceholder) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.newValuePlaceholder); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
     + "\"></input>\n";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.origValue), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
+  stack1 = helpers.unless.call(depth0, (depth0 && depth0.currentValueIsDefault), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n\n";
   return buffer;

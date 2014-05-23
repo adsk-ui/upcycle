@@ -13,7 +13,7 @@ describe('editable', function(){
         '</tr>'+
         '<tr class="even">' +
           '<td>Aaron</td>'+
-          '<td class="editable" data-edit-new="EDITPANEL_NEW_VALUE" data-edit-enter="EDITPANEL_ENTER_VALUE" data-edit-og="EDITPANEL_OG_VALUE" data-edit-og-value="Yo">Hi</td>'+
+          '<td class="editable" data-new-label="EDITABLE_NEW_VALUE" data-new-placeholder="EDITABLE_NEW_VALUE_PLACEHOLDER" data-default-label="EDITABLE_DEFAULT_VALUE" data-default="Yo">Hi</td>'+
         '</tr>'+
         '<tr class="odd">' +
           '<td>Eddie</td>'+
@@ -26,14 +26,21 @@ describe('editable', function(){
       'widgetContainer': '#sandbox'
     }).data('upcycle-editable');
 
-    xit("triggers change event when the edited element's value changes", function(done){
+    it("triggers change event when the edited element's value changes", function(done){
     	editable.element.one('editable:value:change', function(event, data){
-        expect(data.targetElement.text()).to.equal('Hiya');
+        expect(data.element.innerHTML).to.equal('Hiya');
         done();
       });
-      editable._onEditChange(null, {
-        'targetElement': $('#sandbox table.upcycle-editable td.editable').eq(1),
-        'targetElementNewValue': 'Hiya'
-      });
+      editable.element
+        .find('.editable').eq(1)
+          .one('shown', function(){
+            var $this = $(this),
+                $popover = $this.data('popover').tip(),
+                $input = $popover.find('input[type="text"]');
+            _.defer(function(){
+              $input.attr('value', 'Hiya').trigger('change');
+            });
+          })
+          .trigger('click');
     });
 });

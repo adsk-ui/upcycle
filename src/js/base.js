@@ -1,14 +1,17 @@
 $.widget('upcycle.base', {
 	'options':{
-		'templates': 'upcycle.templates',
+		'templatesNamespace': 'upcycle.templates',
 		'templateName': '',
 		'localizeLabels': true
+	},
+	'_create': function(){
+		this.element.addClass(this.widgetFullName);
 	},
 	'_getMarkup': function(){
 		var template = this._getTemplate();
 		return template(this._getTemplateContext.apply(this, arguments));
 	},
-	'_getTemplate': function(){
-		return eval(this.option('templates'))[this.option('templateName')];
+	'_getTemplate': function(templateName){
+		return eval(this.option('templatesNamespace'))[templateName || this.option('templateName')];
 	}
 });

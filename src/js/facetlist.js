@@ -1,6 +1,7 @@
-$.widget('upcycle.facetlist', {
+$.widget('upcycle.facetlist', $.upcycle.base, {
 	'options': {
 		'templatesNamespace': 'upcycle.templates',
+		'templateName': 'facetlist',
 		'facets': [],
 		'moreLessMin': 4,
 		'moreLessLinkContainer': null,
@@ -9,12 +10,13 @@ $.widget('upcycle.facetlist', {
 		'label': 'FACETLIST_LABEL'
 	},
 	'_create': function(){
+		this._super();
 		this._on({'click [role="button"][data-action="remove"]': this._onRemove});
 		this.element.addClass('up-facetlist');
 		this._render();
 	},
 	'_render': function(){
-		this.element.html(this._getMarkup());
+		this.element.html(this._getMarkup(this.options));
 		return this.update();
 	},
 	'update': function(){
@@ -127,10 +129,6 @@ $.widget('upcycle.facetlist', {
 			'name': element.getAttribute('data-facet'),
 			'option': element.getAttribute('data-facet-option')
 		};
-	},
-	'_getMarkup': function(){
-		var template = eval(this.options.templatesNamespace)['facetlist'];
-		return template(this._getTemplateContext(this.options));
 	},
 	'_getTemplateContext': function(options){
 		var context = _({}).extend(options);

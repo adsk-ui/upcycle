@@ -31,21 +31,25 @@
 })(jQuery);
 $.widget('upcycle.base', {
 	'options':{
-		'templates': 'upcycle.templates',
+		'templatesNamespace': 'upcycle.templates',
 		'templateName': '',
 		'localizeLabels': true
+	},
+	'_create': function(){
+		this.element.addClass(this.widgetFullName);
 	},
 	'_getMarkup': function(){
 		var template = this._getTemplate();
 		return template(this._getTemplateContext.apply(this, arguments));
 	},
-	'_getTemplate': function(){
-		return eval(this.option('templates'))[this.option('templateName')];
+	'_getTemplate': function(templateName){
+		return eval(this.option('templatesNamespace'))[templateName || this.option('templateName')];
 	}
 });
-$.widget('upcycle.facetlist', {
+$.widget('upcycle.facetlist', $.upcycle.base, {
 	'options': {
 		'templatesNamespace': 'upcycle.templates',
+		'templateName': 'facetlist',
 		'facets': [],
 		'moreLessMin': 4,
 		'moreLessLinkContainer': null,
@@ -54,12 +58,13 @@ $.widget('upcycle.facetlist', {
 		'label': 'FACETLIST_LABEL'
 	},
 	'_create': function(){
+		this._super();
 		this._on({'click [role="button"][data-action="remove"]': this._onRemove});
 		this.element.addClass('up-facetlist');
 		this._render();
 	},
 	'_render': function(){
-		this.element.html(this._getMarkup());
+		this.element.html(this._getMarkup(this.options));
 		return this.update();
 	},
 	'update': function(){
@@ -173,10 +178,6 @@ $.widget('upcycle.facetlist', {
 			'option': element.getAttribute('data-facet-option')
 		};
 	},
-	'_getMarkup': function(){
-		var template = eval(this.options.templatesNamespace)['facetlist'];
-		return template(this._getTemplateContext(this.options));
-	},
 	'_getTemplateContext': function(options){
 		var context = _({}).extend(options);
 		if(this.options.localizeLabels){
@@ -189,7 +190,7 @@ $.widget('upcycle.facetlist', {
 });
 $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 	'options': {
-		'templatesNamespace': 'upcycle.templates',
+		'templateName': 'selectlist',
 		'eventDelay': 0
 	},
 	'_create': function(){
@@ -204,7 +205,7 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 		this._render();
 	},
 	'_render': function(){
-		this.element.html(this._getMarkup());
+		this.element.html(this._getMarkup(this.options.facets));
 		return this.update();
 	},
 	'update': function(){
@@ -317,131 +318,96 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 			return memo;
 		}, [], this);
 		return selectedFacetList;
-	},
-	'_getMarkup': function(){
-		var template = eval(this.options.templatesNamespace)['selectlist']
-		return template(this.options.facets);
 	}
 });
-// $.widget('upcycle.editpanel', $.upcycle.base, {
-// 	'options':{
-// 		'defaultElement': 'div',
-// 		'targetElement': null
-// 	}, 
-// 	'_create': function(){
-// 		this._setOption('targetElementInitialValue', this.option('targetElement').text());
-// 		this._on({
-// 			'change': this._onEditChange
-// 		});
-// 		this.element.addClass(this.widgetFullName);
-// 		this._render();
-// 	},
-// 	'_render': function(){
-// 		this.element.html(this._getMarkup());
-// 	},
-// 	'_onEditChange': function(event){
-// 		if(this.options.targetElementInitialValue !== event.target.value){
-// 			this._trigger(':value:change', event, {
-// 				'targetElementOldValue': this.option('targetElementInitialValue'),
-// 				'targetElementNewValue': event.target.value,
-// 				'targetElement': this.option('targetElement') 
-// 			});
-// 		}
-// 		this._trigger(':done', event);
-// 	},
-// 	'_getMarkup': function(){
-// 		var template = upcycle.templates['editable-editpanel'];
-// 		return template(this._getTemplateContext(this.option('targetElement'), this.option('localizeLabels')));
-// 	},
-// 	'_getTemplateContext': function(targetElement, localizeLabels){
-// 		var context = {},
-// 			newValueLabel, origValueLabel, newValuePlaceholder;
-// 		if(targetElement){
-// 			newValueLabel = targetElement.attr('data-edit-new');
-// 			origValueLabel = targetElement.attr('data-edit-og');
-// 			newValuePlaceholder = targetElement.attr('data-edit-enter');
-// 			context = {
-// 				'newValueLabel': localizeLabels ? $.i18n.prop(newValueLabel) : newValueLabel,
-// 				'origValueLabel': localizeLabels ? $.i18n.prop(origValueLabel) : origValueLabel,
-// 				'newValuePlaceholder': localizeLabels ? $.i18n.prop(newValuePlaceholder) : newValuePlaceholder,
-// 				'origValue': targetElement.attr('data-edit-og-value')
-// 			};
-// 		}
-// 		return context;
-// 	},
-// 	'_destroy': function(){
-// 		this.element.remove();
-// 	}
-// });
-
-
 $.widget('upcycle.editable', $.upcycle.base, {
 	'options': {
-		'templateName': 'editable-editpanel',
-		'widgetName': 'editpanel',
-		'widgetContainer': null,
-		'widgetPlacement': 'bottom'
+		'templateName': 'editable',
+		'popoverClass': '',
+		'popoverContainer': null,
+		'popoverPlacement': 'bottom',
+		'defaultButtonLabel': 'EDITABLE_DEFAULT_BUTTON_LABEL'
 	},
 	'_create': function(){
+		this._super();
 		this._on({
-			'click .editable': this._onEditOpen
+			'click .editable': this._onEditOpen,
+			'click [data-action="revert"]': this._onRevert
 		});
-		this.element.addClass(this.widgetFullName);
 	},
 	'_onEditOpen': function(event){
 		event.stopPropagation();
-		this._initWidget(event.currentTarget);
+		this._render(event.currentTarget);
 	},
-	'_onEditChange': function(event){
-		if(this.option('targetElementInitialValue') !== event.target.value){
-			this._updateTargetElement(this.$targetElement, event.target.value);
+	'_onEditChange': function(event, revert){
+		var $targetElement = this.$targetElement,
+			oldValue, newValue;
+		if(revert && $targetElement.text() !== this.option('targetElementDefaultValue')){
+			oldValue = $targetElement.text();
+			newValue = this.option('targetElementDefaultValue');
+		}else if(this.option('targetElementDefaultValue') !== event.target.value){
+			oldValue = $targetElement.text();
+			newValue = event.target.value;
+		}
+		if(newValue){
+			$targetElement.text(newValue);
 			this._trigger(':value:change', event, {
-				'oldValue': this.option('targetElementInitialValue'),
-				'newValue': event.target.value,
-				'targetElement': this.option('targetElement') 
+				'oldValue': oldValue,
+				'newValue': newValue,
+				'element': $targetElement[0],
+				'revert': revert || false
 			});
 		}
-		this._destroyWidget();
+		this._destroy();
 	},
-	'_initWidget': function(targetElement){
+	'_onRevert': function(event){
+		this._onEditChange(event, true);
+	},
+	'_render': function(targetElement){
+		if(this.$targetElement && this.$targetElement[0] === targetElement)
+			return;
 		if(this.$targetElement)
-			this._destroyWidget();
+			this._destroy();
 
-		var $targetElement = this.$targetElement = $(targetElement);
+		var $targetElement = this.$targetElement = $(targetElement),
+			popoverClass = this.option('popoverClass');
 		$targetElement
 			.popover({
-				'container': this.option('widgetContainer') || this.element,
+				'container': this.option('popoverContainer') || this.element,
 				'html': true,
-				'placement': this.option('widgetPlacement'),
+				'placement': this.option('popoverPlacement'),
 				'content': this._getMarkup($targetElement)
+			})
+			.on('show', function(){
+				var popover = $(this).data('popover');
+				popover.tip()
+					.addClass('editable-popover')
+					.addClass(popoverClass);
 			})
 			.popover('show')
 			.data('popover')
 				.tip()
 					.on('change', _.bind(this._onEditChange, this));
-		this.option('targetElementInitialValue', $targetElement.text());
+		this.option('targetElementDefaultValue', $targetElement.attr('data-default'));
 	},
-	'_destroyWidget': function(){
+	'_destroy': function(){
 		this.$targetElement.data('popover').tip().off();
 		this.$targetElement.popover('destroy');
 		this.$targetElement = null;
 	},
-	'_updateTargetElement': function(targetElement, targetElementNewValue){
-		targetElement.text(targetElementNewValue);
-	},
 	'_getTemplateContext': function($targetElement){
 		var context = {},
-			localizeLabels = this.option('localizeLabels'),
-			newValueLabel, origValueLabel, newValuePlaceholder;
+			attr = _.bind($targetElement.attr, $targetElement),
+			i18n = $.i18n.prop,
+			localizeLabels = this.option('localizeLabels');
 		if($targetElement){
-			newValueLabel = $targetElement.attr('data-edit-new');
-			origValueLabel = $targetElement.attr('data-edit-og');
-			newValuePlaceholder = $targetElement.attr('data-edit-enter');
 			context = {
-				'newValueLabel': localizeLabels ? $.i18n.prop(newValueLabel) : newValueLabel,
-				'origValueLabel': localizeLabels ? $.i18n.prop(origValueLabel) : origValueLabel,
-				'newValuePlaceholder': localizeLabels ? $.i18n.prop(newValuePlaceholder) : newValuePlaceholder,
-				'origValue': $targetElement.attr('data-edit-og-value')
+				'newValueLabel': localizeLabels ? i18n(attr('data-new-label')) : attr('data-new-label'),
+				'newValuePlaceholder': localizeLabels ? i18n(attr('data-new-placeholder')) : attr('data-new-placeholder'),
+				'defaultValueLabel': localizeLabels ? i18n(attr('data-default-label')) : attr('data-default-label'),
+				'defaultValue': attr('data-default'),
+				'defaultButtonLabel': localizeLabels ? i18n(this.option('defaultButtonLabel')) : this.option('defaultButtonLabel'),
+				'currentValueIsDefault': attr('data-default') === $targetElement.text()
 			};
 		}
 		return context;
@@ -449,7 +415,7 @@ $.widget('upcycle.editable', $.upcycle.base, {
 });
 $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 	'options': {
-		'templatesNamespace': 'upcycle.templates',
+		'templateName': 'filterpanel',
 		'data': [],
 		'selectedData': [],
 		'localizeLabels': true,
@@ -465,6 +431,10 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 			.addClass('up-filterpanel')
 			.removeClass('up-selectlist');
 		this._setOptions(this.options);
+	},
+	'_render': function(){
+		this.element.html(this._getMarkup(this.options));
+		return this.update();
 	},
 	'_triggerChangeEvent': function(event, selectedFacets, selectedData){
 		this._trigger(':selection:changed', event, {'facets': selectedFacets, 'data': selectedData});	
@@ -516,12 +486,11 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 		return selectedData;
 	},
 	'_getMarkup': function(){
-		var filterMarkup = this._getTemplate('filterpanel')(this._getTemplateContext(this.options));
-		return filterMarkup;
+		return this._getTemplate()(this._getTemplateContext(this.options));
 	},
-	'_getTemplate': function(name){
-		return eval(this.options.templatesNamespace)[name];
-	},
+	// '_getTemplate': function(name){
+	// 	return eval(this.options.templatesNamespace)[name];
+	// },
 	'_getTemplateContext': function(options){
 		var context = _({
 			'selectlist': this._getTemplate('selectlist')(this.options.facets)
@@ -689,7 +658,7 @@ Handlebars.registerHelper('tinyscrollbar', function(){
 })(jQuery);
 this["upcycle"] = this["upcycle"] || {};
 this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
-this["upcycle"]["templates"]["editable-editpanel"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+this["upcycle"]["templates"]["editable"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
@@ -704,14 +673,18 @@ function program3(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n<div class=\"bottom\">\n	<p>\n		";
-  if (stack1 = helpers.origValueLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.origValueLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  if (stack1 = helpers.defaultValueLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.defaultValueLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
     + "<br/><b>\"";
-  if (stack1 = helpers.origValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.origValue); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.defaultValue); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\"</b>\n	</p>\n	<button role=\"button\" data-action=\"revert\" class=\"btn locale\" data-i18n=\"EDITABLE_REVERT\"></button>\n</div>\n";
+    + "\"</b>\n	</p>\n	<button role=\"button\" data-action=\"revert\" class=\"btn locale\">";
+  if (stack1 = helpers.defaultButtonLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.defaultButtonLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</button>\n</div>\n";
   return buffer;
   }
 
@@ -719,14 +692,14 @@ function program3(depth0,data) {
   if (stack1 = helpers.newValueLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.newValueLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1);
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.origValue), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.defaultValue), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += ":</label><input type=\"textarea\" class=\"square\" placeholder=\"";
+  buffer += ":</label><input type=\"text\" placeholder=\"";
   if (stack1 = helpers.newValuePlaceholder) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.newValuePlaceholder); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
     + "\"></input>\n";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.origValue), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
+  stack1 = helpers.unless.call(depth0, (depth0 && depth0.currentValueIsDefault), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n\n";
   return buffer;

@@ -1,6 +1,6 @@
 $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 	'options': {
-		'templatesNamespace': 'upcycle.templates',
+		'templateName': 'filterpanel',
 		'data': [],
 		'selectedData': [],
 		'localizeLabels': true,
@@ -16,6 +16,10 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 			.addClass('up-filterpanel')
 			.removeClass('up-selectlist');
 		this._setOptions(this.options);
+	},
+	'_render': function(){
+		this.element.html(this._getMarkup(this.options));
+		return this.update();
 	},
 	'_triggerChangeEvent': function(event, selectedFacets, selectedData){
 		this._trigger(':selection:changed', event, {'facets': selectedFacets, 'data': selectedData});	
@@ -67,11 +71,7 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 		return selectedData;
 	},
 	'_getMarkup': function(){
-		var filterMarkup = this._getTemplate('filterpanel')(this._getTemplateContext(this.options));
-		return filterMarkup;
-	},
-	'_getTemplate': function(name){
-		return eval(this.options.templatesNamespace)[name];
+		return this._getTemplate()(this._getTemplateContext(this.options));
 	},
 	'_getTemplateContext': function(options){
 		var context = _({

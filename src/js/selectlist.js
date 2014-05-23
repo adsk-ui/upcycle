@@ -1,6 +1,6 @@
 $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 	'options': {
-		'templatesNamespace': 'upcycle.templates',
+		'templateName': 'selectlist',
 		'eventDelay': 0
 	},
 	'_create': function(){
@@ -15,7 +15,7 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 		this._render();
 	},
 	'_render': function(){
-		this.element.html(this._getMarkup());
+		this.element.html(this._getMarkup(this.options.facets));
 		return this.update();
 	},
 	'update': function(){
@@ -128,9 +128,5 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 			return memo;
 		}, [], this);
 		return selectedFacetList;
-	},
-	'_getMarkup': function(){
-		var template = eval(this.options.templatesNamespace)['selectlist']
-		return template(this.options.facets);
 	}
 });
