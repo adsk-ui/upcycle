@@ -29,7 +29,7 @@ $.widget('upcycle.editable', $.upcycle.base, {
 		}
 		if(newValue){
 			$targetElement.text(newValue);
-			
+
 			this._trigger(':value:change', event, {
 				'oldValue': oldValue,
 				'newValue': newValue,
@@ -86,7 +86,7 @@ $.widget('upcycle.editable', $.upcycle.base, {
 				'defaultValueLabel': localizeLabels ? i18n(attr('data-default-label')) : attr('data-default-label'),
 				'defaultValue': attr('data-default'),
 				'defaultButtonLabel': localizeLabels ? i18n(this.option('defaultButtonLabel')) : this.option('defaultButtonLabel'),
-				'currentValueIsDefault': attr('data-default') === $targetElement.text()
+				'currentValueIsDefault': attr('data-default') === $.trim($targetElement.text())
 			};
 		}
 		return context;
