@@ -5241,6 +5241,89 @@
 #sandbox .affix {
   position: fixed;
 }
+#sandbox .scroll-area .scrollbar .track {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: rgba(153, 153, 153, 0);
+}
+#sandbox .scroll-area .scrollbar .track .thumb {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #999999;
+}
+#sandbox .upcycle-portal .up-facetlist {
+  font-size: 12px;
+}
+#sandbox .upcycle-portal .up-facetlist [role="label"] {
+  display: block;
+  float: left;
+  margin-right: 5px;
+  line-height: 29px;
+}
+#sandbox .upcycle-portal .up-facetlist .up-facets {
+  float: left;
+  margin: 0;
+  padding: 0;
+  max-width: 80%;
+}
+#sandbox .upcycle-portal .up-facetlist .up-facet {
+  float: left;
+  background: white;
+  margin: 0 5px 5px 0;
+  padding: 4px 0px 4px 8px;
+  color: #999999;
+  border-radius: 3px;
+}
+#sandbox .upcycle-portal .up-filterpanel {
+  width: 275px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.1);
+  background-color: #fbfbfb;
+  background-image: -moz-linear-gradient(top, #ffffff, #f5f5f4);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f5f5f4));
+  background-image: -webkit-linear-gradient(top, #ffffff, #f5f5f4);
+  background-image: -o-linear-gradient(top, #ffffff, #f5f5f4);
+  background-image: linear-gradient(to bottom, #ffffff, #f5f5f4);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff5f5f4', GradientType=0);
+  padding: 8px 10px 15px;
+}
+#sandbox .upcycle-portal .up-filterpanel .up-filterpanel-header {
+  padding: 1px 0 5px;
+  border-bottom: solid 1px #eeeeee;
+  margin-bottom: 5px;
+  font-size: 12px;
+  line-height: 20px;
+}
+#sandbox .upcycle-portal .up-filterpanel .up-filterpanel-title {
+  font-size: 18px;
+}
+#sandbox .upcycle-portal .up-filterpanel [role="button"][data-action="clear-all"] {
+  font-size: inherit;
+}
+#sandbox .upcycle-portal .up-filterpanel .up-btn-close-x {
+  margin-right: -5px;
+}
+#sandbox .upcycle-portal .up-filterpanel .up-facet-header {
+  color: #555555;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+#sandbox .upcycle-portal .up-filterpanel .up-facet-options {
+  color: #6f6f6f;
+}
+#sandbox .upcycle-portal .up-filterpanel .up-selectlist .viewport {
+  max-height: 200px;
+}
+#sandbox .upcycle-portal .up-filterpanel .up-selectlist .divider {
+  margin: 5px 0;
+}
 table.upcycle-editable {
   margin: 50px;
 }

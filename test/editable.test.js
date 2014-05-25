@@ -22,7 +22,7 @@ describe('editable', function(){
       '</tbody>'+
     '</table>';
 
-    var editable = $(table).appendTo('#sandbox').editable({
+    var editable = $(table).appendTo('#sandbox-inner').editable({
       'widgetContainer': '#sandbox'
     }).data('upcycle-editable');
 
