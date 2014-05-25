@@ -1,10 +1,11 @@
 <label class="white">{{newValueLabel}}{{#if defaultValue}}<span class="asterisk"></span>{{/if}}:</label><input type="text" placeholder="{{newValuePlaceholder}}"></input>
 {{#unless currentValueIsDefault}}
 <div class="bottom">
-	<p>
-		{{defaultValueLabel}}<br/><b>"{{defaultValue}}"</b>
-	</p>
-	<button role="button" data-action="revert" class="btn locale">{{defaultButtonLabel}}</button>
+	<div>
+		<span role="label">{{defaultValueLabel}}</span>:<br/>
+		<strong>"{{defaultValue}}"</strong>
+	</div>
+	<button role="button" data-action="revert" class="btn">{{defaultButtonLabel}}</button>
 </div>
 {{/unless}}
 

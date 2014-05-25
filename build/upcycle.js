@@ -342,11 +342,11 @@ $.widget('upcycle.editable', $.upcycle.base, {
 	'_onEditChange': function(event, revert){
 		var $targetElement = this.$targetElement,
 			oldValue, newValue;
-		if(revert && $targetElement.text() !== this.option('targetElementDefaultValue')){
-			oldValue = $targetElement.text();
+		if(revert && $.trim($targetElement.text()) !== this.option('targetElementDefaultValue')){
+			oldValue = $.trim($targetElement.text());
 			newValue = this.option('targetElementDefaultValue');
 		}else if(this.option('targetElementDefaultValue') !== event.target.value){
-			oldValue = $targetElement.text();
+			oldValue = $.trim($targetElement.text());
 			newValue = event.target.value;
 		}
 		if(newValue){
@@ -670,15 +670,15 @@ function program1(depth0,data) {
 function program3(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n<div class=\"bottom\">\n	<p>\n		";
+  buffer += "\n<div class=\"bottom\">\n	<div>\n		<span role=\"label\">";
   if (stack1 = helpers.defaultValueLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.defaultValueLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "<br/><b>\"";
+    + "</span><br/>\n		<strong>\"";
   if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.defaultValue); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\"</b>\n	</p>\n	<button role=\"button\" data-action=\"revert\" class=\"btn locale\">";
+    + "\"</strong>\n	</div>\n	<button role=\"button\" data-action=\"revert\" class=\"btn\">";
   if (stack1 = helpers.defaultButtonLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.defaultButtonLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
