@@ -351,7 +351,7 @@ $.widget('upcycle.editable', $.upcycle.base, {
 		}
 		if(newValue){
 			$targetElement.text(newValue);
-			
+
 			this._trigger(':value:change', event, {
 				'oldValue': oldValue,
 				'newValue': newValue,
@@ -408,7 +408,7 @@ $.widget('upcycle.editable', $.upcycle.base, {
 				'defaultValueLabel': localizeLabels ? i18n(attr('data-default-label')) : attr('data-default-label'),
 				'defaultValue': attr('data-default'),
 				'defaultButtonLabel': localizeLabels ? i18n(this.option('defaultButtonLabel')) : this.option('defaultButtonLabel'),
-				'currentValueIsDefault': attr('data-default') === $targetElement.text()
+				'currentValueIsDefault': attr('data-default') === $.trim($targetElement.text())
 			};
 		}
 		return context;
@@ -697,7 +697,7 @@ function program3(depth0,data) {
   else { stack1 = (depth0 && depth0.newValuePlaceholder); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
     + "\"></input>\n";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.defaultValue), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
+  stack1 = helpers.unless.call(depth0, (depth0 && depth0.currentValueIsDefault), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n\n";
   return buffer;
