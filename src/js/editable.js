@@ -49,6 +49,7 @@ $.widget('upcycle.editable', $.upcycle.base, {
 			this._destroy();
 
 		var $targetElement = this.$targetElement = $(targetElement),
+			widgetFullName = this.widgetFullName,
 			popoverClass = this.option('popoverClass');
 		$targetElement
 			.popover({
@@ -60,7 +61,7 @@ $.widget('upcycle.editable', $.upcycle.base, {
 			.on('show', function(){
 				var popover = $(this).data('popover');
 				popover.tip()
-					.addClass('editable-popover')
+					.addClass(widgetFullName+'-popover')
 					.addClass(popoverClass);
 			})
 			.popover('show')
