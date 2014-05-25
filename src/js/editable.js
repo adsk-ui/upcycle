@@ -20,11 +20,11 @@ $.widget('upcycle.editable', $.upcycle.base, {
 	'_onEditChange': function(event, revert){
 		var $targetElement = this.$targetElement,
 			oldValue, newValue;
-		if(revert && $targetElement.text() !== this.option('targetElementDefaultValue')){
-			oldValue = $targetElement.text();
+		if(revert && $.trim($targetElement.text()) !== this.option('targetElementDefaultValue')){
+			oldValue = $.trim($targetElement.text());
 			newValue = this.option('targetElementDefaultValue');
 		}else if(this.option('targetElementDefaultValue') !== event.target.value){
-			oldValue = $targetElement.text();
+			oldValue = $.trim($targetElement.text());
 			newValue = event.target.value;
 		}
 		if(newValue){
