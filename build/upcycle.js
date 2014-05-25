@@ -323,6 +323,7 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 $.widget('upcycle.editable', $.upcycle.base, {
 	'options': {
 		'templateName': 'editable',
+		'textSelector': '',
 		'popoverClass': '',
 		'popoverContainer': null,
 		'popoverPlacement': 'bottom',
@@ -341,22 +342,18 @@ $.widget('upcycle.editable', $.upcycle.base, {
 	},
 	'_onEditChange': function(event, revert){
 		var $targetElement = this.$targetElement,
-			oldValue, newValue;
-		if(revert && $.trim($targetElement.text()) !== this.option('targetElementDefaultValue')){
-			oldValue = $.trim($targetElement.text());
-			newValue = this.option('targetElementDefaultValue');
-		}else if(this.option('targetElementDefaultValue') !== event.target.value){
-			oldValue = $.trim($targetElement.text());
-			newValue = event.target.value;
-		}
-		if(newValue){
-			$targetElement.text(newValue);
-
+			defaultValue = this.option('targetElementDefaultValue'),
+			oldValue = this._getTargetElementText(), 
+			newValue = revert ? defaultValue : event.target.value;
+		revert = defaultValue === newValue;
+		if(oldValue !== newValue){
+			$targetElement.attr('data-default', revert ? null : defaultValue);
+			this._setTargetElementText(newValue);
 			this._trigger(':value:change', event, {
 				'oldValue': oldValue,
 				'newValue': newValue,
 				'element': $targetElement[0],
-				'revert': revert || false
+				'revert': revert
 			});
 		}
 		this._destroy();
@@ -386,16 +383,37 @@ $.widget('upcycle.editable', $.upcycle.base, {
 					.addClass(widgetFullName+'-popover')
 					.addClass(popoverClass);
 			})
+			.addClass('editing')
 			.popover('show')
 			.data('popover')
 				.tip()
 					.on('change', _.bind(this._onEditChange, this));
-		this.option('targetElementDefaultValue', $targetElement.attr('data-default'));
+		this.option('targetElementDefaultValue', $targetElement.attr('data-default') || this._getTargetElementText());
 	},
 	'_destroy': function(){
+		delete this.options.targetElementDefaultValue;
+		this.$targetElement.removeClass('editing');
 		this.$targetElement.data('popover').tip().off();
 		this.$targetElement.popover('destroy');
 		this.$targetElement = null;
+	},
+	'_getTargetElementText': function(){
+		var $targetElement = this.$targetElement,
+			text = '';
+		if($targetElement){
+			text = this.option('textSelector') ? 
+				$targetElement.find(this.option('textSelector')).text() : 
+					$targetElement.text();
+		}
+		return $.trim(text);
+	},
+	'_setTargetElementText': function(text){
+		var $targetElement = this.$targetElement;
+		if($targetElement){
+			this.option('textSelector') ? 
+				$targetElement.find(this.option('textSelector')).text(text) : 
+					$targetElement.text(text);
+		}
 	},
 	'_getTemplateContext': function($targetElement){
 		var context = {},
@@ -409,7 +427,7 @@ $.widget('upcycle.editable', $.upcycle.base, {
 				'defaultValueLabel': localizeLabels ? i18n(attr('data-default-label')) : attr('data-default-label'),
 				'defaultValue': attr('data-default'),
 				'defaultButtonLabel': localizeLabels ? i18n(this.option('defaultButtonLabel')) : this.option('defaultButtonLabel'),
-				'currentValueIsDefault': attr('data-default') === $.trim($targetElement.text())
+				'currentValueIsDefault': _.isEmpty(attr('data-default'))
 			};
 		}
 		return context;
@@ -681,7 +699,7 @@ function program1(depth0,data) {
   return buffer;
   }
 
-  buffer += "<form>\n<label>";
+  buffer += "<label>";
   if (stack1 = helpers.newValueLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.newValueLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
@@ -689,7 +707,7 @@ function program1(depth0,data) {
   if (stack1 = helpers.newValuePlaceholder) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.newValuePlaceholder); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\"></input>\n</form>\n";
+    + "\"></input>\n";
   stack1 = helpers.unless.call(depth0, (depth0 && depth0.currentValueIsDefault), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n\n";
