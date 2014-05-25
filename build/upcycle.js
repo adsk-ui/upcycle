@@ -685,7 +685,7 @@ function program1(depth0,data) {
   if (stack1 = helpers.newValueLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.newValueLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</label>:<input type=\"text\" placeholder=\"";
+    + ":</label><input type=\"text\" placeholder=\"";
   if (stack1 = helpers.newValuePlaceholder) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.newValuePlaceholder); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
