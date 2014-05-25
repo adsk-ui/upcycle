@@ -29,6 +29,7 @@ $.widget('upcycle.editable', $.upcycle.base, {
 		}
 		if(newValue){
 			$targetElement.text(newValue);
+			
 			this._trigger(':value:change', event, {
 				'oldValue': oldValue,
 				'newValue': newValue,
