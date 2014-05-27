@@ -479,6 +479,7 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 					_.extend(f, {'options': facetOptions});
 				}
 			}, this);
+			this.checkboxToggleAll(false);
 			this._render();
 		}
 		if(key === 'selectedData'){
