@@ -347,7 +347,7 @@ $.widget('upcycle.editable', $.upcycle.base, {
 			newValue = revert ? defaultValue : event.target.value;
 		revert = defaultValue === newValue;
 		if(oldValue !== newValue){
-			$targetElement.attr('data-default', revert ? null : defaultValue);
+			$targetElement.attr('data-default-value', revert ? null : defaultValue);
 			this._setTargetElementText(newValue);
 			this._trigger(':value:change', event, {
 				'oldValue': oldValue,
@@ -388,7 +388,7 @@ $.widget('upcycle.editable', $.upcycle.base, {
 			.data('popover')
 				.tip()
 					.on('change', _.bind(this._onEditChange, this));
-		this.option('targetElementDefaultValue', $targetElement.attr('data-default') || this._getTargetElementText());
+		this.option('targetElementDefaultValue', $targetElement.attr('data-default-value') || this._getTargetElementText());
 	},
 	'_destroy': function(){
 		delete this.options.targetElementDefaultValue;
@@ -425,9 +425,9 @@ $.widget('upcycle.editable', $.upcycle.base, {
 				'newValueLabel': localizeLabels ? i18n(attr('data-new-label')) : attr('data-new-label'),
 				'newValuePlaceholder': localizeLabels ? i18n(attr('data-new-placeholder')) : attr('data-new-placeholder'),
 				'defaultValueLabel': localizeLabels ? i18n(attr('data-default-label')) : attr('data-default-label'),
-				'defaultValue': attr('data-default'),
+				'defaultValue': attr('data-default-value'),
 				'defaultButtonLabel': localizeLabels ? i18n(this.option('defaultButtonLabel')) : this.option('defaultButtonLabel'),
-				'currentValueIsDefault': _.isEmpty(attr('data-default'))
+				'currentValueIsDefault': _.isEmpty(attr('data-default-value'))
 			};
 		}
 		return context;

@@ -13,7 +13,7 @@ describe('editable', function(){
         '</tr>'+
         '<tr class="even">' +
           '<td>Aaron</td>'+
-          '<td class="editable" data-new-label="EDITABLE_NEW_VALUE" data-new-placeholder="EDITABLE_NEW_VALUE_PLACEHOLDER" data-default-label="EDITABLE_DEFAULT_VALUE" data-default="Yo">Hi</td>'+
+          '<td class="editable" data-new-label="EDITABLE_NEW_VALUE" data-new-placeholder="EDITABLE_NEW_VALUE_PLACEHOLDER" data-default-label="EDITABLE_DEFAULT_VALUE" data-default-value="Yo">Hi</td>'+
         '</tr>'+
         '<tr class="odd">' +
           '<td>Eddie</td>'+
