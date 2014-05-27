@@ -379,12 +379,14 @@ $.widget('upcycle.editable', $.upcycle.base, {
 				'content': this._getMarkup($targetElement)
 			})
 			.on('show', function(){
-				var popover = $(this).data('popover');
+				var popover = $(this).addClass('editing').data('popover');
 				popover.tip()
 					.addClass(widgetFullName+'-popover')
 					.addClass(popoverClass);
 			})
-			.addClass('editing')
+			.on('hidden', function(){
+				$(this).removeClass('editing');
+			})
 			.popover('show')
 			.data('popover')
 				.tip()
