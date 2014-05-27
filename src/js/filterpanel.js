@@ -12,10 +12,10 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 	'_create': function(){
 		this._super();
 		this._on({'click [data-action="clear-all"]': function(){this.checkboxToggleAll(false);}});
-		this.element
-			.addClass('up-filterpanel')
-			.removeClass('up-selectlist');
-		this._setOptions(this.options);
+		// this.element
+			// .addClass('up-filterpanel')
+			// .removeClass('up-selectlist');
+		// this._setOptions(this.options);
 	},
 	'_render': function(){
 		this.element.html(this._getMarkup(this.options));

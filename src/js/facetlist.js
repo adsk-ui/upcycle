@@ -12,7 +12,7 @@ $.widget('upcycle.facetlist', $.upcycle.base, {
 	'_create': function(){
 		this._super();
 		this._on({'click [role="button"][data-action="remove"]': this._onRemove});
-		this.element.addClass('up-facetlist');
+		// this.element.addClass('up-facetlist');
 		this._render();
 	},
 	'_render': function(){

@@ -6,6 +6,7 @@ $.widget('upcycle.base', {
 	},
 	'_create': function(){
 		this.element.addClass(this.widgetFullName);
+		this._setOptions(this.options);
 	},
 	'_getMarkup': function(){
 		var template = this._getTemplate();

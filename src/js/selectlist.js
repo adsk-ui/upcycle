@@ -5,14 +5,14 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 	},
 	'_create': function(){
 		this._super();
-		this._setOptions(this.options);
+		// this._setOptions(this.options);
 		this._on({'change': this._onSelectionChange});
 		this._on({'click [role="facet"] > [role="header"]': this._onToggleFacetHeader});
 		this._on({'click button.more, button.less': this.update});
-		this.element
-			.addClass('up-selectlist')
-			.removeClass('up-facetlist'); 
-		this._render();
+		// this.element
+			// .addClass('up-selectlist')
+			// .removeClass('up-facetlist'); 
+		// this._render();
 	},
 	'_render': function(){
 		this.element.html(this._getMarkup(this.options.facets));
