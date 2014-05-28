@@ -754,7 +754,7 @@ function program2(depth0,data,depth1) {
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\">\n				<span class=\"up-facet-option-name\">"
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "</span><button role=\"button\" data-action=\"remove\" class=\"btn up-btn-close-x-small\">remove</button>\n			</li>\n			";
+    + "</span><button role=\"button\" data-action=\"remove\" class=\"btn up-btn-close-x-small\">remove</button> \n			</li>\n			";
   return buffer;
   }
 
