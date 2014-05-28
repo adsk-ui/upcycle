@@ -9,7 +9,7 @@
 		  		</div>
 		  		<ul role="group" class="up-facet-options">
 		  			{{#each options}}
-			  		<li class="up-facet-option">
+			  		<li class="up-facet-option" data-facet="{{../name}}" data-facet-option="{{this}}">
 			  			<input data-facet="{{../name}}" data-facet-option="{{this}}" type="checkbox">
 			  			<span class="up-facet-option-name">{{this}}</span>
 			  		</li>

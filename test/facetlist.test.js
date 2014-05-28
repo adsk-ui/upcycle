@@ -118,6 +118,7 @@ describe('facetlist', function(){
 			expect(facets).to.have.length(1);
 			expect(facets[0].options).to.have.length(2);
 			expect(facets[0].options[0]).to.equal('James');
+			expect(facetlist.element.find('[data-facet="name"][data-facet-option="James"]')).to.have.length(1);
 			
 			facetlist.change({
 				'name': {
@@ -128,6 +129,8 @@ describe('facetlist', function(){
 			expect(facets).to.have.length(1);
 			expect(facets[0].options).to.have.length(2);
 			expect(facets[0].options[0]).to.equal('Joe');
+			expect(facetlist.element.find('[data-facet="name"][data-facet-option="James"]')).to.have.length(0);
+			expect(facetlist.element.find('[data-facet="name"][data-facet-option="Joe"]')).to.have.length(1);
 		});
 	});
 });

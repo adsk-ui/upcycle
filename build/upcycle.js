@@ -148,15 +148,21 @@ $.widget('upcycle.facetlist', $.upcycle.base, {
 		return this._setOption('facets', facets || [], options);
 	},
 	'change': function(facetsToChange){
-		var facets = this.option('facets'),
+		var element = this.element,
+			facets = this.option('facets'),
 			match;
 		_(facetsToChange).each(function(optionMap, facetName){
 			match = _(facets).find(function(f){return f.name === facetName;});
 			if(match){
 				_(optionMap).each(function(newValue, oldValue){
 					_(match.options).each(function(value, index){
-						if(value === oldValue)
+						if(value === oldValue){
 							match.options.splice(index, 1, newValue);
+							element.find('[data-facet="'+match.name+'"][data-facet-option="'+oldValue+'"]')
+								.attr('data-facet-option', newValue)
+								.find('.up-facet-option-name')
+									.text(newValue);
+						}
 					});
 				});
 			}
@@ -741,12 +747,12 @@ function program1(depth0,data) {
 function program2(depth0,data,depth1) {
   
   var buffer = "", stack1, stack2;
-  buffer += "\n			<li class=\"up-facet\" data-facet=\""
+  buffer += "\n			<li class=\"up-facet-option\" data-facet=\""
     + escapeExpression(((stack1 = (depth1 && depth1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "\" data-facet-option=\"";
   stack2 = (typeof depth0 === functionType ? depth0.apply(depth0) : depth0);
   if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "\">\n				<span class=\"up-facet-option\">"
+  buffer += "\">\n				<span class=\"up-facet-option-name\">"
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
     + "</span><button role=\"button\" data-action=\"remove\" class=\"btn up-btn-close-x-small\">remove</button>\n			</li>\n			";
   return buffer;
@@ -824,7 +830,11 @@ function program2(depth0,data) {
 function program3(depth0,data,depth1) {
   
   var buffer = "", stack1;
-  buffer += "\n			  		<li class=\"up-facet-option\">\n			  			<input data-facet=\""
+  buffer += "\n			  		<li class=\"up-facet-option\" data-facet=\""
+    + escapeExpression(((stack1 = (depth1 && depth1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\" data-facet-option=\""
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "\">\n			  			<input data-facet=\""
     + escapeExpression(((stack1 = (depth1 && depth1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "\" data-facet-option=\""
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))

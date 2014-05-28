@@ -99,15 +99,21 @@ $.widget('upcycle.facetlist', $.upcycle.base, {
 		return this._setOption('facets', facets || [], options);
 	},
 	'change': function(facetsToChange){
-		var facets = this.option('facets'),
+		var element = this.element,
+			facets = this.option('facets'),
 			match;
 		_(facetsToChange).each(function(optionMap, facetName){
 			match = _(facets).find(function(f){return f.name === facetName;});
 			if(match){
 				_(optionMap).each(function(newValue, oldValue){
 					_(match.options).each(function(value, index){
-						if(value === oldValue)
+						if(value === oldValue){
 							match.options.splice(index, 1, newValue);
+							element.find('[data-facet="'+match.name+'"][data-facet-option="'+oldValue+'"]')
+								.attr('data-facet-option', newValue)
+								.find('.up-facet-option-name')
+									.text(newValue);
+						}
 					});
 				});
 			}
