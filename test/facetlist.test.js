@@ -4,6 +4,7 @@ describe('facetlist', function(){
 	describe('#add', function(){
 		facetlist.reset();
 		it('adds facets to list', function(){
+			facetlist.reset();
 			facetlist.add({
 				'name': 'name',
 				'displayName': 'Name',
@@ -12,6 +13,11 @@ describe('facetlist', function(){
 			expect(facetlist.option('facets')).to.have.length(1);
 		});
 		it('does not create duplicates', function(){
+			facetlist.reset([{
+				'name': 'name',
+				'displayName': 'Name',
+				'options': ['Jimmy']
+			}]);
 			facetlist.add({
 				'name': 'name',
 				'displayName': 'Name',
@@ -98,6 +104,30 @@ describe('facetlist', function(){
 				'options': [70, 80]
 			}]);
 
+		});
+	});
+	describe('#change', function(){
+		it('changes facet options', function(){
+			var facets;
+			facetlist.reset([{
+				'name': 'name',
+				'options': ['James', 'Jimmy']
+			}]);
+			facets = facetlist.option('facets');
+			
+			expect(facets).to.have.length(1);
+			expect(facets[0].options).to.have.length(2);
+			expect(facets[0].options[0]).to.equal('James');
+			
+			facetlist.change({
+				'name': {
+					'James': 'Joe'
+				}
+			});
+
+			expect(facets).to.have.length(1);
+			expect(facets[0].options).to.have.length(2);
+			expect(facets[0].options[0]).to.equal('Joe');
 		});
 	});
 });

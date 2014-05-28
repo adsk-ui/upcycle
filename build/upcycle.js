@@ -61,7 +61,6 @@ $.widget('upcycle.facetlist', $.upcycle.base, {
 	'_create': function(){
 		this._super();
 		this._on({'click [role="button"][data-action="remove"]': this._onRemove});
-		// this.element.addClass('up-facetlist');
 		this._render();
 	},
 	'_render': function(){
@@ -148,6 +147,21 @@ $.widget('upcycle.facetlist', $.upcycle.base, {
 		}
 		return this._setOption('facets', facets || [], options);
 	},
+	'change': function(facetsToChange){
+		var facets = this.option('facets'),
+			match;
+		_(facetsToChange).each(function(optionMap, facetName){
+			match = _(facets).find(function(f){return f.name === facetName;});
+			if(match){
+				_(optionMap).each(function(newValue, oldValue){
+					_(match.options).each(function(value, index){
+						if(value === oldValue)
+							match.options.splice(index, 1, newValue);
+					});
+				});
+			}
+		});
+	},
 	'_setOption': function(key, value, options){
 		this._super(key, value);
 		options = options || {};
@@ -196,14 +210,9 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 	},
 	'_create': function(){
 		this._super();
-		// this._setOptions(this.options);
 		this._on({'change': this._onSelectionChange});
 		this._on({'click [role="facet"] > [role="header"]': this._onToggleFacetHeader});
 		this._on({'click button.more, button.less': this.update});
-		// this.element
-			// .addClass('up-selectlist')
-			// .removeClass('up-facetlist'); 
-		// this._render();
 	},
 	'_render': function(){
 		this.element.html(this._getMarkup(this.options.facets));
@@ -450,10 +459,6 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 	'_create': function(){
 		this._super();
 		this._on({'click [data-action="clear-all"]': function(){this.checkboxToggleAll(false);}});
-		// this.element
-			// .addClass('up-filterpanel')
-			// .removeClass('up-selectlist');
-		// this._setOptions(this.options);
 	},
 	'_render': function(){
 		this.element.html(this._getMarkup(this.options));
