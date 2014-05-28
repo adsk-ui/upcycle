@@ -54,6 +54,18 @@ describe('selectlist', function(){
 			}], true);
 			
 		});
+		it('triggers an event when forced', function(done){
+			selectlist.reset();
+			selectlist.add(data.facets);
+			selectlist.element.one('selectlist:selection:changed', function(event, data){
+				expect(data.facets).to.have.length(0);
+				done();
+			});
+			selectlist.checkboxToggle([{
+				'name': 'type',
+				'options': ['A value that doesnt exist']
+			}], true, {force:true});
+		});
 	});
 	describe("#checkboxToggleAll", function(){
 		it('selects all checkboxes', function(done){

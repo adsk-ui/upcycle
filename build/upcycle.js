@@ -273,8 +273,11 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 				}
 			});
 		});
-		if(($changed.length && !options.silent) || options.force)
+		if($changed.length && !options.silent){
 			$changed.trigger('change');
+		}else if(options.force){
+			this._onSelectionChange(null);
+		}
 		return this;
 	},
 	'checkboxToggleAll': function(stateValue, options){
