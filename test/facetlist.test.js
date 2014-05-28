@@ -111,7 +111,7 @@ describe('facetlist', function(){
 			var facets;
 			facetlist.reset([{
 				'name': 'name',
-				'options': ['James', 'Jimmy']
+				'options': ['James', 'Jimmy\\Jam']
 			}]);
 			facets = facetlist.option('facets');
 			
@@ -122,14 +122,14 @@ describe('facetlist', function(){
 			
 			facetlist.change({
 				'name': {
-					'James': 'Joe'
+					'Jimmy\\Jam': 'Joe'
 				}
 			});
 
 			expect(facets).to.have.length(1);
 			expect(facets[0].options).to.have.length(2);
-			expect(facets[0].options[0]).to.equal('Joe');
-			expect(facetlist.element.find('[data-facet="name"][data-facet-option="James"]')).to.have.length(0);
+			expect(facets[0].options[1]).to.equal('Joe');
+			expect(facetlist.element.find('[data-facet="name"][data-facet-option="Jimmy\\Jam"]')).to.have.length(0);
 			expect(facetlist.element.find('[data-facet="name"][data-facet-option="Joe"]')).to.have.length(1);
 		});
 	});

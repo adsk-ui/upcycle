@@ -109,7 +109,7 @@ $.widget('upcycle.facetlist', $.upcycle.base, {
 					_(match.options).each(function(value, index){
 						if(value === oldValue){
 							match.options.splice(index, 1, newValue);
-							element.find('[data-facet="'+match.name+'"][data-facet-option="'+oldValue+'"]')
+							element.find('[data-facet="'+match.name+'"][data-facet-option="'+$.upcycle.escapeForSelector(oldValue)+'"]')
 								.attr('data-facet-option', newValue)
 								.find('.up-facet-option-name')
 									.text(newValue);

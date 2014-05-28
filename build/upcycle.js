@@ -47,6 +47,10 @@ $.widget('upcycle.base', {
 		return eval(this.option('templatesNamespace'))[templateName || this.option('templateName')];
 	}
 });
+
+$.upcycle.escapeForSelector = function(val){
+	return typeof val === 'string' ? val.replace(/\\/, '\\\\') : val;
+}
 $.widget('upcycle.facetlist', $.upcycle.base, {
 	'options': {
 		'templatesNamespace': 'upcycle.templates',
@@ -158,7 +162,8 @@ $.widget('upcycle.facetlist', $.upcycle.base, {
 					_(match.options).each(function(value, index){
 						if(value === oldValue){
 							match.options.splice(index, 1, newValue);
-							element.find('[data-facet="'+match.name+'"][data-facet-option="'+oldValue+'"]')
+							// oldValue = oldValue.replace(/\\/, '\\\\');
+							element.find('[data-facet="'+match.name+'"][data-facet-option="'+$.upcycle.escapeForSelector(oldValue)+'"]')
 								.attr('data-facet-option', newValue)
 								.find('.up-facet-option-name')
 									.text(newValue);
@@ -261,8 +266,8 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 		_(facets).each(function(f){
 			_(f.options).each(function(o){
 				// find reusable solution for selecting attribute values with backslashes?
-				o = o.replace(/\\/, '\\\\');
-				checkbox = $checkboxes.filter('[data-facet="'+f.name+'"][data-facet-option="'+o+'"]').get(0);
+				// o = o.replace(/\\/, '\\\\');
+				checkbox = $checkboxes.filter('[data-facet="'+f.name+'"][data-facet-option="'+$.upcycle.escapeForSelector(o)+'"]').get(0);
 				if(checkbox){
 					checked = _.isBoolean(stateValue) ? stateValue : !checkbox.checked;
 					if(checked !== checkbox.checked)
@@ -493,7 +498,6 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 					_.extend(f, {'options': facetOptions});
 				}
 			}, this);
-			this.checkboxToggleAll(false);
 			this._render();
 		}
 		if(key === 'selectedData'){

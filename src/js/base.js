@@ -16,3 +16,7 @@ $.widget('upcycle.base', {
 		return eval(this.option('templatesNamespace'))[templateName || this.option('templateName')];
 	}
 });
+
+$.upcycle.escapeForSelector = function(val){
+	return typeof val === 'string' ? val.replace(/\\/, '\\\\') : val;
+}
