@@ -58,7 +58,7 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 				}
 			});
 		});
-		if($changed.length && !options.silent)
+		if(($changed.length && !options.silent) || options.force)
 			$changed.trigger('change');
 		return this;
 	},
@@ -73,7 +73,7 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 				$changed = $changed.add(checkbox);
 			checkbox.checked = checked;
 		});
-		if($changed.length && !options.silent)
+		if(($changed.length && !options.silent) || options.force)
 			this._onSelectionChange(null);
 		return this;
 	},

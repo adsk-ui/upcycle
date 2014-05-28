@@ -162,7 +162,6 @@ $.widget('upcycle.facetlist', $.upcycle.base, {
 					_(match.options).each(function(value, index){
 						if(value === oldValue){
 							match.options.splice(index, 1, newValue);
-							// oldValue = oldValue.replace(/\\/, '\\\\');
 							element.find('[data-facet="'+match.name+'"][data-facet-option="'+$.upcycle.escapeForSelector(oldValue)+'"]')
 								.attr('data-facet-option', newValue)
 								.find('.up-facet-option-name')
@@ -265,8 +264,6 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 		options = options || {};
 		_(facets).each(function(f){
 			_(f.options).each(function(o){
-				// find reusable solution for selecting attribute values with backslashes?
-				// o = o.replace(/\\/, '\\\\');
 				checkbox = $checkboxes.filter('[data-facet="'+f.name+'"][data-facet-option="'+$.upcycle.escapeForSelector(o)+'"]').get(0);
 				if(checkbox){
 					checked = _.isBoolean(stateValue) ? stateValue : !checkbox.checked;
@@ -276,7 +273,7 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 				}
 			});
 		});
-		if($changed.length && !options.silent)
+		if(($changed.length && !options.silent) || options.force)
 			$changed.trigger('change');
 		return this;
 	},
@@ -291,7 +288,7 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 				$changed = $changed.add(checkbox);
 			checkbox.checked = checked;
 		});
-		if($changed.length && !options.silent)
+		if(($changed.length && !options.silent) || options.force)
 			this._onSelectionChange(null);
 		return this;
 	},
