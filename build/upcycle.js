@@ -404,6 +404,10 @@ $.widget('upcycle.editable', $.upcycle.base, {
 					.addClass(widgetFullName+'-popover')
 					.addClass(popoverClass);
 			})
+			.on('shown', function(){
+				var popover = $(this).addClass('editing').data('popover');
+				popover.tip().find('input[type="text"]').focus();
+			})
 			.on('hidden', function(){
 				$(this).removeClass('editing');
 			})
