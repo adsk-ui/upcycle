@@ -3,6 +3,7 @@
 	var defaults = {
 		'openByDefault': false,
 		'minItems': 2,
+		'minHeight': null,
 		'itemClass': '',
 		'more': 'More',
 		'less': 'Less',
@@ -30,6 +31,10 @@
 			}
 			return minItemsByPosition.length ? minItemsByPosition[0].count : minItems;
 		}
+		// ,'getMinHeight': function(){
+		// 	var minHeight = this.options.minHeight;
+		// 	return typeof minHeight === 'number': minHeight : null;
+		// }
 	},
 	methods = {
 		'init': function(options){
@@ -73,11 +78,20 @@
 				$items = internal.items.call($this),
 				$item,
 				minItems = internal.getMinItems.call(this),
+				minHeight = this.settings.minHeight,
 				numberToClip = $items.length - minItems;
 			
 			$this.less.hide();
-			
-			if( numberToClip > 0 ){
+
+			if( minHeight !== null ){
+				$this.css({
+					'height': minHeight,
+					'overflow': 'hidden'
+				});
+				if( $this.settings.more )
+					$this.more.text( $this.settings.more ).show();
+
+			}else if( numberToClip > 0 ){
 				$items.each(function(itemIndex, item){
 					$item = $(item);
 					if( itemIndex === minItems - 1 ){
@@ -88,21 +102,31 @@
 				});
 				if( $this.settings.more )
 					$this.more.text( numberToClip + ' ' + $this.settings.more ).show();
-					// $this.$linkContainer.append($this.more.text( numberToClip + ' ' + $this.settings.more ));	
+
 				$this.clipItems = true;
 			}
 		},
 		'more': function(){
 			var $this = this,
 				$items = internal.items.call($this),
-				minItems = internal.getMinItems.call($this);
-			$items
-				.removeClass('more-less-last')
-				.show();
+				minItems = internal.getMinItems.call($this),
+				resetHeight = this.settings.minHeight !== null;
+			
+
+			if( resetHeight ){
+				$this.css({
+					'height': 'auto',
+					'overflow': 'visible'
+				});
+			}else{
+				$items
+					.removeClass('more-less-last')
+					.show();
+			}
 			
 			$this.more.hide();
 			
-			if( $items.length > minItems ){
+			if( $items.length > minItems || resetHeight ){
 				if( $this.settings.less )
 					this.less.show();
 				$this.clipItems = false;	

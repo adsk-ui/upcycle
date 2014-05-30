@@ -21,10 +21,17 @@ describe('editable', function(){
         '</tr>'+
       '</tbody>'+
     '</table>';
-
-    var editable = $(table).appendTo('#sandbox-inner').editable({
-      'widgetContainer': '#sandbox'
-    }).data('upcycle-editable');
+    
+    var editable;
+    
+    before(function(){
+      editable = $(table).appendTo('#sandbox-inner').editable({
+        'widgetContainer': '#sandbox'
+      }).data('upcycle-editable');
+    });
+    after(function(){
+      // editable.element.remove();
+    });
 
     it("triggers change event when the edited element's value changes", function(done){
     	editable.element.one('editable:value:change', function(event, data){

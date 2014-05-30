@@ -18,6 +18,9 @@
   /* White icons with optional class, or on hover/focus/active states of certain elements */
   /* move down carets for tabs */
 }
+#sandbox #sandbox-inner > * {
+  margin: 50px;
+}
 #sandbox .clearfix {
   *zoom: 1;
 }
@@ -5323,9 +5326,6 @@
 }
 #sandbox .upcycle-portal .up-filterpanel .up-selectlist .divider {
   margin: 5px 0;
-}
-table.upcycle-editable {
-  margin: 50px;
 }
 table.upcycle-editable .odd {
   background: #ddd;
