@@ -1,5 +1,17 @@
 (function($){
-
+	/**
+	 * Default settings
+	 * ================================
+	 * - openByDefault: show the element in its "more" state
+	 * - minItems: the number of items to show in the "less" state
+	 * - minHeight: if set, this overrides minItems and sets the element to a minimum height in the "less" state
+	 * - itemClass: if specified, this is a selector used to identify items to show more/less of
+	 * - more: Label text for the "More" link
+	 * - less: Label text for the "Less" link
+	 * - linkContainer: an element to put the more/less links; this will be the element itself if left unspecified
+	 * - linkClass: any custom CSS class to add to the more/less links
+	 * @type {Object}
+	 */
 	var defaults = {
 		'openByDefault': false,
 		'minItems': 2,
