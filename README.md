@@ -3,7 +3,7 @@ upcycle
 
 Setup
 ----------------------------
-1. Clone repo from GitHub
+1. Clone repo
 2. Install [Node](http://nodejs.org/), [Bower](http://bower.io) and [gulp](http://gulpjs.com/)
 3. Install bower dependencies (from command line in project root, type: bower install)
 4. Install npm dependencies (again from command line type: npm install)
