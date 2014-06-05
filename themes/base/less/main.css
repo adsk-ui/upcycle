@@ -1,0 +1,195 @@
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.clearfix:after {
+  clear: both;
+}
+.hide-text {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+.input-block-level {
+  display: block;
+  width: 100%;
+  min-height: 30px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.upcycle .scroll-area {
+  position: relative;
+}
+.upcycle .scroll-area .scrollbar {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  width: 6px;
+}
+.upcycle .scroll-area .scrollbar .track {
+  height: 100%;
+  width: 6px;
+  position: relative;
+}
+.upcycle .scroll-area .scrollbar .track .thumb {
+  height: 20px;
+  width: 6px;
+  cursor: pointer;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+}
+.upcycle .scroll-area .viewport {
+  overflow: hidden;
+  position: relative;
+}
+.upcycle .scroll-area .viewport .overview {
+  position: relative;
+  left: 0;
+  top: 0;
+}
+.upcycle .btn-link {
+  padding: 0 2px;
+  border: none;
+}
+.upcycle .up-btn-close-x-small {
+  text-indent: -99999px;
+  background: url("img/buttons.png") top left no-repeat;
+  width: 20px;
+  height: 20px;
+  background-position: -10px -141px;
+  background-color: transparent;
+  border: none;
+  box-shadow: none !important;
+}
+.upcycle .up-btn-close-x {
+  text-indent: -99999px;
+  background: url("img/buttons.png") top left no-repeat;
+  width: 28px;
+  height: 22px;
+  background-position: -10px -10px;
+  background-color: transparent;
+  border: none;
+  box-shadow: none !important;
+}
+.upcycle .up-btn-filter {
+  background: #ffffff top left no-repeat;
+  background-image: url("img/buttons.png") !important;
+  width: 28px;
+  height: 28px;
+  background-position: -11px -103px;
+  text-indent: -99999px;
+  border-top: none;
+  border-color: #ddd;
+}
+.upcycle .up-btn-filter,
+.upcycle .up-btn-filter:hover {
+  -webkit-box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+.upcycle .open .up-btn-filter {
+  width: 28px;
+  height: 28px;
+  background-color: #cbcbcb !important;
+  background-position: -11px -42px;
+  border: solid 1px #bbb;
+  -webkit-box-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 0.15);
+}
+.upcycle .up-btn-filter-count-badge {
+  width: 13px;
+  height: 13px;
+  background-position: -10px -80px;
+}
+.up-facetlist {
+  overflow: hidden;
+}
+.up-facetlist .up-facets {
+  list-style: none;
+}
+.up-selectlist .scroll-area {
+  overflow: hidden;
+}
+.up-selectlist .scroll-area.scrollable .scrollbar {
+  display: block;
+}
+.up-selectlist .scrollbar {
+  display: none;
+}
+.up-selectlist .up-facets {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.up-selectlist .up-facet {
+  padding: 1px;
+}
+.up-selectlist .up-facet-header {
+  cursor: pointer;
+}
+.up-selectlist .up-facet-header [role="button"][data-action="toggle"] {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 0.5em;
+  line-height: 6.928px;
+  width: 0;
+  height: 0;
+  border-top: 6.928px solid #555555;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+}
+.up-selectlist .up-facet-header .up-facet-label {
+  line-height: 1.2em;
+  margin-left: 1px;
+  width: 90%;
+  display: inline-block;
+}
+.up-selectlist .up-facet-options {
+  clear: both;
+  list-style: none;
+  margin-left: 15px;
+}
+.up-selectlist .up-facet-option {
+  white-space: normal;
+}
+.up-selectlist .up-facet-option-name {
+  display: inline-block;
+  width: 90%;
+  line-height: 1.2em;
+}
+.up-selectlist .up-facet-header.collapsed [role="button"][data-action="toggle"] {
+  line-height: 8px;
+  width: 0;
+  height: 0;
+  border-left: 6.928px solid #555555;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+.up-selectlist .up-facet-header.collapsed .up-facet-label {
+  margin-left: -1px;
+}
+.up-selectlist .up-facet-header.collapsed + .up-facet-options {
+  display: none;
+}
+.up-selectlist input[type="checkbox"] {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 0.2em;
+}
+.upcycle-filterpanel .up-filterpanel-header {
+  overflow: hidden;
+}
+.upcycle-filterpanel .up-filterpanel-title {
+  margin-right: 5px;
+}
