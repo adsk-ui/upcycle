@@ -60,7 +60,7 @@
   color: #999999;
   border-radius: 3px;
 }
-.upcycle-portal .up-filterpanel {
+.upcycle-portal .upcycle-filterpanel {
   width: 275px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -78,33 +78,33 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff5f5f4', GradientType=0);
   padding: 8px 10px 15px;
 }
-.upcycle-portal .up-filterpanel .up-filterpanel-header {
+.upcycle-portal .upcycle-filterpanel .up-filterpanel-header {
   padding: 1px 0 5px;
   border-bottom: solid 1px #eeeeee;
   margin-bottom: 5px;
   font-size: 12px;
   line-height: 20px;
 }
-.upcycle-portal .up-filterpanel .up-filterpanel-title {
+.upcycle-portal .upcycle-filterpanel .up-filterpanel-title {
   font-size: 18px;
 }
-.upcycle-portal .up-filterpanel [role="button"][data-action="clear-all"] {
+.upcycle-portal .upcycle-filterpanel [role="button"][data-action="clear-all"] {
   font-size: inherit;
 }
-.upcycle-portal .up-filterpanel .up-btn-close-x {
+.upcycle-portal .upcycle-filterpanel .up-btn-close-x {
   margin-right: -5px;
 }
-.upcycle-portal .up-filterpanel .up-facet-header {
+.upcycle-portal .upcycle-filterpanel .up-facet-header {
   color: #555555;
   font-weight: bold;
   margin-bottom: 2px;
 }
-.upcycle-portal .up-filterpanel .up-facet-options {
+.upcycle-portal .upcycle-filterpanel .up-facet-options {
   color: #6f6f6f;
 }
-.upcycle-portal .up-filterpanel .up-selectlist .viewport {
+.upcycle-portal .upcycle-filterpanel .up-selectlist .viewport {
   max-height: 200px;
 }
-.upcycle-portal .up-filterpanel .up-selectlist .divider {
+.upcycle-portal .upcycle-filterpanel .up-selectlist .divider {
   margin: 5px 0;
 }

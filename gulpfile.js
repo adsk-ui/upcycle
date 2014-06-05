@@ -87,8 +87,8 @@ gulp.task('less', function(){
     return gulp.src(paths.themes.less)
         .pipe(plugin.less({paths: [paths.themes.less]}))
         .pipe(plugin.rename(function(path){
-            path.basename = path.dirname.substring(0, path.dirname.indexOf('/'));
-            path.dirname = path.basename + '/';  
+            path.dirname = path.dirname.substring(0, path.dirname.indexOf('\\'));  
+            path.basename = path.dirname; 
         }))
         .pipe(gulp.dest(paths.build.themes))
         .on('error', plugin.util.log);
