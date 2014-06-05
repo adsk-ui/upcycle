@@ -5279,7 +5279,7 @@
   color: #999999;
   border-radius: 3px;
 }
-#sandbox .upcycle-portal .upcycle-filterpanel {
+#sandbox .upcycle-portal .up-filterpanel {
   width: 275px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -5297,34 +5297,34 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff5f5f4', GradientType=0);
   padding: 8px 10px 15px;
 }
-#sandbox .upcycle-portal .upcycle-filterpanel .up-filterpanel-header {
+#sandbox .upcycle-portal .up-filterpanel .up-filterpanel-header {
   padding: 1px 0 5px;
   border-bottom: solid 1px #eeeeee;
   margin-bottom: 5px;
   font-size: 12px;
   line-height: 20px;
 }
-#sandbox .upcycle-portal .upcycle-filterpanel .up-filterpanel-title {
+#sandbox .upcycle-portal .up-filterpanel .up-filterpanel-title {
   font-size: 18px;
 }
-#sandbox .upcycle-portal .upcycle-filterpanel [role="button"][data-action="clear-all"] {
+#sandbox .upcycle-portal .up-filterpanel [role="button"][data-action="clear-all"] {
   font-size: inherit;
 }
-#sandbox .upcycle-portal .upcycle-filterpanel .up-btn-close-x {
+#sandbox .upcycle-portal .up-filterpanel .up-btn-close-x {
   margin-right: -5px;
 }
-#sandbox .upcycle-portal .upcycle-filterpanel .up-facet-header {
+#sandbox .upcycle-portal .up-filterpanel .up-facet-header {
   color: #555555;
   font-weight: bold;
   margin-bottom: 2px;
 }
-#sandbox .upcycle-portal .upcycle-filterpanel .up-facet-options {
+#sandbox .upcycle-portal .up-filterpanel .up-facet-options {
   color: #6f6f6f;
 }
-#sandbox .upcycle-portal .upcycle-filterpanel .up-selectlist .viewport {
+#sandbox .upcycle-portal .up-filterpanel .up-selectlist .viewport {
   max-height: 200px;
 }
-#sandbox .upcycle-portal .upcycle-filterpanel .up-selectlist .divider {
+#sandbox .upcycle-portal .up-filterpanel .up-selectlist .divider {
   margin: 5px 0;
 }
 table.upcycle-editable .odd {
