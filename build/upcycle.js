@@ -233,7 +233,7 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 			$scrollArea = this.element.find('.scroll-area'),
 			$viewport = $scrollArea.find('.viewport'),
 			needsScrollbar = $viewport.prop('scrollHeight') > $viewport.prop('clientHeight'),
-			tinyscrollbar = $scrollArea.data('plugin_tinyscrollbar');
+			tinyscrollbar = $scrollArea.data('tsb');
 		/**
 		 * More/Less
 		 */
@@ -278,6 +278,24 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 		}else if(options.force){
 			this._onSelectionChange(null);
 		}
+		return this;
+	},
+	'checkboxDisable': function(facets, stateValue){
+		var $checkboxes = this.element.find('[type="checkbox"]'),
+		checkbox;
+		_(facets).each(function(f){
+			_(f.options).each(function(o){
+				// find reusable solution for selecting attribute values with backslashes?
+				o = o.replace(/\\/, '\\\\');
+				checkbox = $checkboxes.filter('[data-facet="'+f.name+'"][data-facet-option="'+o+'"]').get(0);
+				if(checkbox){
+					if(stateValue)
+						$(checkbox).addClass('disabled').prop('disabled', stateValue);
+					else
+						$(checkbox).removeClass('disabled').prop('disabled', stateValue);
+				}
+			});
+		});
 		return this;
 	},
 	'checkboxToggleAll': function(stateValue, options){
