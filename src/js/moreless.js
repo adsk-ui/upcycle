@@ -15,7 +15,6 @@
 	var defaults = {
 		'openByDefault': false,
 		'minItems': 2,
-		'minHeight': null,
 		'itemClass': '',
 		'more': 'More',
 		'less': 'Less',
@@ -43,10 +42,6 @@
 			}
 			return minItemsByPosition.length ? minItemsByPosition[0].count : minItems;
 		}
-		// ,'getMinHeight': function(){
-		// 	var minHeight = this.options.minHeight;
-		// 	return typeof minHeight === 'number': minHeight : null;
-		// }
 	},
 	methods = {
 		'init': function(options){
@@ -90,16 +85,21 @@
 				$items = internal.items.call($this),
 				$item,
 				minItems = internal.getMinItems.call(this),
-				minHeight = this.settings.minHeight,
 				numberToClip = $items.length - minItems;
 			
 			$this.less.hide();
 
-			if( minHeight !== null ){
+			if( !$items.length ){
+				// no childrent to clip, so default to 
+				// text behavior
 				$this.css({
-					'height': minHeight,
-					'overflow': 'hidden'
+					'white-space': 'nowrap',
+					'overflow': 'hidden',
+					'max-width': '100%',
+					'display': 'inline-block',
+					'text-overflow': 'ellipsis'
 				});
+
 				if( $this.settings.more )
 					$this.more.text( $this.settings.more ).show();
 
@@ -121,14 +121,18 @@
 		'more': function(){
 			var $this = this,
 				$items = internal.items.call($this),
-				minItems = internal.getMinItems.call($this),
-				resetHeight = this.settings.minHeight !== null;
+				minItems = internal.getMinItems.call($this);
 			
 
-			if( resetHeight ){
+			if( !$items.length ){
+				// no childrent to clip, so default to 
+				// text behavior
 				$this.css({
-					'height': 'auto',
-					'overflow': 'visible'
+					'white-space': 'normal',
+					'overflow': 'visible',
+					'max-width': 'auto',
+					'display': 'initial',
+					'text-overflow': 'inherit'
 				});
 			}else{
 				$items
@@ -138,7 +142,7 @@
 			
 			$this.more.hide();
 			
-			if( $items.length > minItems || resetHeight ){
+			if( $items.length > minItems || $items.length === 0 ){
 				if( $this.settings.less )
 					this.less.show();
 				$this.clipItems = false;	

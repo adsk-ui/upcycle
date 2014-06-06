@@ -17,7 +17,6 @@ describe('moreless', function(){
     var $list, $paragraph;
     before(function(){
     	$paragraph = $(paragraph).appendTo('#sandbox-inner').children('p').moreless({
-        	'minHeight': '1.4em',
         	'linkContainer': '#moreless-min-height'
         }).end();
         $list = $(list).appendTo('#sandbox-inner').moreless({
