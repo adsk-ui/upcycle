@@ -5327,13 +5327,18 @@
 #sandbox .upcycle-portal .upcycle-filterpanel .up-selectlist .divider {
   margin: 5px 0;
 }
-table.upcycle-editable .odd {
+#sandbox table th {
+  background: #555;
+  color: #f5f5f5;
+}
+#sandbox table .odd {
   background: #ddd;
 }
-table.upcycle-editable .even {
+#sandbox table .even {
   background: #f5f5f5;
 }
-table.upcycle-editable td {
+#sandbox table th,
+#sandbox table td {
   padding: 10px;
 }
 .upcycle-editpanel {

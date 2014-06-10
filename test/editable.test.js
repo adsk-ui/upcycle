@@ -30,7 +30,7 @@ describe('editable', function(){
       }).data('upcycle-editable');
     });
     after(function(){
-      // editable.element.remove();
+      editable.element.remove();
     });
 
     it("triggers change event when the edited element's value changes", function(done){

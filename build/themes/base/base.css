@@ -193,3 +193,7 @@
 .upcycle-filterpanel .up-filterpanel-title {
   margin-right: 5px;
 }
+.upcycle-table.scrollable thead {
+  position: absolute;
+  left: -999999px;
+}

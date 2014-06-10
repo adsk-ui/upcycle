@@ -12,21 +12,26 @@
 	  }
 	@import 'bower_components/bootstrap/less/bootstrap.less';
 	@import 'themes/portal/less/main.less';
+
+	table{ 
+		th{
+			background: #555;
+			color:#f5f5f5;
+		}
+		.odd{
+			background: #ddd;
+		}
+		.even{
+			background:#f5f5f5;
+		}
+		th, td{
+			padding: 10px;
+		}
+	}
 }
 
 
-table.upcycle-editable{
-	// margin: 50px;
-	.odd{
-		background: #ddd;
-	}
-	.even{
-		background:#f5f5f5;
-	}
-	td{
-		padding: 10px;
-	}
-}
+
 .upcycle-editpanel{
 	
 	padding: 10px;

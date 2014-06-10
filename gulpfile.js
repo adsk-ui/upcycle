@@ -1,3 +1,4 @@
+var os = require('os');
 var gulp = require('gulp');
 var plugin = require('gulp-load-plugins')();
 var wiredep = require('wiredep');
@@ -80,14 +81,19 @@ gulp.task('templates', function(){
 });
 /**
  * Compiles main.less theme files and saves them
- * to /build/themename.css
+ * to /build/themename/themename.css
  * @return {[type]} [description]
  */
 gulp.task('less', function(){
+
     return gulp.src(paths.themes.less)
         .pipe(plugin.less({paths: [paths.themes.less]}))
         .pipe(plugin.rename(function(path){
-            path.dirname = path.dirname.substring(0, path.dirname.indexOf('\\'));  
+            var slashIndex;
+            slashIndex = path.dirname.indexOf('\\');
+            if(slashIndex < 0)
+                slashIndex = path.dirname.indexOf('/');
+            path.dirname = path.dirname.substring(0, slashIndex);  
             path.basename = path.dirname; 
         }))
         .pipe(gulp.dest(paths.build.themes))
@@ -126,6 +132,7 @@ gulp.task('test', function() {
         .pipe(wiredep.stream({
             devDependencies: true
         }))
+        .pipe(plugin.inject(gulp.src(paths.build.themes+'/**/*.css', {read: false}), {starttag:'<!-- inject:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
         .pipe(plugin.inject(gulp.src(paths.src.js, {read: false}).pipe(plugin.order(paths.src.jsOrder)), {starttag:'<!-- inject:source:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
         .pipe(plugin.inject(gulp.src(paths.test.js, {read: false}), {starttag:'<!-- inject:tests:{{ext}} -->', addRootSlash:false, addPrefix:'..'}))
         .pipe(plugin.rename(paths.test.runner.replace(filePathRegex, '')))
