@@ -30,7 +30,7 @@
     "tinyscrollbar": "https://github.com/wieringen/tinyscrollbar.git#~2.1.6",
     "jquery-i18n-properties": "https://github.com/gejiawen/jquery.i18n.properties.git#1.1.1",
     "bootstrap": "2.3.2",
-    "tablesorter": "https://github.com/adsk-ui/tablesorter.git#1.0"
+    "tablesorter":"https://github.com/adsk-ui/tablesorter.git#v1.0"
   },
   "devDependencies": {
     "mocha": "~1.18.2",
