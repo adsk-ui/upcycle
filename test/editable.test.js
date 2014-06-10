@@ -2,8 +2,8 @@ describe('editable', function(){
 	var table = '<table>' +
       '<thead>'+
         '<tr>'+
-        	'<td>Name</td>'+
-        	'<td>Greeting</td>'+
+        	'<th>Name</th>'+
+        	'<th>Greeting</th>'+
         '</tr>'+
       '</thead>'+
       '<tbody>' +

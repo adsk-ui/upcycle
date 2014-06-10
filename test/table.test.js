@@ -27,8 +27,8 @@ describe('table', function() {
 
     before(function() {
         table = $(markup).appendTo('#sandbox-inner').table({
-            scrollable: true,
-            cssDesc: 'down-down-down'
+            scrollable: true
+            // ,cssDesc: 'down-down-down'
         }).data('upcycle-table');
         $dummy = table.element.prev('table');
     });
@@ -54,5 +54,12 @@ describe('table', function() {
     it('hides dummy table from screenreaders', function() {
         expect($dummy.attr('role')).to.equal('presentation');
         expect($dummy.attr('aria-hidden')).to.equal('true');
+    });
+    it('proxies click events from dummy header', function(done){
+        function sortOnHandler(){
+            done();
+        }
+        table.element.one('sorton', sortOnHandler);
+        $dummy.find('th').eq(0).trigger('click');
     });
 });

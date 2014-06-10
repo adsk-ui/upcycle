@@ -18,7 +18,7 @@
   /* White icons with optional class, or on hover/focus/active states of certain elements */
   /* move down carets for tabs */
 }
-#sandbox #sandbox-inner > * {
+#sandbox #sandbox-inner {
   margin: 50px;
 }
 #sandbox .clearfix {
@@ -5327,18 +5327,33 @@
 #sandbox .upcycle-portal .upcycle-filterpanel .up-selectlist .divider {
   margin: 5px 0;
 }
-#sandbox table th {
+#sandbox table.upcycle-editable,
+#sandbox table.upcycle-table,
+#sandbox table.upcycle-table-dummy {
+  width: 500px;
+}
+#sandbox table.upcycle-editable th,
+#sandbox table.upcycle-table th,
+#sandbox table.upcycle-table-dummy th {
   background: #555;
   color: #f5f5f5;
 }
-#sandbox table .odd {
+#sandbox table.upcycle-editable .odd,
+#sandbox table.upcycle-table .odd,
+#sandbox table.upcycle-table-dummy .odd {
   background: #ddd;
 }
-#sandbox table .even {
+#sandbox table.upcycle-editable .even,
+#sandbox table.upcycle-table .even,
+#sandbox table.upcycle-table-dummy .even {
   background: #f5f5f5;
 }
-#sandbox table th,
-#sandbox table td {
+#sandbox table.upcycle-editable th,
+#sandbox table.upcycle-table th,
+#sandbox table.upcycle-table-dummy th,
+#sandbox table.upcycle-editable td,
+#sandbox table.upcycle-table td,
+#sandbox table.upcycle-table-dummy td {
   padding: 10px;
 }
 .upcycle-editpanel {

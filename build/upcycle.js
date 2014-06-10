@@ -776,7 +776,7 @@ $.widget('upcycle.table', $.upcycle.base, {
 
 			$tableClone.attr('role', 'presentation');
 			$tableClone.attr('aria-hidden', 'true');
-
+			$tableClone.addClass(this.widgetFullName+'-dummy');
 			this.element.addClass('scrollable');
 		}
 	}
