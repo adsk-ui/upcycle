@@ -12,19 +12,19 @@ $.widget('upcycle.table', $.upcycle.base, {
 
 		this._table = this._createTable();
 
-		if( this.options.sortable ){
-			this._on(this._table, {
-				'sortEnd': this._renderDummy
-			});
-			this._table.tablesorter(this.options);
-		}
-
 		if( this.options.sortable && this.options.scrollable ){
 			this._dummy = this._createDummy( this._table );
 			this.element.html(this._dummy);
 			this._renderDummy();
 		}else{
 			// this._destroyDummy( this._table );
+		}
+
+		if( this.options.sortable ){
+			this._on(this._table, {
+				'sortEnd': this._renderDummy
+			});
+			this._table.tablesorter(this.options);
 		}
 
 		if( this.options.scrollable ){
