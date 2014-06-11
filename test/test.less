@@ -1,10 +1,14 @@
+body{
+	background: #222;
+	color: #f7f7f7;
+}
 #sandbox{
 	margin: 0;
 	  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	  font-size: 14px;
 	  line-height: 20px;
-	  color: #333333;
-	  background-color: #ffffff;
+	  // color: #333333;
+	  // background-color: #ffffff;
 	  #sandbox-inner{
 	  	margin: 50px;
 	  }
@@ -15,9 +19,14 @@
 	table.upcycle-table,
 	table.upcycle-table-dummy{ 
 		width: 500px;
-		th{
+		color: #444;
+		th,
+		th.headerSortUp{
 			background: #555;
 			color:#f5f5f5;
+		}
+		th.headerSortDown{
+			background: pink;
 		}
 		.odd{
 			background: #ddd;

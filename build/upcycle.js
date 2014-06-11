@@ -760,25 +760,52 @@ $.widget('upcycle.table', $.upcycle.base, {
 		'sortable': true
 	},
 	'_create': function(){
+		
 		this._super();
-		if( this.options.sortable ){
-			this.element.tablesorter(this.options);
-		}
-		if( this.options.scrollable ){
-			var $theadClone = this.element.find('thead').clone(true, true),
-				$tableClone = $('<table></table>').prepend($theadClone).insertBefore(this.element);
 
+		if( this.options.scrollable ){
+			/**
+			 * Create a dummy table containing the visible header. This will
+			 * allow the body of the real table to appear to scroll independently from 
+			 * the visible header in the dummy.
+			 * @type {[type]}
+			 */
+			var _dummy = this._dummy = $('<table></table>').insertBefore(this.element);
+			this._on(this._dummy, {
+				'click th': function(event){
+					this.element.find('thead th:eq('+$(event.currentTarget).index()+')')
+						.trigger('click');
+				}
+			});
 			// copy attributes to dummy table
 			$.each(this.element[0].attributes, function(index, name){
 				if( this.name !== 'id')
-					$tableClone.attr(this.name, this.value);
+					_dummy.attr(this.name, this.value);
 			});
 
-			$tableClone.attr('role', 'presentation');
-			$tableClone.attr('aria-hidden', 'true');
-			$tableClone.addClass(this.widgetFullName+'-dummy');
+			// hide the dummy from screen readers
+			this._dummy.attr('role', 'presentation');
+			this._dummy.attr('aria-hidden', 'true');
+
+			// apply approriate class name to dummy
+			this._dummy.removeClass(this.widgetFullName);
+			this._dummy.addClass(this.widgetFullName+'-dummy');
+
+			// denote this table as scrollable for styling
 			this.element.addClass('scrollable');
+			this._renderDummy();
 		}
+		if( this.options.sortable ){
+			this.element.tablesorter(this.options);
+			if(this._dummy){
+				this._on({
+					'sortEnd': this._renderDummy
+				});
+			}
+		}
+	},
+	'_renderDummy': function(){
+		this._dummy.html('<thead>'+this.element.find('thead').html()+'</thead>');
 	}
 });
 this["upcycle"] = this["upcycle"] || {};

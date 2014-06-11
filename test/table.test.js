@@ -10,15 +10,15 @@ describe('table', function() {
         '<tbody>' +
         '<tr class="odd">' +
         '<td class="editable">Mike</td>' +
-        '<td>Hello</td>' +
+        '<td>Aloha</td>' +
         '</tr>' +
         '<tr class="even">' +
         '<td>Aaron</td>' +
-        '<td class="editable" data-new-label="EDITABLE_NEW_VALUE" data-new-placeholder="EDITABLE_NEW_VALUE_PLACEHOLDER" data-default-label="EDITABLE_DEFAULT_VALUE" data-default-value="Yo">Hi</td>' +
+        '<td>Ciao</td>' +
         '</tr>' +
         '<tr class="odd">' +
         '<td>Eddie</td>' +
-        '<td>Hey</td>' +
+        '<td>Bueno</td>' +
         '</tr>' +
         '</tbody>' +
         '</table>';
@@ -28,7 +28,6 @@ describe('table', function() {
     before(function() {
         table = $(markup).appendTo('#sandbox-inner').table({
             scrollable: true
-            // ,cssDesc: 'down-down-down'
         }).data('upcycle-table');
         $dummy = table.element.prev('table');
     });
@@ -43,7 +42,7 @@ describe('table', function() {
                 [0, 0]
             ]
         ]);
-        expect(table.element.find('th').eq(0).hasClass('down-down-down')).to.be.true;
+        // expect(table.element.find('th').eq(0).hasClass('down-down-down')).to.be.true;
     });
     it('creates dummy table with header and copies attributes', function() {
         expect($dummy).to.have.length(1);
@@ -56,10 +55,12 @@ describe('table', function() {
         expect($dummy.attr('aria-hidden')).to.equal('true');
     });
     it('proxies click events from dummy header', function(done){
-        function sortOnHandler(){
+        function clickHnadler(){
             done();
         }
-        table.element.one('sorton', sortOnHandler);
-        $dummy.find('th').eq(0).trigger('click');
+        table.element.find('th').eq(0).one('click', clickHnadler);
+        var th = $dummy.find('th').eq(0);
+
+        th.trigger('click');
     });
 });

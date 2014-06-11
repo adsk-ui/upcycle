@@ -196,6 +196,10 @@
 .upcycle-table.scrollable {
   table-layout: fixed;
 }
+.upcycle-table.scrollable thead {
+  position: absolute;
+  left: -999999px;
+}
 .upcycle-table-dummy {
   table-layout: fixed;
 }
