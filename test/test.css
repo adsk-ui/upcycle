@@ -5332,6 +5332,12 @@
   width: 500px;
   color: #444;
 }
+#sandbox table.upcycle-editable th:nth-child(2),
+#sandbox .upcycle-table table th:nth-child(2),
+#sandbox table.upcycle-editable td:nth-child(2),
+#sandbox .upcycle-table table td:nth-child(2) {
+  width: 200px;
+}
 #sandbox table.upcycle-editable th,
 #sandbox .upcycle-table table th,
 #sandbox table.upcycle-editable th.headerSortUp,

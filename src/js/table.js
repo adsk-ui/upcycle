@@ -56,7 +56,7 @@ $.widget('upcycle.table', $.upcycle.base, {
 			 * the visible header in the dummy.
 			 * @type {[type]}
 			 */
-			_dummy = $('<table></table>');
+			_dummy = $('<div class="dummy"><table></table></div>');
 
 			this._on(_dummy, {
 				'click th': function(event){
@@ -73,15 +73,12 @@ $.widget('upcycle.table', $.upcycle.base, {
 			// hide the dummy from screen readers
 			_dummy.attr('role', 'presentation');
 			_dummy.attr('aria-hidden', 'true');
-
-			// apply approriate class name to dummy
-			_dummy.removeClass(this.widgetFullName);
-			_dummy.addClass('dummy');
+			
 		}
 		return _dummy;
 	},
 	'_renderDummy': function(){
-		this._dummy.html('<thead>'+this._table.find('thead').html()+'</thead>');
+		this._dummy.children('table').html('<thead>'+this._table.find('thead').html()+'</thead>');
 	},
 	'_destroyDummy': function(){
 

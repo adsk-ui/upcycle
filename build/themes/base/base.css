@@ -212,6 +212,5 @@
   display: inline-block;
 }
 .upcycle-table.scrollable .scroll-area thead {
-  position: absolute;
-  left: -999999px;
+  visibility: hidden;
 }
