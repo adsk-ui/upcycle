@@ -833,7 +833,7 @@ $.widget('upcycle.table', $.upcycle.base, {
 			// copy attributes to dummy table
 			$.each(_table[0].attributes, function(index, name){
 				if( this.name !== 'id')
-					_dummy.attr(this.name, this.value);
+					_dummy.children('table').attr(this.name, this.value);
 			});
 
 			// hide the dummy from screen readers
