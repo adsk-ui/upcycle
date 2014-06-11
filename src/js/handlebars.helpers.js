@@ -11,3 +11,12 @@ Handlebars.registerHelper('tinyscrollbar', function(){
 	}
 	return buffer;
 });
+Handlebars.registerHelper("zebra", function(list, options){
+	if (!list) return "";
+	var buffer = "";
+	for(var i=0; i<list.length; i++){
+		list[i].stripe = i % 2 === 0 ? options.hash.odd || 'odd' : options.hash.even || 'even';
+		buffer += options.fn(list[i]);
+	}
+	return buffer;
+});
