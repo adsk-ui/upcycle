@@ -214,3 +214,7 @@
 .upcycle-table.scrollable .scroll-area thead {
   visibility: hidden;
 }
+.upcycle-table .dummy {
+  position: relative;
+  z-index: 2;
+}
