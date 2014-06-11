@@ -1,0 +1,20 @@
+<table>
+	{{#if headers}}
+	<thead>
+		<tr>
+			{{#each headers}}
+			<th>{{this}}</th>
+			{{/each}}
+		</tr>
+	</thead>
+	{{/if}}
+	<tbody>
+	{{#zebra rows}}
+	<tr class="{{stripe}}">
+		{{#each this}}
+		<td>{{this}}</td>
+		{{/each}}
+	</tr>
+	{{/zebra}}
+	</tbody>
+</table>

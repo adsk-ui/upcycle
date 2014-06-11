@@ -1,12 +1,15 @@
 .upcycle-table{
 	&.scrollable{
-		table-layout: fixed;
-		thead{
-			position: absolute;
-			left: -999999px; 
+		table{
+			table-layout: fixed;
+		}
+		.scroll-area{
+			display: inline-block;
+
+			thead{
+				position: absolute;
+				left: -999999px; 
+			}
 		}
 	}
-}
-.upcycle-table-dummy{
-	table-layout: fixed;
 }

@@ -25,22 +25,30 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-.upcycle .scroll-area {
+.upcycle-filterpanel .scroll-area,
+.upcycle-selectlist .scroll-area,
+.upcycle-table .scroll-area {
   position: relative;
 }
-.upcycle .scroll-area .scrollbar {
+.upcycle-filterpanel .scroll-area .scrollbar,
+.upcycle-selectlist .scroll-area .scrollbar,
+.upcycle-table .scroll-area .scrollbar {
   position: absolute;
   z-index: 1;
   top: 0;
   right: 0;
   width: 6px;
 }
-.upcycle .scroll-area .scrollbar .track {
+.upcycle-filterpanel .scroll-area .scrollbar .track,
+.upcycle-selectlist .scroll-area .scrollbar .track,
+.upcycle-table .scroll-area .scrollbar .track {
   height: 100%;
   width: 6px;
   position: relative;
 }
-.upcycle .scroll-area .scrollbar .track .thumb {
+.upcycle-filterpanel .scroll-area .scrollbar .track .thumb,
+.upcycle-selectlist .scroll-area .scrollbar .track .thumb,
+.upcycle-table .scroll-area .scrollbar .track .thumb {
   height: 20px;
   width: 6px;
   cursor: pointer;
@@ -48,11 +56,15 @@
   position: absolute;
   top: 0;
 }
-.upcycle .scroll-area .viewport {
+.upcycle-filterpanel .scroll-area .viewport,
+.upcycle-selectlist .scroll-area .viewport,
+.upcycle-table .scroll-area .viewport {
   overflow: hidden;
   position: relative;
 }
-.upcycle .scroll-area .viewport .overview {
+.upcycle-filterpanel .scroll-area .viewport .overview,
+.upcycle-selectlist .scroll-area .viewport .overview,
+.upcycle-table .scroll-area .viewport .overview {
   position: relative;
   left: 0;
   top: 0;
@@ -193,13 +205,13 @@
 .upcycle-filterpanel .up-filterpanel-title {
   margin-right: 5px;
 }
-.upcycle-table.scrollable {
+.upcycle-table.scrollable table {
   table-layout: fixed;
 }
-.upcycle-table.scrollable thead {
+.upcycle-table.scrollable .scroll-area {
+  display: inline-block;
+}
+.upcycle-table.scrollable .scroll-area thead {
   position: absolute;
   left: -999999px;
-}
-.upcycle-table-dummy {
-  table-layout: fixed;
 }

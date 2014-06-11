@@ -1,12 +1,10 @@
-body {
-  background: #222;
-  color: #f7f7f7;
-}
 #sandbox {
   margin: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 20px;
+  color: #333333;
+  background-color: #ffffff;
   /*!
  * Bootstrap v2.3.2
  *
@@ -5330,42 +5328,37 @@ body {
   margin: 5px 0;
 }
 #sandbox table.upcycle-editable,
-#sandbox table.upcycle-table,
-#sandbox table.upcycle-table-dummy {
+#sandbox .upcycle-table table {
   width: 500px;
   color: #444;
 }
 #sandbox table.upcycle-editable th,
-#sandbox table.upcycle-table th,
-#sandbox table.upcycle-table-dummy th,
+#sandbox .upcycle-table table th,
 #sandbox table.upcycle-editable th.headerSortUp,
-#sandbox table.upcycle-table th.headerSortUp,
-#sandbox table.upcycle-table-dummy th.headerSortUp {
+#sandbox .upcycle-table table th.headerSortUp {
   background: #555;
   color: #f5f5f5;
 }
 #sandbox table.upcycle-editable th.headerSortDown,
-#sandbox table.upcycle-table th.headerSortDown,
-#sandbox table.upcycle-table-dummy th.headerSortDown {
+#sandbox .upcycle-table table th.headerSortDown {
   background: pink;
 }
 #sandbox table.upcycle-editable .odd,
-#sandbox table.upcycle-table .odd,
-#sandbox table.upcycle-table-dummy .odd {
+#sandbox .upcycle-table table .odd {
   background: #ddd;
 }
 #sandbox table.upcycle-editable .even,
-#sandbox table.upcycle-table .even,
-#sandbox table.upcycle-table-dummy .even {
+#sandbox .upcycle-table table .even {
   background: #f5f5f5;
 }
 #sandbox table.upcycle-editable th,
-#sandbox table.upcycle-table th,
-#sandbox table.upcycle-table-dummy th,
+#sandbox .upcycle-table table th,
 #sandbox table.upcycle-editable td,
-#sandbox table.upcycle-table td,
-#sandbox table.upcycle-table-dummy td {
+#sandbox .upcycle-table table td {
   padding: 10px;
+}
+#sandbox .upcycle-table .viewport {
+  max-height: 90px;
 }
 .upcycle-editpanel {
   padding: 10px;

@@ -169,3 +169,60 @@ function program5(depth0,data) {
   buffer += "\n</div>";
   return buffer;
   });;
+this["upcycle"] = this["upcycle"] || {};
+this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
+this["upcycle"]["templates"]["table"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, stack2, options, functionType="function", escapeExpression=this.escapeExpression, self=this, helperMissing=helpers.helperMissing;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n	<thead>\n		<tr>\n			";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.headers), {hash:{},inverse:self.noop,fn:self.program(2, program2, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n		</tr>\n	</thead>\n	";
+  return buffer;
+  }
+function program2(depth0,data) {
+  
+  var buffer = "";
+  buffer += "\n			<th>"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "</th>\n			";
+  return buffer;
+  }
+
+function program4(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n	<tr class=\"";
+  if (stack1 = helpers.stripe) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.stripe); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\">\n		";
+  stack1 = helpers.each.call(depth0, depth0, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n	</tr>\n	";
+  return buffer;
+  }
+function program5(depth0,data) {
+  
+  var buffer = "";
+  buffer += "\n		<td>"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "</td>\n		";
+  return buffer;
+  }
+
+  buffer += "<table>\n	";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.headers), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n	<tbody>\n	";
+  options = {hash:{},inverse:self.noop,fn:self.program(4, program4, data),data:data};
+  stack2 = ((stack1 = helpers.zebra || (depth0 && depth0.zebra)),stack1 ? stack1.call(depth0, (depth0 && depth0.rows), options) : helperMissing.call(depth0, "zebra", (depth0 && depth0.rows), options));
+  if(stack2 || stack2 === 0) { buffer += stack2; }
+  buffer += "\n	</tbody>\n</table>\n";
+  return buffer;
+  });;

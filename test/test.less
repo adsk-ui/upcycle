@@ -1,14 +1,14 @@
 body{
-	background: #222;
-	color: #f7f7f7;
+	// background: #222;
+	// color: #f7f7f7;
 }
 #sandbox{
 	margin: 0;
 	  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	  font-size: 14px;
 	  line-height: 20px;
-	  // color: #333333;
-	  // background-color: #ffffff;
+	  color: #333333;
+	  background-color: #ffffff;
 	  #sandbox-inner{
 	  	margin: 50px;
 	  }
@@ -16,8 +16,7 @@ body{
 	@import 'themes/portal/less/main.less';
 
 	table.upcycle-editable,
-	table.upcycle-table,
-	table.upcycle-table-dummy{ 
+	.upcycle-table table{ 
 		width: 500px;
 		color: #444;
 		th,
@@ -37,6 +36,10 @@ body{
 		th, td{
 			padding: 10px;
 		}
+	}
+
+	.upcycle-table .viewport{
+		max-height: 90px;
 	}
 }
 
