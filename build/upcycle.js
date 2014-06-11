@@ -44,6 +44,7 @@ $.widget('upcycle.base', {
 		return template(this._getTemplateContext.apply(this, arguments));
 	},
 	'_getTemplate': function(templateName){
+		templateName = templateName || this.options.templateName;
 		return eval(this.option('templatesNamespace'))[templateName || this.option('templateName')];
 	}
 });
@@ -575,6 +576,15 @@ Handlebars.registerHelper('tinyscrollbar', function(){
 	}
 	return buffer;
 });
+Handlebars.registerHelper("zebra", function(list, options){
+	if (!list) return "";
+	var buffer = "";
+	for(var i=0; i<list.length; i++){
+		list[i].stripe = i % 2 === 0 ? options.hash.odd || 'odd' : options.hash.even || 'even';
+		buffer += options.fn(list[i]);
+	}
+	return buffer;
+});
 (function($){
 	/**
 	 * Default settings
@@ -756,57 +766,103 @@ Handlebars.registerHelper('tinyscrollbar', function(){
 })(jQuery);
 $.widget('upcycle.table', $.upcycle.base, {
 	'options': {
+		'templateName': 'table',
+		'templateContext': {},
 		'scrollable': false,
 		'sortable': true
 	},
-	'_create': function(){
-		
-		this._super();
+	'_init': function(){
+		this._render();
+	},
+	'_render': function(){
+
+		this._table = this._createTable();
+
+		if( this.options.sortable ){
+			this._on(this._table, {
+				'sortEnd': this._renderDummy
+			});
+			this._table.tablesorter(this.options);
+		}
+
+		if( this.options.sortable && this.options.scrollable ){
+			this._dummy = this._createDummy( this._table );
+			this.element.html(this._dummy);
+			this._renderDummy();
+		}else{
+			// this._destroyDummy( this._table );
+		}
 
 		if( this.options.scrollable ){
+			this._scrollarea = this._createScrollArea();	
+			this._scrollarea
+				.find('.overview')
+					.html(this._table)
+					.end()
+				.tinyscrollbar();
+			this.element
+				.addClass('scrollable')
+				.append(this._scrollarea);
+		}else{
+			this.element.append(this._table);
+			// this._destroyScrollArea();
+		}
+
+		this.update();
+	},
+	'_createTable': function(){
+		return this._table || $((this._getTemplate())(this.options.templateContext));
+	},
+	'_createDummy': function( _table ){
+		var _dummy = this._dummy;
+		if( !_dummy ){
 			/**
 			 * Create a dummy table containing the visible header. This will
 			 * allow the body of the real table to appear to scroll independently from 
 			 * the visible header in the dummy.
 			 * @type {[type]}
 			 */
-			var _dummy = this._dummy = $('<table></table>').insertBefore(this.element);
-			this._on(this._dummy, {
+			_dummy = $('<table></table>');
+
+			this._on(_dummy, {
 				'click th': function(event){
-					this.element.find('thead th:eq('+$(event.currentTarget).index()+')')
+					_table.find('thead th:eq('+$(event.currentTarget).index()+')')
 						.trigger('click');
 				}
 			});
 			// copy attributes to dummy table
-			$.each(this.element[0].attributes, function(index, name){
+			$.each(_table[0].attributes, function(index, name){
 				if( this.name !== 'id')
 					_dummy.attr(this.name, this.value);
 			});
 
 			// hide the dummy from screen readers
-			this._dummy.attr('role', 'presentation');
-			this._dummy.attr('aria-hidden', 'true');
+			_dummy.attr('role', 'presentation');
+			_dummy.attr('aria-hidden', 'true');
 
 			// apply approriate class name to dummy
-			this._dummy.removeClass(this.widgetFullName);
-			this._dummy.addClass(this.widgetFullName+'-dummy');
-
-			// denote this table as scrollable for styling
-			this.element.addClass('scrollable');
-			this._renderDummy();
+			_dummy.removeClass(this.widgetFullName);
+			_dummy.addClass('dummy');
 		}
-		if( this.options.sortable ){
-			this.element.tablesorter(this.options);
-			if(this._dummy){
-				this._on({
-					'sortEnd': this._renderDummy
-				});
-			}
-		}
+		return _dummy;
 	},
 	'_renderDummy': function(){
-		this._dummy.html('<thead>'+this.element.find('thead').html()+'</thead>');
-	}
+		this._dummy.html('<thead>'+this._table.find('thead').html()+'</thead>');
+	},
+	'_destroyDummy': function(){
+
+	},
+	'_createScrollArea': function(){
+		return this._scrollarea || $(Handlebars.helpers.tinyscrollbar({fn:function(){}})).tinyscrollbar();
+	},
+	'_destroyScrollArea': function(){
+
+	},
+	'update': function(){
+		if(this._scrollarea){
+			this._scrollarea.data('plugin_tinyscrollbar').update();
+		}
+	},
 });
 this["upcycle"] = this["upcycle"] || {};
 this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
@@ -977,5 +1033,62 @@ function program5(depth0,data) {
   if (!helpers.tinyscrollbar) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</div>";
+  return buffer;
+  });;
+this["upcycle"] = this["upcycle"] || {};
+this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
+this["upcycle"]["templates"]["table"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, stack2, options, functionType="function", escapeExpression=this.escapeExpression, self=this, helperMissing=helpers.helperMissing;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n	<thead>\n		<tr>\n			";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.headers), {hash:{},inverse:self.noop,fn:self.program(2, program2, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n		</tr>\n	</thead>\n	";
+  return buffer;
+  }
+function program2(depth0,data) {
+  
+  var buffer = "";
+  buffer += "\n			<th>"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "</th>\n			";
+  return buffer;
+  }
+
+function program4(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n	<tr class=\"";
+  if (stack1 = helpers.stripe) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.stripe); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\">\n		";
+  stack1 = helpers.each.call(depth0, depth0, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n	</tr>\n	";
+  return buffer;
+  }
+function program5(depth0,data) {
+  
+  var buffer = "";
+  buffer += "\n		<td>"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "</td>\n		";
+  return buffer;
+  }
+
+  buffer += "<table>\n	";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.headers), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n	<tbody>\n	";
+  options = {hash:{},inverse:self.noop,fn:self.program(4, program4, data),data:data};
+  stack2 = ((stack1 = helpers.zebra || (depth0 && depth0.zebra)),stack1 ? stack1.call(depth0, (depth0 && depth0.rows), options) : helperMissing.call(depth0, "zebra", (depth0 && depth0.rows), options));
+  if(stack2 || stack2 === 0) { buffer += stack2; }
+  buffer += "\n	</tbody>\n</table>\n";
   return buffer;
   });;

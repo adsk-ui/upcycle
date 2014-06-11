@@ -13,6 +13,7 @@ $.widget('upcycle.base', {
 		return template(this._getTemplateContext.apply(this, arguments));
 	},
 	'_getTemplate': function(templateName){
+		templateName = templateName || this.options.templateName;
 		return eval(this.option('templatesNamespace'))[templateName || this.option('templateName')];
 	}
 });
