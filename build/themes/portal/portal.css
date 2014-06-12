@@ -93,6 +93,7 @@
   text-indent: -99999px;
   border-top: none;
   border-color: #ddd;
+  padding: 0;
 }
 .upcycle .open .up-btn-filter {
   width: 28px;
@@ -113,6 +114,7 @@
   text-indent: -99999px;
   border-top: none;
   border-color: #ddd;
+  padding: 0;
 }
 .upcycle .up-btn-filter-count-badge {
   width: 13px;

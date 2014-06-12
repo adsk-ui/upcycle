@@ -5312,6 +5312,7 @@
   text-indent: -99999px;
   border-top: none;
   border-color: #ddd;
+  padding: 0;
 }
 #sandbox .upcycle .open .up-btn-filter {
   width: 28px;
@@ -5332,6 +5333,7 @@
   text-indent: -99999px;
   border-top: none;
   border-color: #ddd;
+  padding: 0;
 }
 #sandbox .upcycle .up-btn-filter-count-badge {
   width: 13px;
