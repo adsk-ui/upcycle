@@ -5323,6 +5323,16 @@
   -moz-box-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 0.15);
   box-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 0.15);
 }
+#sandbox .upcycle .up-btn-gear {
+  background: #ffffff top left no-repeat;
+  background-image: url("img/buttons.png") !important;
+  width: 28px;
+  height: 28px;
+  background-position: -11px -162px;
+  text-indent: -99999px;
+  border-top: none;
+  border-color: #ddd;
+}
 #sandbox .upcycle .up-btn-filter-count-badge {
   width: 13px;
   height: 13px;
