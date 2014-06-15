@@ -10,6 +10,7 @@
 	 * - less: Label text for the "Less" link
 	 * - linkContainer: an element to put the more/less links; this will be the element itself if left unspecified
 	 * - linkClass: any custom CSS class to add to the more/less links
+	 * - truncateText: add ellipses to text nodes
 	 * @type {Object}
 	 */
 	var defaults = {
@@ -19,7 +20,8 @@
 		'more': 'More',
 		'less': 'Less',
 		'linkContainer': null,
-		'linkClass': ''
+		'linkClass': '',
+		'truncateText': false
 	},
 	internal = {
 		'items': function(){
@@ -53,12 +55,12 @@
 			$this.settings = $.extend({}, defaults, options);
 			$this.settings.linkClass = $this.settings.linkClass ? ' ' + $this.settings.linkClass : '';
 			$this.$linkContainer = internal.getSelector($this.settings.linkContainer) || $this;
-			$this.more = $('<button type="button" class="btn btn-link more'+$this.settings.linkClass+'">'+$this.settings.more+'</button>')
+			$this.more = $('<button type="button" class="btn btn-link more more'+$this.settings.linkClass+'">'+$this.settings.more+'</button>')
 				.click(function(event){
 					event.preventDefault();
 					methods.more.call($this);
 				}).hide();
-			$this.less = $('<button type="button" class="btn btn-link less'+$this.settings.linkClass+'">'+$this.settings.less+'</button>')
+			$this.less = $('<button type="button" class="btn btn-link less less'+$this.settings.linkClass+'">'+$this.settings.less+'</button>')
 				.click(function(event){
 					event.preventDefault();
 					methods.less.call($this);
@@ -89,7 +91,7 @@
 			
 			$this.less.hide();
 
-			if( !$items.length ){
+			if( !$items.length && $this.settings.truncateText){
 				// no childrent to clip, so default to 
 				// text behavior
 				$this.css({
@@ -124,7 +126,7 @@
 				minItems = internal.getMinItems.call($this);
 			
 
-			if( !$items.length ){
+			if( !$items.length && $this.settings.truncateText){
 				// no childrent to clip, so default to 
 				// text behavior
 				$this.css({
