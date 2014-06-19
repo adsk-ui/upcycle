@@ -242,7 +242,9 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 			var $facetOptions = $(this);
 			if( $facetOptions.children().length > 4 ){
 				$facetOptions.moreless({
-					'minItems': that.options.moreLessMin
+					'minItems': that.options.moreLessMin,
+					'more' : that.options.more || 'More',
+					'less' : that.options.less || 'Less'
 				});
 			}
 		});
