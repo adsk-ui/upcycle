@@ -18,7 +18,7 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 			$scrollArea = this.element.find('.scroll-area'),
 			$viewport = $scrollArea.find('.viewport'),
 			needsScrollbar = $viewport.prop('scrollHeight') > $viewport.prop('clientHeight'),
-			tinyscrollbar = $scrollArea.data('tsb');
+			tinyscrollbar = $scrollArea.data('plugin_tinyscrollbar');
 		/**
 		 * More/Less
 		 */
