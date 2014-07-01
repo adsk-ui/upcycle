@@ -104,6 +104,14 @@ gulp.task('img', function(){
         .pipe(gulp.dest(paths.build.themes));
 });
 /**
+ * Lint
+ */
+gulp.task('lint', function(){
+    return gulp.src(paths.src.js)
+         .pipe(plugin.jshint())
+        .pipe(plugin.jshint.reporter('default'));
+});
+/**
  * Concat the source Javascript files and save to
  * /build/upcycle.js
  * @return {[type]} [description]
