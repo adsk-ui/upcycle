@@ -115,5 +115,5 @@ $.widget('upcycle.editable', $.upcycle.base, {
 			};
 		}
 		return context;
-	},
+	}
 });
