@@ -22,7 +22,7 @@ $.widget('upcycle.facetlist', $.upcycle.base, {
 		/**
 		 * More/Less
 		 */
-		var $facets = this.element.find('.up-facets')
+		var $facets = this.element.find('.up-facets');
 		
 		$facets.moreless({
 			'minItems': this.options.moreLessMin,
