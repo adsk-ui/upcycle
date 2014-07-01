@@ -20,7 +20,7 @@ describe('table', function() {
     });
 
     after(function() {
-        // table.element.remove();
+        table.element.remove();
     });
 
     xit('initializes tablesorter and proxies options', function() {
