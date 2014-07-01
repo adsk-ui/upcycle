@@ -24,7 +24,7 @@ function program1(depth0,data) {
   return buffer;
   }
 
-  buffer += "<form>\n<label>";
+  buffer += "<label>";
   if (stack1 = helpers.newValueLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.newValueLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
@@ -32,7 +32,7 @@ function program1(depth0,data) {
   if (stack1 = helpers.newValuePlaceholder) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.newValuePlaceholder); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\"></input>\n<button type=\"submit\" value=\"ok!\"></button>\n</form>\n";
+    + "\"></input>\n";
   stack1 = helpers.unless.call(depth0, (depth0 && depth0.currentValueIsDefault), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n\n";
