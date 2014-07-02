@@ -388,6 +388,10 @@ $.widget('upcycle.editable', $.upcycle.base, {
 			oldValue = this._getTargetElementText(), 
 			newValue = revert ? defaultValue : event.target.value;
 		revert = defaultValue === newValue;
+
+		if( event.keyCode !== 13 && !revert )
+			return;
+		
 		if(oldValue !== newValue){
 			$targetElement.attr('data-default-value', revert ? null : defaultValue);
 			this._setTargetElementText(newValue);
@@ -435,7 +439,7 @@ $.widget('upcycle.editable', $.upcycle.base, {
 			.popover('show')
 			.data('popover')
 				.tip()
-					.on('change', _.bind(this._onEditChange, this));
+					.on('keydown', _.bind(this._onEditChange, this));
 		this.option('targetElementDefaultValue', $targetElement.attr('data-default-value') || this._getTargetElementText());
 	},
 	'_destroy': function(){

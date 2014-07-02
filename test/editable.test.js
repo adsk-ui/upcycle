@@ -45,7 +45,7 @@ describe('editable', function(){
                 $popover = $this.data('popover').tip(),
                 $input = $popover.find('input[type="text"]');
             _.defer(function(){
-              $input.attr('value', 'Hiya').trigger('change');
+              $input.attr('value', 'Hiya').trigger($.Event( "keydown", { keyCode: 13 } ));
             });
           })
           .trigger('click');
