@@ -107,9 +107,10 @@ gulp.task('img', function(){
  * Lint
  */
 gulp.task('lint', function(){
-    return gulp.src(paths.src.js)
-         .pipe(plugin.jshint())
-        .pipe(plugin.jshint.reporter('default'));
+    return gulp.src([paths.src.js, '!' + paths.src.jsDir + '/templates.js'])
+        .pipe(plugin.jshint())
+        .pipe(plugin.jshint.reporter('default'))
+        .pipe(plugin.jshint.reporter('fail'));
 });
 /**
  * Concat the source Javascript files and save to
@@ -169,7 +170,7 @@ gulp.task('docs', function(){
         .pipe(gulp.dest(paths.docs.dir));
 });
 
-gulp.task('build', ['templates', 'js', 'less', 'img', 'docs', 'test']);
+gulp.task('build', ['templates', 'lint', 'js', 'less', 'img', 'docs', 'test']);
 gulp.task('watch', function () {
     gulp.watch(paths.themes.base.less, ['less']);
     gulp.watch([paths.themes.base.css, paths.src.js, paths.test.less], ['test']);
