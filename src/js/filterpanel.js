@@ -70,9 +70,10 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 		return this._getTemplate()(this._getTemplateContext(this.options));
 	},
 	'_getTemplateContext': function(options){
-		var context = _({
-			'selectlist': this._getTemplate('selectlist')(this.options.facets)
-		}).extend(options);
+		var template = this._getTemplate('selectlist'),
+			context = _({
+				'selectlist': template(this.options.facets)
+			}).extend(options);
 		if(this.options.localizeLabels){
 			_(context).extend({
 				'label': $.i18n.prop(options.label),

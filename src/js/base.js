@@ -20,4 +20,4 @@ $.widget('upcycle.base', {
 
 $.upcycle.escapeForSelector = function(val){
 	return typeof val === 'string' ? val.replace(/\\/, '\\\\') : val;
-}
+};

@@ -25,6 +25,7 @@ $.widget('upcycle.editable', $.upcycle.base, {
 			newValue = revert ? defaultValue : event.target.value;
 		revert = defaultValue === newValue;
 
+		// Only respond when user presses Enter or reverts value
 		if( event.keyCode !== 13 && !revert )
 			return;
 		
@@ -98,9 +99,11 @@ $.widget('upcycle.editable', $.upcycle.base, {
 	'_setTargetElementText': function(text){
 		var $targetElement = this.$targetElement;
 		if($targetElement){
-			this.option('textSelector') ? 
-				$targetElement.find(this.option('textSelector')).text(text) : 
-					$targetElement.text(text);
+			if( this.option('textSelector') ){
+				$targetElement.find(this.option('textSelector')).text(text);
+			}else{
+				$targetElement.text(text);
+			}
 		}
 	},
 	'_getTemplateContext': function($targetElement){
