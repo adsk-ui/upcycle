@@ -701,7 +701,7 @@ Handlebars.registerHelper("zebra", function(list, options){
 			
 			$this.less.hide();
 
-			if( !$items.length && $this.settings.truncateText){
+			if( $this.settings.truncateText){
 				// no childrent to clip, so default to 
 				// text behavior
 				$this.css({
@@ -736,8 +736,7 @@ Handlebars.registerHelper("zebra", function(list, options){
 				minItems = internal.getMinItems.call($this);
 			
 
-			if( !$items.length && $this.settings.truncateText){
-				// no childrent to clip, so default to 
+			if( $this.settings.truncateText ){
 				// text behavior
 				$this.css({
 					'white-space': 'normal',
@@ -746,19 +745,20 @@ Handlebars.registerHelper("zebra", function(list, options){
 					'display': 'initial',
 					'text-overflow': 'inherit'
 				});
+				this.less.show();
+				
 			}else{
-				$items
-					.removeClass('more-less-last')
-					.show();
+				$items.removeClass('more-less-last').show();
+				if( $items.length > minItems || $items.length === 0 ){
+					if( $this.settings.less )
+						this.less.show();
+					$this.clipItems = false;	
+				}
 			}
 			
 			$this.more.hide();
 			
-			if( $items.length > minItems || $items.length === 0 ){
-				if( $this.settings.less )
-					this.less.show();
-				$this.clipItems = false;	
-			}
+			
 		},
 		'toggle': function(){
 			methods[this.clipItems ? 'more' : 'less'].call(this);
