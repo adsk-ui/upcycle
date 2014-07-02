@@ -19,14 +19,14 @@ $.widget('upcycle.editable', $.upcycle.base, {
 		this._render(event.currentTarget);
 	},
 	'_onEditChange': function(event, revert){
-		var $targetElement = this.$targetElement,
+		var ENTER_KEY = 13,
+			$targetElement = this.$targetElement,
 			defaultValue = this.option('targetElementDefaultValue'),
 			oldValue = this._getTargetElementText(), 
 			newValue = revert ? defaultValue : event.target.value;
 		revert = defaultValue === newValue;
 
-		// Only respond when user presses Enter or reverts value
-		if( event.keyCode !== 13 && !revert )
+		if( event.keyCode !== ENTER_KEY && !revert )
 			return;
 		
 		if(oldValue !== newValue){
@@ -53,6 +53,11 @@ $.widget('upcycle.editable', $.upcycle.base, {
 		var $targetElement = this.$targetElement = $(targetElement),
 			widgetFullName = this.widgetFullName,
 			popoverClass = this.option('popoverClass');
+
+		function __closePopover(){
+			$targetElement.popover('hide');
+		}
+
 		$targetElement
 			.popover({
 				'container': this.option('popoverContainer') || this.element,
@@ -69,9 +74,11 @@ $.widget('upcycle.editable', $.upcycle.base, {
 			.on('shown', function(){
 				var popover = $(this).addClass('editing').data('popover');
 				popover.tip().find('input[type="text"]').focus();
+				$(document).on('click', __closePopover);
 			})
 			.on('hidden', function(){
 				$(this).removeClass('editing');
+				$(document).off('click', __closePopover);
 			})
 			.popover('show')
 			.data('popover')
