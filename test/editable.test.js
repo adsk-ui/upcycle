@@ -26,11 +26,12 @@ describe('editable', function(){
     
     before(function(){
       editable = $(table).appendTo('#sandbox-inner').editable({
-        'widgetContainer': '#sandbox'
+        'widgetContainer': '#sandbox',
+        'popoverContainer': 'body'
       }).data('upcycle-editable');
     });
     after(function(){
-      // editable.element.remove();
+      editable.element.remove();
     });
 
     it("triggers change event when the edited element's value changes", function(done){

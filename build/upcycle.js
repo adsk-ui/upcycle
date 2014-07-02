@@ -374,8 +374,7 @@ $.widget('upcycle.editable', $.upcycle.base, {
 	'_create': function(){
 		this._super();
 		this._on({
-			'click .editable': this._onEditOpen,
-			'click [data-action="revert"]': this._onRevert
+			'click .editable': this._onEditOpen
 		});
 	},
 	'_onEditOpen': function(event){
@@ -416,12 +415,17 @@ $.widget('upcycle.editable', $.upcycle.base, {
 
 		var $targetElement = this.$targetElement = $(targetElement),
 			widgetFullName = this.widgetFullName,
-			popoverClass = this.option('popoverClass');
+			popoverClass = this.option('popoverClass'),
+			view = this;
 
 		function __closePopover(){
 			$targetElement.popover('hide');
 		}
 
+		function __revert(event){
+			view._onEditChange(event, true);
+		}
+// 'click [data-action="revert"]': this._onRevert
 		$targetElement
 			.popover({
 				'container': this.option('popoverContainer') || this.element,
@@ -438,10 +442,12 @@ $.widget('upcycle.editable', $.upcycle.base, {
 			.on('shown', function(){
 				var popover = $(this).addClass('editing').data('popover');
 				popover.tip().find('input[type="text"]').focus();
+				popover.tip().on('click', '[data-action="revert"]', __revert);
 				$(document).on('click', __closePopover);
 			})
 			.on('hidden', function(){
-				$(this).removeClass('editing');
+				var $this = $(this);
+				$this.removeClass('editing');
 				$(document).off('click', __closePopover);
 			})
 			.popover('show')
