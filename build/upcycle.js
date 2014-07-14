@@ -32,8 +32,8 @@
 $.widget('upcycle.base', {
 	'options':{
 		'templatesNamespace': 'upcycle.templates',
-		'templateName': '',
-		'localizeLabels': true
+		'templateName': ''
+		// ,'localizeLabels': true
 	},
 	'_create': function(){
 		this.element.addClass(this.widgetFullName);
@@ -47,6 +47,9 @@ $.widget('upcycle.base', {
 		templateName = templateName || this.options.templateName;
 		return eval(this.option('templatesNamespace'))[templateName || this.option('templateName')];
 	}
+	// ,'_getLabel': function(label){
+	// 	return this.options.localizeLabels ?  $.i18n.prop( label ) : label;
+	// }
 });
 
 $.upcycle.escapeForSelector = function(val){
@@ -60,7 +63,7 @@ $.widget('upcycle.facetlist', $.upcycle.base, {
 		'moreLessMin': 4,
 		'moreLessLinkContainer': null,
 		'moreLessOpenByDefault': false,
-		'localizeLabels': true,
+		// 'localizeLabels': true,
 		'label': 'FACETLIST_LABEL'
 	},
 	'_create': function(){
@@ -76,13 +79,14 @@ $.widget('upcycle.facetlist', $.upcycle.base, {
 		/**
 		 * More/Less
 		 */
-		var $facets = this.element.find('.up-facets');
+		var $facets = this.element.find('.up-facets'),
+			moreLessOptions = _.extend({
+				'minItems': this.options.moreLessMin,
+				'linkContainer': this.options.moreLessLinkContainer,
+				'openByDefault': this.options.moreLessOpenByDefault
+			}, this.options);
 		
-		$facets.moreless({
-			'minItems': this.options.moreLessMin,
-			'linkContainer': this.options.moreLessLinkContainer,
-			'openByDefault': this.options.moreLessOpenByDefault
-		});
+		$facets.moreless( moreLessOptions );
 		
 		return this;		
 	},
@@ -238,14 +242,14 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 		/**
 		 * More/Less
 		 */
+		var moreLessOptions = _.extend({
+				'minItems': that.options.moreLessMin
+			}, that.options);
+		
 		$viewport.find('.up-facet-options').each(function(){
 			var $facetOptions = $(this);
 			if( $facetOptions.children().length > 4 ){
-				$facetOptions.moreless({
-					'minItems': that.options.moreLessMin,
-					'more' : that.options.more || 'More',
-					'less' : that.options.less || 'Less'
-				});
+				$facetOptions.moreless( moreLessOptions );
 			}
 		});
 		/**
@@ -577,12 +581,12 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 			context = _({
 				'selectlist': template(this.options.facets)
 			}).extend(options);
-		if(this.options.localizeLabels){
-			_(context).extend({
-				'label': $.i18n.prop(options.label),
-				'clearAllLabel': $.i18n.prop(options.clearAllLabel)
-			});
-		}
+		// if(this.options.localizeLabels){
+		// 	_(context).extend({
+		// 		'label': $.i18n.prop(options.label),
+		// 		'clearAllLabel': $.i18n.prop(options.clearAllLabel)
+		// 	});
+		// }
 		return context;
 	}
 });
