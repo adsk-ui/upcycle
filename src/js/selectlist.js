@@ -22,14 +22,14 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 		/**
 		 * More/Less
 		 */
-		var moreLessOptions = _.extend({
-				'minItems': that.options.moreLessMin
-			}, that.options);
-		
 		$viewport.find('.up-facet-options').each(function(){
 			var $facetOptions = $(this);
 			if( $facetOptions.children().length > 4 ){
-				$facetOptions.moreless( moreLessOptions );
+				$facetOptions.moreless({
+					'minItems': that.options.moreLessMin,
+					'more' : that.options.more || 'More',
+					'less' : that.options.less || 'Less'
+				});
 			}
 		});
 		/**

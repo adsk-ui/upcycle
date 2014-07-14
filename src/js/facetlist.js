@@ -6,7 +6,7 @@ $.widget('upcycle.facetlist', $.upcycle.base, {
 		'moreLessMin': 4,
 		'moreLessLinkContainer': null,
 		'moreLessOpenByDefault': false,
-		// 'localizeLabels': true,
+		'localizeLabels': true,
 		'label': 'FACETLIST_LABEL'
 	},
 	'_create': function(){
@@ -22,14 +22,13 @@ $.widget('upcycle.facetlist', $.upcycle.base, {
 		/**
 		 * More/Less
 		 */
-		var $facets = this.element.find('.up-facets'),
-			moreLessOptions = _.extend({
-				'minItems': this.options.moreLessMin,
-				'linkContainer': this.options.moreLessLinkContainer,
-				'openByDefault': this.options.moreLessOpenByDefault
-			}, this.options);
+		var $facets = this.element.find('.up-facets');
 		
-		$facets.moreless( moreLessOptions );
+		$facets.moreless({
+			'minItems': this.options.moreLessMin,
+			'linkContainer': this.options.moreLessLinkContainer,
+			'openByDefault': this.options.moreLessOpenByDefault
+		});
 		
 		return this;		
 	},

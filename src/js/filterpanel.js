@@ -74,12 +74,12 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 			context = _({
 				'selectlist': template(this.options.facets)
 			}).extend(options);
-		// if(this.options.localizeLabels){
-		// 	_(context).extend({
-		// 		'label': $.i18n.prop(options.label),
-		// 		'clearAllLabel': $.i18n.prop(options.clearAllLabel)
-		// 	});
-		// }
+		if(this.options.localizeLabels){
+			_(context).extend({
+				'label': $.i18n.prop(options.label),
+				'clearAllLabel': $.i18n.prop(options.clearAllLabel)
+			});
+		}
 		return context;
 	}
 });
