@@ -173,6 +173,6 @@ gulp.task('docs', function(){
 gulp.task('build', ['templates', 'lint', 'js', 'less', 'img', 'docs', 'test']);
 gulp.task('watch', function () {
     gulp.watch(paths.themes.base.less, ['less']);
-    gulp.watch([paths.themes.base.css, paths.src.js, paths.test.less], ['test']);
+    gulp.watch([paths.themes.base.css, paths.src.js, paths.test.js, paths.test.less], ['test']);
     gulp.watch(paths.src.templates, ['templates']);
 });
