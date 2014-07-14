@@ -5340,6 +5340,10 @@
   height: 13px;
   background-position: -10px -80px;
 }
+#sandbox .upcycle-portal .upcycle-filterpanel,
+#sandbox .upcycle-portal .upcycle-filterpanel .btn {
+  font-size: 12px;
+}
 #sandbox .upcycle-portal .upcycle-filterpanel {
   width: 275px;
   -webkit-border-radius: 4px;
@@ -5362,7 +5366,6 @@
   padding: 1px 0 5px;
   border-bottom: solid 1px #eeeeee;
   margin-bottom: 5px;
-  font-size: 12px;
   line-height: 20px;
 }
 #sandbox .upcycle-portal .upcycle-filterpanel .up-filterpanel-title {

@@ -147,8 +147,14 @@
 .upcycle-filterpanel .up-filterpanel-header {
   overflow: hidden;
 }
-.upcycle-filterpanel .up-filterpanel-title {
+.upcycle-filterpanel .up-filterpanel-header > .pull-left {
+  max-width: 60%;
   margin-right: 5px;
+}
+.upcycle-filterpanel .up-filterpanel-header > .pull-left span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .upcycle-table.scrollable table {
   table-layout: fixed;
