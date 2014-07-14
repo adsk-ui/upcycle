@@ -46,6 +46,9 @@ $.widget('upcycle.base', {
 	'_getTemplate': function(templateName){
 		templateName = templateName || this.options.templateName;
 		return eval(this.option('templatesNamespace'))[templateName || this.option('templateName')];
+	},
+	'_getLabel': function(label){
+		return this.options.localizeLabels ?  $.i18n.prop( label ) : label;
 	}
 });
 
@@ -60,7 +63,6 @@ $.widget('upcycle.facetlist', $.upcycle.base, {
 		'moreLessMin': 4,
 		'moreLessLinkContainer': null,
 		'moreLessOpenByDefault': false,
-		'localizeLabels': true,
 		'label': 'FACETLIST_LABEL'
 	},
 	'_create': function(){
@@ -76,13 +78,19 @@ $.widget('upcycle.facetlist', $.upcycle.base, {
 		/**
 		 * More/Less
 		 */
-		var $facets = this.element.find('.up-facets');
-		
-		$facets.moreless({
-			'minItems': this.options.moreLessMin,
-			'linkContainer': this.options.moreLessLinkContainer,
-			'openByDefault': this.options.moreLessOpenByDefault
-		});
+		var $facets = this.element.find('.up-facets'),
+			moreLessOptions = {
+				'minItems': this.options.moreLessMin,
+				'linkContainer': this.options.moreLessLinkContainer,
+				'openByDefault': this.options.moreLessOpenByDefault
+			};
+		if( this.options.more ){
+			moreLessOptions.more = this._getLabel(this.options.more);
+		}
+		if( this.options.less ){
+			moreLessOptions.less = this._getLabel(this.options.less);
+		}
+		$facets.moreless( moreLessOptions );
 		
 		return this;		
 	},
@@ -238,14 +246,19 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 		/**
 		 * More/Less
 		 */
+		var moreLessOptions = {
+				'minItems': that.options.moreLessMin
+			};
+		if( this.options.more ){
+			moreLessOptions.more = this._getLabel(this.options.more);
+		}
+		if( this.options.less ){
+			moreLessOptions.less = this._getLabel(this.options.less);
+		}
 		$viewport.find('.up-facet-options').each(function(){
 			var $facetOptions = $(this);
 			if( $facetOptions.children().length > 4 ){
-				$facetOptions.moreless({
-					'minItems': that.options.moreLessMin,
-					'more' : that.options.more || 'More',
-					'less' : that.options.less || 'Less'
-				});
+				$facetOptions.moreless( moreLessOptions );
 			}
 		});
 		/**
@@ -506,7 +519,6 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 		'templateName': 'filterpanel',
 		'data': [],
 		'selectedData': [],
-		'localizeLabels': true,
 		'label': 'FILTERPANEL_FILTERPANEL',
 		'clearAllLabel': 'FILTERPANEL_CLEAR_ALL',
 		'resultsLabel': 'FILTERPANEL_RESULTS',

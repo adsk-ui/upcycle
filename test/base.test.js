@@ -3,7 +3,7 @@ describe('base', function(){
 	beforeEach(function(){
 		base = $('<div></div>').base().data('upcycle-base');
 	});
-	xdescribe('#_getLabel', function(){
+	describe('#_getLabel', function(){
 		var label;
 		it('returns localized label when localizeLabels option is TRUE', function(){
 			base._setOptions({

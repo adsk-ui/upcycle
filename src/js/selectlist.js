@@ -22,14 +22,19 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 		/**
 		 * More/Less
 		 */
+		var moreLessOptions = {
+				'minItems': that.options.moreLessMin
+			};
+		if( this.options.more ){
+			moreLessOptions.more = this._getLabel(this.options.more);
+		}
+		if( this.options.less ){
+			moreLessOptions.less = this._getLabel(this.options.less);
+		}
 		$viewport.find('.up-facet-options').each(function(){
 			var $facetOptions = $(this);
 			if( $facetOptions.children().length > 4 ){
-				$facetOptions.moreless({
-					'minItems': that.options.moreLessMin,
-					'more' : that.options.more || 'More',
-					'less' : that.options.less || 'Less'
-				});
+				$facetOptions.moreless( moreLessOptions );
 			}
 		});
 		/**

@@ -3,7 +3,6 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 		'templateName': 'filterpanel',
 		'data': [],
 		'selectedData': [],
-		'localizeLabels': true,
 		'label': 'FILTERPANEL_FILTERPANEL',
 		'clearAllLabel': 'FILTERPANEL_CLEAR_ALL',
 		'resultsLabel': 'FILTERPANEL_RESULTS',
