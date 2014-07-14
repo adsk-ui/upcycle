@@ -26,8 +26,8 @@ describe('moreless', function(){
     });
 
     after(function(){
-      // $list.remove();
-      // $paragraph.remove();
+      $list.remove();
+      $paragraph.remove();
     });
 
 	it('has no conflict', function(){
