@@ -17,7 +17,8 @@ describe('moreless', function(){
     var $list, $paragraph;
     before(function(){
     	$paragraph = $(paragraph).appendTo('#sandbox-inner').children('p').moreless({
-        	'linkContainer': '#moreless-min-height'
+        	'linkContainer': '#moreless-min-height',
+            'truncateText': true
         }).end();
         $list = $(list).appendTo('#sandbox-inner').moreless({
         	'minItems': 1
@@ -25,8 +26,8 @@ describe('moreless', function(){
     });
 
     after(function(){
-      $list.remove();
-      $paragraph.remove();
+      // $list.remove();
+      // $paragraph.remove();
     });
 
 	it('has no conflict', function(){
