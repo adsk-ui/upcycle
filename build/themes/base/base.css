@@ -148,13 +148,25 @@
   overflow: hidden;
 }
 .upcycle-filterpanel .up-filterpanel-header > .pull-left {
-  max-width: 60%;
+  max-width: 50%;
   margin-right: 5px;
 }
 .upcycle-filterpanel .up-filterpanel-header > .pull-left span {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.upcycle-filterpanel .up-filterpanel-header .up-filterpanel-title {
+  margin-right: 4px;
+}
+.upcycle-filterpanel .up-filterpanel-header [data-action="clear-all"] {
+  display: inline-block;
+  max-width: 100px;
+  text-align: right;
+  line-height: 1.2em;
+}
+.upcycle-filterpanel .up-filterpanel-header [data-action="close"] {
+  vertical-align: top;
 }
 .upcycle-table.scrollable table {
   table-layout: fixed;

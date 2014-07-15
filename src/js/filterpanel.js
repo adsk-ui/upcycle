@@ -6,7 +6,8 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 		'label': 'FILTERPANEL_FILTERPANEL',
 		'clearAllLabel': 'FILTERPANEL_CLEAR_ALL',
 		'resultsLabel': 'FILTERPANEL_RESULTS',
-		'resultLabel': 'FILTERPANEL_RESULT'
+		'resultLabel': 'FILTERPANEL_RESULT',
+		'closeLabel': 'FILTERPANEL_CLOSE'
 	},
 	'_create': function(){
 		this._super();
@@ -76,7 +77,8 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 		if(this.options.localizeLabels){
 			_(context).extend({
 				'label': $.i18n.prop(options.label),
-				'clearAllLabel': $.i18n.prop(options.clearAllLabel)
+				'clearAllLabel': $.i18n.prop(options.clearAllLabel),
+				'closeLabel': $.i18n.prop(options.closeLabel)
 			});
 		}
 		return context;

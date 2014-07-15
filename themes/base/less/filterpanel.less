@@ -2,13 +2,25 @@
 	.up-filterpanel-header{
 		overflow: hidden;
 		>.pull-left{
-			max-width: 60%;
+			max-width: 50%;
 			margin-right: 5px;
 			span{
 				max-width: 100%;
 				overflow: hidden;
 				text-overflow: ellipsis;
 			}
+		}
+		.up-filterpanel-title{
+			margin-right: 4px;
+		}
+		[data-action="clear-all"]{
+			display:inline-block;
+			max-width: 100px;
+			text-align: right;
+			line-height: 1.2em;
+		}
+		[data-action="close"]{
+			vertical-align: top;
 		}
 	}
 }

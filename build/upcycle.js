@@ -522,7 +522,8 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 		'label': 'FILTERPANEL_FILTERPANEL',
 		'clearAllLabel': 'FILTERPANEL_CLEAR_ALL',
 		'resultsLabel': 'FILTERPANEL_RESULTS',
-		'resultLabel': 'FILTERPANEL_RESULT'
+		'resultLabel': 'FILTERPANEL_RESULT',
+		'closeLabel': 'FILTERPANEL_CLOSE'
 	},
 	'_create': function(){
 		this._super();
@@ -592,7 +593,8 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 		if(this.options.localizeLabels){
 			_(context).extend({
 				'label': $.i18n.prop(options.label),
-				'clearAllLabel': $.i18n.prop(options.clearAllLabel)
+				'clearAllLabel': $.i18n.prop(options.clearAllLabel),
+				'closeLabel': $.i18n.prop(options.closeLabel)
 			});
 		}
 		return context;
@@ -894,11 +896,19 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "<div class=\"up-filterpanel-header\">\n	<div class=\"pull-left\">\n		<span class=\"up-filterpanel-title pull-left\">";
+  buffer += "<div class=\"up-filterpanel-header\">\n	<div class=\"pull-left\">\n		<span class=\"up-filterpanel-title pull-left\" title=\"";
   if (stack1 = helpers.label) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.label); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</span>\n		<span class=\"up-filterpanel-result pull-left\"></span>\n	</div>\n	<div class=\"pull-right\">\n		<button role=\"button\" data-action=\"clear-all\" class=\"btn-link\">";
+    + "\">";
+  if (stack1 = helpers.label) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.label); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span>\n		<span class=\"up-filterpanel-result pull-left\"></span>\n	</div>\n	<div class=\"pull-right\">\n		<button role=\"button\" data-action=\"clear-all\" class=\"btn-link\" title=\"";
+  if (stack1 = helpers.clearAllLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.clearAllLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\">";
   if (stack1 = helpers.clearAllLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.clearAllLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
