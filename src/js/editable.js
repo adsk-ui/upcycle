@@ -24,7 +24,8 @@ $.widget('upcycle.editable', $.upcycle.base, {
 			oldValue = this._getTargetElementText(), 
 			newValue = revert ? defaultValue : event.target.value;
 		revert = defaultValue === newValue;
-
+		if( !$targetElement )
+			return;
 		if( event.keyCode !== ENTER_KEY && !revert )
 			return;
 		
@@ -54,14 +55,14 @@ $.widget('upcycle.editable', $.upcycle.base, {
 			popoverClass = this.option('popoverClass'),
 			view = this;
 
-		function __closePopover(){
+		function __closePopover(event){
 			$targetElement.popover('hide');
 		}
 
 		function __revert(event){
 			view._onEditChange(event, true);
 		}
-// 'click [data-action="revert"]': this._onRevert
+
 		$targetElement
 			.popover({
 				'container': this.option('popoverContainer') || this.element,
@@ -79,6 +80,7 @@ $.widget('upcycle.editable', $.upcycle.base, {
 				var popover = $(this).addClass('editing').data('popover');
 				popover.tip().find('input[type="text"]').focus();
 				popover.tip().on('click', '[data-action="revert"]', __revert);
+				popover.tip().on('click', function(event){event.stopPropagation();});
 				$(document).on('click', __closePopover);
 			})
 			.on('hidden', function(){

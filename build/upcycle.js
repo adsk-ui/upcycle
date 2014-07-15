@@ -456,6 +456,7 @@ $.widget('upcycle.editable', $.upcycle.base, {
 				var popover = $(this).addClass('editing').data('popover');
 				popover.tip().find('input[type="text"]').focus();
 				popover.tip().on('click', '[data-action="revert"]', __revert);
+				popover.tip().on('click', function(event){event.stopPropagation();});
 				$(document).on('click', __closePopover);
 			})
 			.on('hidden', function(){
