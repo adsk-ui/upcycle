@@ -24,13 +24,13 @@ describe('editable', function() {
 
     var editable;
 
-    before(function() {
+    beforeEach(function() {
         editable = $(table).appendTo('#sandbox-inner').editable({
             'widgetContainer': '#sandbox',
             'popoverContainer': 'body'
         }).data('upcycle-editable');
     });
-    after(function() {
+    afterEach(function() {
         editable._destroy();
         editable.element.remove();
     });
@@ -54,16 +54,33 @@ describe('editable', function() {
             })
             .trigger('click');
     });
-    it("does not allow popover to close unintentionally", function() {
-        var docClickHandler = sinon.spy();
-        $(document).one('click', docClickHandler);
+    it("does not allow popover to close unintentionally", function(done) {
         editable.element
             .find('.editable').eq(1)
             .one('shown', function() {
                 var $this = $(this),
+                    $popover = $this.data('popover').tip(),
+                    docClickHandler = sinon.spy();
+                $(document).one('click', docClickHandler);  
+                // defer this to allow the editable component's
+                // "shown" event handler to execute first
+                _.defer(function(){
+                    $popover.trigger('click');
+                    expect(docClickHandler.called).to.equal(false);
+                    done();
+                });
+            })
+            .trigger('click');
+    });
+
+    it("provides maxlength option for text input", function(done){
+        editable.option('textInputMaxLength', 1);
+        editable.element.find('.editable').eq(1)
+            .one('shown', function(){
+                var $this = $(this),
                     $popover = $this.data('popover').tip();
-                $popover.trigger('click');
-                expect(docClickHandler.called).to.equal(false);
+                expect($popover.find('input[type="text"]').attr('maxlength')).to.equal('1');
+                done();
             })
             .trigger('click');
     });

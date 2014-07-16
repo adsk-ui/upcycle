@@ -382,6 +382,7 @@ $.widget('upcycle.editable', $.upcycle.base, {
 		'popoverClass': '',
 		'popoverContainer': null,
 		'popoverPlacement': 'bottom',
+		'textInputMaxLength': null,
 		'defaultButtonLabel': 'EDITABLE_DEFAULT_BUTTON_LABEL'
 	},
 	'_create': function(){
@@ -401,7 +402,8 @@ $.widget('upcycle.editable', $.upcycle.base, {
 			oldValue = this._getTargetElementText(), 
 			newValue = revert ? defaultValue : event.target.value;
 		revert = defaultValue === newValue;
-
+		if( !$targetElement )
+			return;
 		if( event.keyCode !== ENTER_KEY && !revert )
 			return;
 		
@@ -431,14 +433,14 @@ $.widget('upcycle.editable', $.upcycle.base, {
 			popoverClass = this.option('popoverClass'),
 			view = this;
 
-		function __closePopover(){
+		function __closePopover(event){
 			$targetElement.popover('hide');
 		}
 
 		function __revert(event){
 			view._onEditChange(event, true);
 		}
-// 'click [data-action="revert"]': this._onRevert
+
 		$targetElement
 			.popover({
 				'container': this.option('popoverContainer') || this.element,
@@ -456,7 +458,9 @@ $.widget('upcycle.editable', $.upcycle.base, {
 				var popover = $(this).addClass('editing').data('popover');
 				popover.tip().find('input[type="text"]').focus();
 				popover.tip().on('click', '[data-action="revert"]', __revert);
-				popover.tip().on('click', function(event){event.stopPropagation();});
+				popover.tip().on('click', function(event){
+					event.stopPropagation();
+				});
 				$(document).on('click', __closePopover);
 			})
 			.on('hidden', function(){
@@ -472,10 +476,14 @@ $.widget('upcycle.editable', $.upcycle.base, {
 	},
 	'_destroy': function(){
 		delete this.options.targetElementDefaultValue;
-		this.$targetElement.removeClass('editing');
-		this.$targetElement.data('popover').tip().off();
-		this.$targetElement.popover('destroy');
-		this.$targetElement = null;
+		if( this.$targetElement ){
+			this.$targetElement.removeClass('editing');
+			if( this.$targetElement.data('popover') ){
+				this.$targetElement.data('popover').tip().off();
+			}
+			this.$targetElement.popover('destroy');
+			this.$targetElement = null;
+		}
 	},
 	'_getTargetElementText': function(){
 		var $targetElement = this.$targetElement,
@@ -511,6 +519,8 @@ $.widget('upcycle.editable', $.upcycle.base, {
 				'defaultButtonLabel': localizeLabels ? i18n(this.option('defaultButtonLabel')) : this.option('defaultButtonLabel'),
 				'currentValueIsDefault': _.isEmpty(attr('data-default-value'))
 			};
+			if( _.isNumber(this.options.textInputMaxLength) )
+				context.textInputMaxLength = this.options.textInputMaxLength;
 		}
 		return context;
 	}
@@ -819,6 +829,17 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = "", stack1;
+  buffer += "maxlength=\"";
+  if (stack1 = helpers.textInputMaxLength) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.textInputMaxLength); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\"";
+  return buffer;
+  }
+
+function program3(depth0,data) {
+  
+  var buffer = "", stack1;
   buffer += "\n<div class=\"bottom\">\n	<div>\n		<span role=\"label\">";
   if (stack1 = helpers.defaultValueLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.defaultValueLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
@@ -843,8 +864,11 @@ function program1(depth0,data) {
   if (stack1 = helpers.newValuePlaceholder) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.newValuePlaceholder); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\"></input>\n";
-  stack1 = helpers.unless.call(depth0, (depth0 && depth0.currentValueIsDefault), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+    + "\" ";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.textInputMaxLength), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "></input>\n";
+  stack1 = helpers.unless.call(depth0, (depth0 && depth0.currentValueIsDefault), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n\n";
   return buffer;

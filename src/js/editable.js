@@ -5,6 +5,7 @@ $.widget('upcycle.editable', $.upcycle.base, {
 		'popoverClass': '',
 		'popoverContainer': null,
 		'popoverPlacement': 'bottom',
+		'textInputMaxLength': null,
 		'defaultButtonLabel': 'EDITABLE_DEFAULT_BUTTON_LABEL'
 	},
 	'_create': function(){
@@ -80,7 +81,9 @@ $.widget('upcycle.editable', $.upcycle.base, {
 				var popover = $(this).addClass('editing').data('popover');
 				popover.tip().find('input[type="text"]').focus();
 				popover.tip().on('click', '[data-action="revert"]', __revert);
-				popover.tip().on('click', function(event){event.stopPropagation();});
+				popover.tip().on('click', function(event){
+					event.stopPropagation();
+				});
 				$(document).on('click', __closePopover);
 			})
 			.on('hidden', function(){
@@ -96,10 +99,14 @@ $.widget('upcycle.editable', $.upcycle.base, {
 	},
 	'_destroy': function(){
 		delete this.options.targetElementDefaultValue;
-		this.$targetElement.removeClass('editing');
-		this.$targetElement.data('popover').tip().off();
-		this.$targetElement.popover('destroy');
-		this.$targetElement = null;
+		if( this.$targetElement ){
+			this.$targetElement.removeClass('editing');
+			if( this.$targetElement.data('popover') ){
+				this.$targetElement.data('popover').tip().off();
+			}
+			this.$targetElement.popover('destroy');
+			this.$targetElement = null;
+		}
 	},
 	'_getTargetElementText': function(){
 		var $targetElement = this.$targetElement,
@@ -135,6 +142,8 @@ $.widget('upcycle.editable', $.upcycle.base, {
 				'defaultButtonLabel': localizeLabels ? i18n(this.option('defaultButtonLabel')) : this.option('defaultButtonLabel'),
 				'currentValueIsDefault': _.isEmpty(attr('data-default-value'))
 			};
+			if( _.isNumber(this.options.textInputMaxLength) )
+				context.textInputMaxLength = this.options.textInputMaxLength;
 		}
 		return context;
 	}

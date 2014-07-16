@@ -1,4 +1,4 @@
-<label>{{newValueLabel}}:</label><input type="text" placeholder="{{newValuePlaceholder}}"></input>
+<label>{{newValueLabel}}:</label><input type="text" placeholder="{{newValuePlaceholder}}" {{#if textInputMaxLength}}maxlength="{{textInputMaxLength}}"{{/if}}></input>
 {{#unless currentValueIsDefault}}
 <div class="bottom">
 	<div>

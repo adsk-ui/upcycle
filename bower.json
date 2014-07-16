@@ -59,7 +59,8 @@
     "sinon": {
       "main": [
         "lib/sinon.js",
-        "lib/sinon/spy.js"
+        "lib/sinon/spy.js",
+        "lib/sinon/call.js"
       ]
     }
   }
