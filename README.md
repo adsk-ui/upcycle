@@ -8,7 +8,7 @@ Setup
 3. Install bower dependencies (from command line in project root, type: `bower install`)
 4. Install npm dependencies (again from command line type: `npm install`)
 5. run `gulp`
-5. Open [http:localhost:8080/test/](http:localhost:8080/test/) in a browser to see unit tests
+5. Open [http://localhost:8080/test/](http:localhost:8080/test/) in a browser to see unit tests
 
 
 gulp tasks
