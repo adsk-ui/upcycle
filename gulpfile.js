@@ -150,6 +150,17 @@ gulp.task('test', function() {
     return gulp.src(paths.test.runner)
     	.pipe(mochaPhantomJs());
 });
+
+gulp.task('connect', function () {
+    plugin.connect.server({
+        root: '.',
+        livereload: true
+    });
+});
+gulp.task('reload-tests', function () {
+    gulp.src([paths.test.js, paths.src.js])
+        .pipe(plugin.connect.reload());
+});
 /**
  * Generates /docs/index.html injecting upcycle.js, themenames.css 
  * and styles for the docs page.
@@ -173,6 +184,7 @@ gulp.task('docs', function(){
 gulp.task('build', ['templates', 'lint', 'js', 'less', 'img', 'docs', 'test']);
 gulp.task('watch', function () {
     gulp.watch(paths.themes.base.less, ['less']);
-    gulp.watch([paths.themes.base.css, paths.src.js, paths.test.js, paths.test.less], ['test']);
+    gulp.watch([paths.themes.base.css, paths.src.js, paths.test.js, paths.test.less], ['test', 'reload-tests']);
     gulp.watch(paths.src.templates, ['templates']);
 });
+gulp.task('default', ['connect', 'watch']);
