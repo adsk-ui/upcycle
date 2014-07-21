@@ -22,16 +22,17 @@
     var expect = chai.expect;
     mocha.setup('bdd');
   </script>
-  
+
   <!-- inject:source:js -->
-  <!-- include source files here... --> 
+  <!-- include source files here... -->
   <!-- endinject -->
-  
+
   <!-- inject:tests:js -->
   <!-- include test files here... -->
   <!-- endinject -->
 
   <script>
+  var root = this;
   $.i18n.properties({
     'name': 'language',
     'path': '../src/i18n/',
@@ -40,14 +41,14 @@
     'callback': function(success){
       if(_.isEmpty($.i18n.map))
         return;
-      if (window.mochaPhantomJS) {
+      if (root.mochaPhantomJS) {
         mochaPhantomJS.run();
       } else {
         mocha.run();
       }
     }
-  }); 
-  
+  });
+
   </script>
 </body>
 </html>

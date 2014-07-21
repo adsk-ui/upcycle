@@ -12,7 +12,7 @@ var paths = {
         js:"src/js/*.js",
         jsOrder: [
         '**/jquery.extensions.js',
-        '**/base.js', 
+        '**/base.js',
         '**/facetlist.js',
         '**/selectlist.js',
         '**/facetlist.js',
@@ -93,8 +93,8 @@ gulp.task('less', function(){
             slashIndex = path.dirname.indexOf('\\');
             if(slashIndex < 0)
                 slashIndex = path.dirname.indexOf('/');
-            path.dirname = path.dirname.substring(0, slashIndex);  
-            path.basename = path.dirname; 
+            path.dirname = path.dirname.substring(0, slashIndex);
+            path.basename = path.dirname;
         }))
         .pipe(gulp.dest(paths.build.themes))
         .on('error', plugin.util.log);
@@ -128,7 +128,7 @@ gulp.task('js', function(){
         .on('error', plugin.util.log);
 });
 /**
- * Generates /test/index.html injecting source and 
+ * Generates /test/index.html injecting source and
  * unit test js files, then runs it through phantomjs.
  * @return {[type]} [description]
  */
@@ -154,6 +154,7 @@ gulp.task('test', function() {
 gulp.task('connect', function () {
     plugin.connect.server({
         root: '.',
+        port: 8083,
         livereload: true
     });
 });
@@ -162,7 +163,7 @@ gulp.task('reload-tests', function () {
         .pipe(plugin.connect.reload());
 });
 /**
- * Generates /docs/index.html injecting upcycle.js, themenames.css 
+ * Generates /docs/index.html injecting upcycle.js, themenames.css
  * and styles for the docs page.
  * @return {[type]} [description]
  */

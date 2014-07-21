@@ -1,34 +1,51 @@
 $.widget('upcycle.hover_tooltip', $.upcycle.base, {
-	'options': {
-		'templateName': 'hover_tooltip'
-	},
-	'_create': function(){
-		var self = this;
-		this._super();
-		$('.hover_tooltip')
-		// http://stackoverflow.com/questions/1273566/how-do-i-check-if-the-mouse-is-over-an-element-in-jquery/1670561#1670561
-		.mouseenter(function (e) {
-			clearTimeout($(this).data('timeoutId'));
-		})
-		.mouseleave(function (e) {
-			e.stopImmediatePropagation();
-			var $this = $(this),
-				timeoutId = setTimeout(function () {
-					self._close($this)
-				}, 1000);
-			$this.data('timeoutId', timeoutId);
-		})
-		.tooltip({
-			items: '.hover_tooltip',
-			content: function () {
-				return self._getMarkup();
-			}
-		});
-	},
-	_close: function ($el) {
-		$el.tooltip('close');
-	},
-	_getTemplateContext: function() {
-		return {};
-	}
+    'options': {
+        'templateName': 'hover_tooltip',
+        'collection': null,
+        'activatorTimeout': 300,
+        'contentTimeout': 150,
+        'hoverInContent': false,
+        'prefix': null,
+        'id': null
+    },
+    '_create': function(){
+        var self = this,
+            $el = this.element;
+        this._super();
+
+        // Initialize popover
+        $el.popover({
+            'animation': false,
+            'placement': 'bottom',
+            'html': true,
+            'container': 'body',
+            'content': function () {
+                return self._getMarkup();
+            }
+        })
+        .hoverInContent($el, this.option('activatorTimeout'), self._close)
+        .on('shown', function() {
+            var $content = $('#' + self.option('prefix') + '-' + self.option('id')).parent();
+            $content.add( $content.siblings('.arrow') )
+                .hoverInContent($el, self.option('contentTimeout'), self._close);
+        });
+
+        this._on({
+            'mouseenter': function (e) {
+                $el.popover('show');
+            },
+            'mouseleave': function () {
+                $el.popover('hide');
+            }
+        });
+    },
+    _close: function () {
+        this.popover('hide');
+    },
+    _getTemplateContext: function() {
+        return {
+            id: this.option('id'),
+            products: this.option('collection')
+        };
+    }
 });
