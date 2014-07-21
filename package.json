@@ -11,7 +11,7 @@
   },
   "homepage": "http://adsk-ui.github.io/upcycle/",
   "devDependencies": {
-    "gulp": "~3.6.2",
+    "gulp": "~3.8.1",
     "gulp-util": "^2.2.14",
     "gulp-handlebars": "^2.0.0",
     "gulp-clean": "^0.2.4",
