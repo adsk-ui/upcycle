@@ -5,6 +5,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
         'activatorTimeout': 300,
         'contentTimeout': 150,
         'hoverInContent': false,
+        'placement': null,
         'prefix': null,
         'id': null
     },
@@ -16,7 +17,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
         // Initialize popover
         $el.popover({
             'animation': false,
-            'placement': 'bottom',
+            'placement': self.option('placement'),
             'html': true,
             'container': 'body',
             'content': function () {

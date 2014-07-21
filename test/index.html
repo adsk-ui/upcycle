@@ -38,7 +38,7 @@
     var expect = chai.expect;
     mocha.setup('bdd');
   </script>
-  
+
   <!-- inject:source:js -->
   <script src="../src/js/jquery.extensions.js"></script>
   <script src="../src/js/base.js"></script>
@@ -51,17 +51,19 @@
   <script src="../src/js/moreless.js"></script>
   <script src="../src/js/templates.js"></script>
   <!-- endinject -->
-  
+
   <!-- inject:tests:js -->
   <script src="../test/base.test.js"></script>
   <script src="../test/editable.test.js"></script>
   <script src="../test/facetlist.test.js"></script>
   <script src="../test/filterpanel.test.js"></script>
+  <script src="../test/hover_tooltip.test.js"></script>
   <script src="../test/moreless.test.js"></script>
   <script src="../test/selectlist.test.js"></script>
   <!-- endinject -->
 
   <script>
+  var root = this;
   $.i18n.properties({
     'name': 'language',
     'path': '../src/i18n/',
@@ -70,14 +72,14 @@
     'callback': function(success){
       if(_.isEmpty($.i18n.map))
         return;
-      if (window.mochaPhantomJS) {
+      if (root.mochaPhantomJS) {
         mochaPhantomJS.run();
       } else {
         mocha.run();
       }
     }
-  }); 
-  
+  });
+
   </script>
 </body>
 </html>

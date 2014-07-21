@@ -7,7 +7,8 @@ describe('hover_tooltip', function() {
 			'collection': ['Building Design Suite Premium', 'Infraworks'],
 			'hoverInContent': true,
 			'prefix': 'product_list',
-			'id': 'abc123'
+			'id': 'abc123',
+			'placement': 'right'
 		});
 	});
 
