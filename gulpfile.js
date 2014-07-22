@@ -159,7 +159,7 @@ gulp.task('connect', function () {
     });
 });
 gulp.task('reload-tests', function () {
-    gulp.src([paths.test.js, paths.src.js])
+    gulp.src([paths.test.js, paths.src.js, paths.src.css])
         .pipe(plugin.connect.reload());
 });
 /**
@@ -184,7 +184,7 @@ gulp.task('docs', function(){
 
 gulp.task('build', ['templates', 'lint', 'js', 'less', 'img', 'docs', 'test']);
 gulp.task('watch', function () {
-    gulp.watch(paths.themes.base.less, ['less']);
+    gulp.watch(paths.themes.base.less, ['less', 'reload-tests']);
     gulp.watch([paths.themes.base.css, paths.src.js, paths.test.js, paths.test.less], ['test', 'reload-tests']);
     gulp.watch(paths.src.templates, ['templates']);
 });
