@@ -1,14 +1,19 @@
+// Generic tooltip triggered by mouse hover.
+// Built on Bootstrap's popover.
 $.widget('upcycle.hover_tooltip', $.upcycle.base, {
     'options': {
+    	// default template
         'templateName': 'hover_tooltip',
-        'collection': null,
+        // or define your own Handlebars template
+        'template': null,
         'activatorTimeout': 300,
         'contentTimeout': 150,
         'hoverInContent': false,
         'placement': 'right',
         'content': null,
         'prefix': null,
-        'id': null
+        'id': null,
+        'class': ''
     },
     '_create': function(){
         var self = this,
@@ -16,20 +21,24 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
         this._super();
 
         // Initialize popover
-        $el.popover({
+        $popover = $el.popover({
             'animation': false,
             'placement': self.option('placement'),
             'html': true,
             'container': 'body',
             'content': function () {
+            	// if content was already rendered and passed in, use it
+            	// otherwise use the template assigned to the widget
                 return self.option('content') !== null ? self.option('content') : self._getMarkup();
             }
         })
+        .on('show', function() {
+        	$(this).data('popover').tip().addClass(self.widgetFullName);
+        })
         .on('shown', function() {
             if (self.option('hoverInContent')) {
-                var $content = $('#' + self.option('prefix') + '-' + self.option('id')).parent();
-                $content.add($content.siblings('.arrow'))
-                    .hoverInContent($el, self.option('contentTimeout'), self._close);
+                var $content = $('.popover').find('.arrow, .popover-content');
+                $content.hoverInContent($el, self.option('contentTimeout'), self._close);
             }
         });
 
@@ -45,14 +54,13 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
                 $el.popover('hide');
             }
         });
+        
+        return $popover;
     },
     _close: function () {
         this.popover('hide');
     },
     _getTemplateContext: function() {
-        return {
-            id: this.option('id'),
-            products: this.option('collection')
-        };
+        return {};
     }
 });

@@ -2,13 +2,13 @@ describe('hover_tooltip', function() {
 	var $link = $('<a href="#" style="margin-left:200px;" class="hover_tooltip">hover here</a>');
 
 	beforeEach(function() {
-		$link.appendTo('#sandbox-inner').hover_tooltip({
+		$link.appendTo('#sandbox-inner').hover_tooltip_list({
 			'widgetContainer': '#sandbox',
-			'collection': ['Building Design Suite Premium', 'Infraworks'],
+			'collection': ['Building Design Suite Premium', 'Infraworks', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum'],
 			'hoverInContent': true,
-			'prefix': 'product_list',
-			'id': 'abc123',
-			'placement': 'bottom'
+			'placement': 'bottom',
+			'template': null,
+			'templateName': 'hover_tooltip_list'
 		});
 	});
 
