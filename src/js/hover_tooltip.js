@@ -5,7 +5,8 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
         'activatorTimeout': 300,
         'contentTimeout': 150,
         'hoverInContent': false,
-        'placement': null,
+        'placement': 'right',
+        'content': null,
         'prefix': null,
         'id': null
     },
@@ -21,15 +22,20 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
             'html': true,
             'container': 'body',
             'content': function () {
-                return self._getMarkup();
+                return self.option('content') !== null ? self.option('content') : self._getMarkup();
             }
         })
-        .hoverInContent($el, this.option('activatorTimeout'), self._close)
         .on('shown', function() {
-            var $content = $('#' + self.option('prefix') + '-' + self.option('id')).parent();
-            $content.add( $content.siblings('.arrow') )
-                .hoverInContent($el, self.option('contentTimeout'), self._close);
+            if (self.option('hoverInContent')) {
+                var $content = $('#' + self.option('prefix') + '-' + self.option('id')).parent();
+                $content.add($content.siblings('.arrow'))
+                    .hoverInContent($el, self.option('contentTimeout'), self._close);
+            }
         });
+
+        if (self.option('hoverInContent')) {
+            $el.hoverInContent($el, this.option('activatorTimeout'), self._close);
+        }
 
         this._on({
             'mouseenter': function (e) {

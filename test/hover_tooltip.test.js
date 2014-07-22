@@ -8,7 +8,7 @@ describe('hover_tooltip', function() {
 			'hoverInContent': true,
 			'prefix': 'product_list',
 			'id': 'abc123',
-			'placement': 'right'
+			'placement': 'bottom'
 		});
 	});
 
