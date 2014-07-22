@@ -3,6 +3,7 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 		'templateName': 'filterpanel',
 		'data': [],
 		'selectedData': [],
+		'selectedFacets': [], 
 		'label': 'FILTERPANEL_FILTERPANEL',
 		'clearAllLabel': 'FILTERPANEL_CLEAR_ALL',
 		'resultsLabel': 'FILTERPANEL_RESULTS',
@@ -20,7 +21,7 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 	'_triggerChangeEvent': function(event, selectedFacets, selectedData){
 		this._trigger(':selection:changed', event, {'facets': selectedFacets, 'data': selectedData});	
 	},
-	'_onSelectionChange': function(event){
+	'_onSelectionChange': function(event){ 
 		var selectedFacets = this._getSelectedFacetList(),
 			selectedData = this._getSelectedData(selectedFacets);
 		this._setOption('selectedFacets', selectedFacets);
