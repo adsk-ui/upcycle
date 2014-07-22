@@ -41,6 +41,7 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 					_.extend(f, {'options': facetOptions});
 				}
 			}, this);
+			this._setOption('selectedData', this._getSelectedData(this._getSelectedFacetList()));
 			this._render();
 		}
 		if(key === 'selectedData'){
