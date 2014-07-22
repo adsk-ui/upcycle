@@ -4,6 +4,7 @@ describe('hover_tooltip', function() {
 	beforeEach(function() {
 		$link.appendTo('#sandbox-inner').hover_tooltip_list({
 			'widgetContainer': '#sandbox',
+			// 'collection': ['Building Design Suite Premium', 'Infraworks'],
 			'collection': ['Building Design Suite Premium', 'Infraworks', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum'],
 			'hoverInContent': true,
 			'placement': 'bottom',

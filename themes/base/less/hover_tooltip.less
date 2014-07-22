@@ -1,15 +1,17 @@
 .upcycle-hover_tooltip_list {
 	.popover-content {
-		overflow: hidden;
-		max-height: 150px;
+		max-height: 200px;
+		min-width: 220px;
 	}
 	.scroll-area{
+		padding-right: 10px;
+		position: relative;
 		.scrollbar{
 			@scrollbar-width: 6px;
 		    position:absolute;
 		    z-index: 1;
-		    top:0;
-		    right:6px;
+		    top:10px;
+		    right:0;
 		    width:@scrollbar-width;
 		    .track{
 			    height:100%;
@@ -22,6 +24,18 @@
 				    position:absolute;
 				    top:0;
 				}
+			}
+			&.disable {
+				display: none;
+			}
+		}
+		.viewport {
+			height: 180px;
+			overflow: hidden;
+			position: relative;
+			.overview {
+				position: absolute;
+				left: 0;
 			}
 		}
 	}
