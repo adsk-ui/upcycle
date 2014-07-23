@@ -42,7 +42,7 @@
 		.mouseleave(function (e) {
 			e.stopImmediatePropagation();
 			var timeoutId = setTimeout(function () {
-					// cb.call($timeoutStore);
+					cb.call($timeoutStore);
 				}, timeout);
 			$timeoutStore.data('timeoutId', timeoutId);
 		});

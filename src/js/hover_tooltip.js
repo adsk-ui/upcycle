@@ -21,9 +21,9 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
         if (this.option('content') === null) throw new Error('No content provided');
         var self = this,
             $el = this.element,
-            scrollHeight,
             $popover, $tip,
             scrollable = self.option('maxHeight') !== null,
+            scrollHeight,
             $scrollArea, $viewport, $overview;
 
         this._super();
@@ -41,32 +41,15 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
             }
         })
         .on('show', function() {
-            var tip = $(this).data('popover').tip();
-            tip.addClass(self.widgetFullName);
+            $(this).data('popover').tip().addClass(self.widgetFullName);
         })
         .on('shown', function() {
             if (self.option('hoverInContent')) {
                 var $content = $('.popover').find('.arrow, .popover-content');
                 $content.hoverInContent($el, self.option('contentTimeout'), self._close);
             }
-        });
-
-        if (self.option('hoverInContent')) {
-            $el.hoverInContent($el, this.option('activatorTimeout'), self._close);
-        }
-
-        this._on({
-            'mouseenter': function (e) {
-                $el.popover('show');
-            },
-            'mouseleave': function () {
-                $el.popover('hide');
-            }
-        });
-
-        // Scrollbar
-        if (scrollable) {
-            $popover.on('shown', function(e) {
+            // Scrollbar
+            if (scrollable) {
                 $tip = $popover.data('popover').tip();
                 $tip.find('.popover-content').css('max-height', self.option('maxHeight')+'px');
 
@@ -84,8 +67,21 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
                 else {
                     $viewport.height(scrollHeight);
                 }
-            });
+            }
+        });
+
+        if (self.option('hoverInContent')) {
+            $el.hoverInContent($el, this.option('activatorTimeout'), self._close);
         }
+
+        this._on({
+            'mouseenter': function (e) {
+                $el.popover('show');
+            },
+            'mouseleave': function () {
+                $el.popover('hide');
+            }
+        });
     },
     _close: function () {
         this.popover('hide');
