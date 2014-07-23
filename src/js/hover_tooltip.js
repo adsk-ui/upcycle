@@ -9,6 +9,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
         'hoverInContent': false,
         'placement': 'right',
         'container': 'body',
+        'classes': '', // customizable class
 
         // Required
         'content': null,
@@ -41,7 +42,9 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
             }
         })
         .on('show', function() {
-            $(this).data('popover').tip().addClass(self.widgetFullName);
+            $(this).data('popover').tip()
+                .addClass(self.widgetFullName)
+                .addClass(self.option('classes'));
         })
         .on('shown', function() {
             if (self.option('hoverInContent')) {

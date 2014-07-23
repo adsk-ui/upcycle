@@ -5,7 +5,7 @@ var wiredep = require('wiredep');
 var gulpBowerFiles = require('gulp-bower-files');
 var mochaPhantomJs = require('gulp-mocha-phantomjs');
 var paths = {
-	src: {
+    src: {
         cssDir: "src/css",
         css: "src/css/*.css",
         jsDir:"src/js",
@@ -20,14 +20,14 @@ var paths = {
         templates: "src/templates/*.hbs",
         lessDir: "src/less",
         less: "src/less/*.less"
-	},
-	test: {
+    },
+    test: {
         dir: "test",
-		js:"test/*.js",
+        js:"test/*.js",
         less:"test/*.less",
-		runnerTemplate: "test/runner-template.html",
-		runner: "test/index.html"
-	},
+        runnerTemplate: "test/runner-template.html",
+        runner: "test/index.html"
+    },
     themes: {
         less: "themes/**/main.less",
         img: "themes/**/*.png",
@@ -55,7 +55,7 @@ var paths = {
         dir: "docs",
         index: "docs/index.html"
     },
-	testDir: "test",
+    testDir: "test",
     buildDir: "build"
 };
 
@@ -132,7 +132,7 @@ gulp.task('js', function(){
  * unit test js files, then runs it through phantomjs.
  * @return {[type]} [description]
  */
-gulp.task('test', function() {
+gulp.task('test', function(done) {
     gulp.src(paths.test.dir + '/test.less')
         .pipe(plugin.less({paths: [paths.test.dir + '/test.less']}))
         .pipe(gulp.dest(paths.test.dir));
@@ -147,8 +147,10 @@ gulp.task('test', function() {
         .pipe(plugin.rename(paths.test.runner.replace(filePathRegex, '')))
         .pipe(gulp.dest(paths.testDir));
 
-    return gulp.src(paths.test.runner)
-    	.pipe(mochaPhantomJs());
+    var stream = mochaPhantomJs();
+    stream.write({path: 'http://localhost:8083/'+paths.test.runner});
+    stream.end();
+    return stream;
 });
 
 gulp.task('connect', function () {
@@ -184,7 +186,7 @@ gulp.task('docs', function(){
 
 gulp.task('build', ['templates', 'lint', 'js', 'less', 'img', 'docs', 'test']);
 gulp.task('watch', function () {
-    gulp.watch(paths.themes.base.less, ['less', 'reload-tests']);
+    gulp.watch([paths.themes.base.less, paths.themes.portal.less], ['less', 'reload-tests']);
     gulp.watch([paths.themes.base.css, paths.src.js, paths.test.js, paths.test.less], ['test', 'reload-tests']);
     gulp.watch(paths.src.templates, ['templates']);
 });
