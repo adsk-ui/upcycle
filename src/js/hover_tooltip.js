@@ -2,22 +2,30 @@
 // Built on Bootstrap's popover.
 $.widget('upcycle.hover_tooltip', $.upcycle.base, {
     'options': {
-    	// default template
+        // defaults
         'templateName': 'hover_tooltip',
-        // or define your own Handlebars template
-        'template': null,
         'activatorTimeout': 300,
         'contentTimeout': 150,
         'hoverInContent': false,
         'placement': 'right',
+        'container': 'body',
+
+        // Required
         'content': null,
-        'prefix': null,
-        'id': null,
-        'class': ''
+
+        // scrollbar options
+        'maxHeight': null,
+        'thumbSize': 50
     },
     '_create': function(){
+        if (this.option('content') === null) throw new Error('No content provided');
         var self = this,
-            $el = this.element;
+            $el = this.element,
+            scrollHeight,
+            $popover, $tip,
+            scrollable = self.option('maxHeight') !== null,
+            $scrollArea, $viewport, $overview;
+
         this._super();
 
         // Initialize popover
@@ -25,15 +33,16 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
             'animation': false,
             'placement': self.option('placement'),
             'html': true,
-            'container': 'body',
+            'container': self.option('container'),
             'content': function () {
-            	// if content was already rendered and passed in, use it
-            	// otherwise use the template assigned to the widget
-                return self.option('content') !== null ? self.option('content') : self._getMarkup();
+                return scrollable ?
+                            self._getMarkup(self.option('content')) :
+                            self.option('content');
             }
         })
         .on('show', function() {
-        	$(this).data('popover').tip().addClass(self.widgetFullName);
+            var tip = $(this).data('popover').tip();
+            tip.addClass(self.widgetFullName);
         })
         .on('shown', function() {
             if (self.option('hoverInContent')) {
@@ -54,13 +63,36 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
                 $el.popover('hide');
             }
         });
-        
-        return $popover;
+
+        // Scrollbar
+        if (scrollable) {
+            $popover.on('shown', function(e) {
+                $tip = $popover.data('popover').tip();
+                $tip.find('.popover-content').css('max-height', self.option('maxHeight')+'px');
+
+                $scrollArea = $tip.find('.scroll-area');
+                $viewport = $tip.find('.viewport');
+                $overview = $tip.find('.overview');
+                scrollHeight = $overview.height();
+
+                if (scrollHeight > self.option('maxHeight')) {
+                    $viewport.height(self.option('maxHeight'));
+                    $scrollArea.tinyscrollbar({
+                        thumbSize: self.option('thumbSize')
+                    });
+                }
+                else {
+                    $viewport.height(scrollHeight);
+                }
+            });
+        }
     },
     _close: function () {
         this.popover('hide');
     },
     _getTemplateContext: function() {
-        return {};
+        return {
+            'content': this.option('content')
+        };
     }
 });

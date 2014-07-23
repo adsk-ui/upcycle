@@ -30,7 +30,7 @@
 	};
 	// http://stackoverflow.com/questions/1273566/how-do-i-check-if-the-mouse-is-over-an-element-in-jquery/1670561#1670561
 	/**
-	 * Allows the mouse to enter popover content without 
+	 * Allows the mouse to enter popover content without
 	 * closing the popover.
 	 * Stores the timeoutId in the triggering element.
 	 * Invokes the callback provided once setTimeout executes.

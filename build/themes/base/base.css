@@ -181,3 +181,41 @@
   position: relative;
   z-index: 2;
 }
+.popover.upcycle-hover_tooltip .popover-content {
+  min-width: 220px;
+  padding: 15px;
+}
+.popover.upcycle-hover_tooltip .popover-content .scroll-area {
+  padding-right: 16px;
+  position: relative;
+}
+.popover.upcycle-hover_tooltip .popover-content .scroll-area .scrollbar {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  width: 6px;
+}
+.popover.upcycle-hover_tooltip .popover-content .scroll-area .scrollbar .track {
+  height: 100%;
+  width: 6px;
+  position: relative;
+}
+.popover.upcycle-hover_tooltip .popover-content .scroll-area .scrollbar .track .thumb {
+  height: 20px;
+  width: 6px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+}
+.popover.upcycle-hover_tooltip .popover-content .scroll-area .scrollbar.disable {
+  display: none;
+}
+.popover.upcycle-hover_tooltip .popover-content .scroll-area .viewport {
+  overflow: hidden;
+  position: relative;
+}
+.popover.upcycle-hover_tooltip .popover-content .scroll-area .viewport .overview {
+  position: absolute;
+  left: 0;
+}

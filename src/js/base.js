@@ -9,7 +9,7 @@ $.widget('upcycle.base', {
 		this._setOptions(this.options);
 	},
 	'_getMarkup': function(){
-		var template = this.option('template') || this._getTemplate();
+		var template = this._getTemplate();
 		return template(this._getTemplateContext.apply(this, arguments));
 	},
 	'_getTemplate': function(templateName){
