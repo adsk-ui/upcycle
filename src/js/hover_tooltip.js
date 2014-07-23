@@ -46,7 +46,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
         .on('shown', function() {
             if (self.option('hoverInContent')) {
                 var $content = $('.popover').find('.arrow, .popover-content');
-                $content.hoverInContent($el, self.option('contentTimeout'), self._close);
+                $content.hoverInContent($el, self.option('contentTimeout'), self._closeFromTriggerElement);
             }
             // Scrollbar
             if (scrollable) {
@@ -71,7 +71,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
         });
 
         if (self.option('hoverInContent')) {
-            $el.hoverInContent($el, this.option('activatorTimeout'), self._close);
+            $el.hoverInContent($el, this.option('activatorTimeout'), self._closeFromTriggerElement);
         }
 
         this._on({
@@ -83,8 +83,11 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
             }
         });
     },
-    _close: function () {
+    _closeFromTriggerElement: function () {
         this.popover('hide');
+    },
+    close: function() {
+    	this.element.popover('hide');
     },
     _getTemplateContext: function() {
         return {

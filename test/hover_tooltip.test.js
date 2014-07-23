@@ -1,5 +1,6 @@
 describe('hover_tooltip', function() {
     var $link = $('<a href="#" style="margin-left:200px;" class="hover_tooltip">hover here</a>');
+    var tooltip;
     var longContent = '<ul>'+
                         '<li>first lorem ipsum</li>'+
                         '<li>second lorem ipsum</li>'+
@@ -29,19 +30,27 @@ describe('hover_tooltip', function() {
                       '</ul>';
 
     beforeEach(function() {
-        $link.appendTo('#sandbox-inner').hover_tooltip({
+        tooltip = $link.appendTo('#sandbox-inner').hover_tooltip({
             'widgetContainer': '#sandbox',
-            // 'collection': ['Building Design Suite Premium', 'Infraworks'],
-            'collection': ['Building Design Suite Premium', 'Infraworks', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum', 'lorem ipsum'],
             'hoverInContent': true,
             'maxHeight': 215,
             'placement': 'bottom',
             // 'content': '<ul><li>first</li><li>second</li></ul>'
             'content': longContent
-        });
+        }).data('upcycle-hover_tooltip');
+    });
+    afterEach(function() {
+        tooltip.close();
+        tooltip.element.remove();
     });
 
-    it('playing with hover_tooltip', function() {
-        //todo
+    it('should have a scrollbar when maxHeight is set and overview content height is greater than maxHeight', function(done) {
+        $link.click(function() {
+            var tip = tooltip.element.data('popover').tip();
+            expect(tip.find('.scrollbar').length).to.equal(1);
+            expect(tip.find('.scrollbar').hasClass('disable')).to.equal(false);
+            done();
+        });
+        $link.trigger('click');
     });
 });
