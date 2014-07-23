@@ -29,6 +29,12 @@
 		return positions;
 	};
 	// http://stackoverflow.com/questions/1273566/how-do-i-check-if-the-mouse-is-over-an-element-in-jquery/1670561#1670561
+	/**
+	 * Allows the mouse to enter popover content without
+	 * closing the popover.
+	 * Stores the timeoutId in the triggering element.
+	 * Invokes the callback provided once setTimeout executes.
+	 */
 	$.fn.hoverInContent = function($timeoutStore, timeout, cb) {
 		this.mouseenter(function (e) {
 			clearTimeout($timeoutStore.data('timeoutId'));
@@ -58,8 +64,18 @@ $.widget('upcycle.base', {
 		return template(this._getTemplateContext.apply(this, arguments));
 	},
 	'_getTemplate': function(templateName){
+		var templates = (function(){return this;})(),
+			spaces = this.option('templatesNamespace').split('.');
+		for (var i=0; i<spaces.length; i++) {
+			if (_.has(templates, spaces[i])) {
+				templates = templates[ spaces[i] ];
+			}
+			else {
+				throw new Error(this.option('templatesNamespace') + ' not found');
+			}
+		}
 		templateName = templateName || this.options.templateName;
-		return eval(this.option('templatesNamespace'))[templateName || this.option('templateName')];
+		return templates[templateName || this.option('templateName')];
 	},
 	'_getLabel': function(label){
 		return this.options.localizeLabels ?  $.i18n.prop( label ) : label;
@@ -649,43 +665,83 @@ Handlebars.registerHelper("zebra", function(list, options){
 	}
 	return buffer;
 });
+// Generic tooltip triggered by mouse hover.
+// Built on Bootstrap's popover.
 $.widget('upcycle.hover_tooltip', $.upcycle.base, {
     'options': {
+        // defaults
         'templateName': 'hover_tooltip',
-        'collection': null,
         'activatorTimeout': 300,
         'contentTimeout': 150,
         'hoverInContent': false,
         'placement': 'right',
+        'container': 'body',
+        'classes': '', // customizable class
+
+        // Required
         'content': null,
-        'prefix': null,
-        'id': null
+
+        // scrollbar options
+        'maxHeight': null,
+        'thumbSize': 50
     },
     '_create': function(){
+        if (this.option('content') === null) throw new Error('No content provided');
         var self = this,
-            $el = this.element;
+            $el = this.element,
+            $popover, $tip,
+            scrollable = self.option('maxHeight') !== null,
+            scrollHeight,
+            $scrollArea, $viewport, $overview;
+
         this._super();
 
         // Initialize popover
-        $el.popover({
+        $popover = $el.popover({
             'animation': false,
             'placement': self.option('placement'),
             'html': true,
-            'container': 'body',
+            'container': self.option('container'),
             'content': function () {
-                return self.option('content') !== null ? self.option('content') : self._getMarkup();
+                return scrollable ?
+                            self._getMarkup(self.option('content')) :
+                            self.option('content');
             }
+        })
+        .on('show', function() {
+            $(this).data('popover').tip()
+                .addClass(self.widgetFullName)
+                .addClass(self.option('classes'));
         })
         .on('shown', function() {
             if (self.option('hoverInContent')) {
-                var $content = $('#' + self.option('prefix') + '-' + self.option('id')).parent();
-                $content.add($content.siblings('.arrow'))
-                    .hoverInContent($el, self.option('contentTimeout'), self._close);
+                var $content = $('.popover').find('.arrow, .popover-content');
+                $content.hoverInContent($el, self.option('contentTimeout'), self._closeFromTriggerElement);
+            }
+            // Scrollbar
+            if (scrollable) {
+                $tip = $popover.data('popover').tip();
+                $tip.find('.popover-content').css('max-height', self.option('maxHeight')+'px');
+
+                $scrollArea = $tip.find('.scroll-area');
+                $viewport = $tip.find('.viewport');
+                $overview = $tip.find('.overview');
+                scrollHeight = $overview.height();
+
+                if (scrollHeight > self.option('maxHeight')) {
+                    $viewport.height(self.option('maxHeight'));
+                    $scrollArea.tinyscrollbar({
+                        thumbSize: self.option('thumbSize')
+                    });
+                }
+                else {
+                    $viewport.height(scrollHeight);
+                }
             }
         });
 
         if (self.option('hoverInContent')) {
-            $el.hoverInContent($el, this.option('activatorTimeout'), self._close);
+            $el.hoverInContent($el, this.option('activatorTimeout'), self._closeFromTriggerElement);
         }
 
         this._on({
@@ -697,13 +753,15 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
             }
         });
     },
-    _close: function () {
+    _closeFromTriggerElement: function () {
         this.popover('hide');
+    },
+    close: function() {
+    	this.element.popover('hide');
     },
     _getTemplateContext: function() {
         return {
-            id: this.option('id'),
-            products: this.option('collection')
+            'content': this.option('content')
         };
     }
 });
@@ -1023,26 +1081,25 @@ this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
 this["upcycle"]["templates"]["hover_tooltip"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression, self=this;
+  var stack1, helper, options, functionType="function", self=this, blockHelperMissing=helpers.blockHelperMissing;
 
 function program1(depth0,data) {
   
-  var buffer = "";
-  buffer += "\r\n	<li>\r\n		"
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "\r\n	</li>\r\n	";
+  var buffer = "", stack1, helper;
+  buffer += "\r\n";
+  if (helper = helpers.content) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.content); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\r\n";
   return buffer;
   }
 
-  buffer += "<ul id=\"product_list-";
-  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "\">\r\n	";
-  stack1 = helpers.each.call(depth0, (depth0 && depth0.products), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n</ul>";
-  return buffer;
+  options={hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data}
+  if (helper = helpers.tinyscrollbar) { stack1 = helper.call(depth0, options); }
+  else { helper = (depth0 && depth0.tinyscrollbar); stack1 = typeof helper === functionType ? helper.call(depth0, options) : helper; }
+  if (!helpers.tinyscrollbar) { stack1 = blockHelperMissing.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data}); }
+  if(stack1 || stack1 === 0) { return stack1; }
+  else { return ''; }
   });;
 this["upcycle"] = this["upcycle"] || {};
 this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
