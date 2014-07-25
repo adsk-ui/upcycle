@@ -6,11 +6,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
         'templateName': 'hover_tooltip',
         'activatorTimeout': 300,
         'contentTimeout': 150,
-        'trigger': 'hover',
-        'delay': {
-            show: 350,
-            hide: 250
-        },
+        'showDelay': 250,
         'animation': false,
         'html': true,
         'hoverInContent': false,
@@ -58,6 +54,17 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
             $scrollArea, $viewport, $overview;
 
         this.element
+        .off('click')
+        .on('mouseenter', function(e) {
+            if ($(self.option('container')).find('.popover:visible').length === 0) {
+                self.showDelay = setTimeout(function() {
+                    self.element.popover('show');
+                }, self.option('showDelay'));
+            }
+        })
+        .on('mouseleave', function(e) {
+            clearTimeout(self.showDelay);
+        })
         .on('show', function() {
             $(this).data('popover').tip()
                 .addClass(self.widgetFullName)
