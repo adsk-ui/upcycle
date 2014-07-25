@@ -185,6 +185,7 @@ gulp.task('docs', function(){
 });
 
 gulp.task('build', ['templates', 'lint', 'js', 'less', 'img', 'docs', 'test']);
+gulp.task('build-notest', ['templates', 'lint', 'js', 'less', 'img', 'docs']);
 gulp.task('watch', function () {
     gulp.watch([paths.themes.base.less, paths.themes.portal.less], ['less', 'reload-tests']);
     gulp.watch([paths.themes.base.css, paths.src.js, paths.test.js, paths.test.less], ['test', 'reload-tests']);
