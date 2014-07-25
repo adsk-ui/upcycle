@@ -651,9 +651,9 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
     'options': {
         // defaults
         'templateName': 'hover_tooltip',
+        'triggerEvent': 'hover',
         'activatorTimeout': 300,
-        'contentTimeout': 150,
-        'showDelay': 250,
+        'contentTimeout': 200,
         'animation': false,
         'html': true,
         'hoverInContent': false,
@@ -698,27 +698,43 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
         var self = this,
             $tip,
             scrollHeight,
-            $scrollArea, $viewport, $overview;
+            $scrollArea, $viewport, $overview,
+            hoverable = self.option('triggerEvent') === 'hover';
 
-        this.element
-        .off('click')
-        .on('mouseenter', function(e) {
-            if ($(self.option('container')).find('.popover:visible').length === 0) {
-                self.showDelay = setTimeout(function() {
-                    self.element.popover('show');
-                }, self.option('showDelay'));
-            }
-        })
-        .on('mouseleave', function(e) {
-            clearTimeout(self.showDelay);
-        })
+        // When triggered by 'hover', turn off click
+        // and provide delays on show/hide.
+        if (hoverable) {
+            self.element.off('click');
+            self.element
+            .on('mouseenter', function(e) {
+                clearTimeout(self.hideDelay);
+                if ($(self.option('container')).find('.popover:visible').length === 0) {
+                    self.showDelay = setTimeout(function() {
+                        self.element.popover('show');
+                    }, 300);
+                }
+            })
+            .on('mouseleave', function(e) {
+                clearTimeout(self.showDelay);
+                if (self.option('hoverInContent') === false) {
+                    self.hideDelay = setTimeout(function() {
+                        self._close();
+                    }, 400);
+                }
+            });
+        }
+
+        // add classes during show event
+        self.element
         .on('show', function() {
             $(this).data('popover').tip()
                 .addClass(self.widgetFullName)
                 .addClass(self.option('classes'));
         })
+        // Hover in content timeout management,
+        // and scrollbar initialization
         .on('shown', function() {
-            if (self.option('hoverInContent')) {
+            if (self.option('hoverInContent') && hoverable) {
                 var $content = $('.popover').find('.arrow, .popover-content');
                 self.hoverInContent(self.option('contentTimeout'), $content);
             }
@@ -744,7 +760,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
             }
         });
 
-        if (self.option('hoverInContent')) {
+        if (self.option('hoverInContent') && hoverable) {
             self.hoverInContent(this.option('activatorTimeout'));
         }
     },
@@ -769,6 +785,13 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
                 }, timeout);
             self.element.data('timeoutId', timeoutId);
         });
+    },
+    updateScrollbar: function() {
+        self.element
+            .data('popover').tip()
+            .find('.scroll-area')
+            .data('plugin_tinyscrollbar')
+            .update('relative');
     }
 });
 (function($){
