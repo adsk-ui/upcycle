@@ -28,24 +28,4 @@
 		});
 		return positions;
 	};
-	// http://stackoverflow.com/questions/1273566/how-do-i-check-if-the-mouse-is-over-an-element-in-jquery/1670561#1670561
-	/**
-	 * Allows the mouse to enter popover content without
-	 * closing the popover.
-	 * Stores the timeoutId in the triggering element.
-	 * Invokes the callback provided once setTimeout executes.
-	 */
-	$.fn.hoverInContent = function($timeoutStore, timeout, cb) {
-		this.mouseenter(function (e) {
-			clearTimeout($timeoutStore.data('timeoutId'));
-		})
-		.mouseleave(function (e) {
-			e.stopImmediatePropagation();
-			var timeoutId = setTimeout(function () {
-					cb.call($timeoutStore);
-				}, timeout);
-			$timeoutStore.data('timeoutId', timeoutId);
-		});
-		return this;
-	};
 })(jQuery);

@@ -6,6 +6,9 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
         'templateName': 'hover_tooltip',
         'activatorTimeout': 300,
         'contentTimeout': 150,
+        'showDelay': 250,
+        'animation': false,
+        'html': true,
         'hoverInContent': false,
         'placement': 'right',
         'container': 'body',
@@ -22,24 +25,44 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
         if (this.option('content') === null) throw new Error('No content provided');
         var self = this,
             $el = this.element,
-            $popover, $tip,
-            scrollable = self.option('maxHeight') !== null,
+            content = self.option('content');
+
+        self._super();
+        self.scrollable = self.option('maxHeight') !== null;
+
+        // Initialize popover
+        $el.popover($.extend({}, self.options, {
+            'content': function() {
+                return self.scrollable ? self._getMarkup(content) : content;
+            }
+        }));
+
+        self._bindEvents();
+    },
+    _close: function() {
+        this.element.popover('hide');
+    },
+    _getTemplateContext: function() {
+        return {
+            'content': this.option('content')
+        };
+    },
+    _bindEvents: function() {
+        var self = this,
+            $tip,
             scrollHeight,
             $scrollArea, $viewport, $overview;
 
-        this._super();
-
-        // Initialize popover
-        $popover = $el.popover({
-            'animation': false,
-            'placement': self.option('placement'),
-            'html': true,
-            'container': self.option('container'),
-            'content': function () {
-                return scrollable ?
-                            self._getMarkup(self.option('content')) :
-                            self.option('content');
+        this.element
+        .on('mouseenter', function(e) {
+            if ($(self.option('container')).find('.popover:visible').length === 0) {
+                self.showDelay = setTimeout(function() {
+                    self.element.popover('show');
+                }, self.option('showDelay'));
             }
+        })
+        .on('mouseleave', function(e) {
+            clearTimeout(self.showDelay);
         })
         .on('show', function() {
             $(this).data('popover').tip()
@@ -49,11 +72,11 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
         .on('shown', function() {
             if (self.option('hoverInContent')) {
                 var $content = $('.popover').find('.arrow, .popover-content');
-                $content.hoverInContent($el, self.option('contentTimeout'), self._closeFromTriggerElement);
+                self.hoverInContent(self.option('contentTimeout'), $content);
             }
             // Scrollbar
-            if (scrollable) {
-                $tip = $popover.data('popover').tip();
+            if (self.scrollable) {
+                $tip = self.element.data('popover').tip();
                 $tip.find('.popover-content').css('max-height', self.option('maxHeight')+'px');
 
                 $scrollArea = $tip.find('.scroll-area');
@@ -74,27 +97,29 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
         });
 
         if (self.option('hoverInContent')) {
-            $el.hoverInContent($el, this.option('activatorTimeout'), self._closeFromTriggerElement);
+            self.hoverInContent(this.option('activatorTimeout'));
         }
+    },
+    // http://stackoverflow.com/questions/1273566/how-do-i-check-if-the-mouse-is-over-an-element-in-jquery/1670561#1670561
+    /**
+     * Allows the mouse to enter popover content without
+     * closing the popover.
+     * Stores the timeoutId in the triggering element.
+     * Invokes the callback provided once setTimeout executes.
+     */
+    hoverInContent: function(timeout, $content) {
+        var self = this,
+            $el = ($content !== undefined) ? $content : self.element;
 
-        this._on({
-            'mouseenter': function (e) {
-                $el.popover('show');
-            },
-            'mouseleave': function () {
-                $el.popover('hide');
-            }
+        $el.mouseenter(function (e) {
+            clearTimeout(self.element.data('timeoutId'));
+        })
+        .mouseleave(function (e) {
+            e.stopImmediatePropagation();
+            var timeoutId = setTimeout(function () {
+                    self._close();
+                }, timeout);
+            self.element.data('timeoutId', timeoutId);
         });
-    },
-    _closeFromTriggerElement: function () {
-        this.popover('hide');
-    },
-    close: function() {
-    	this.element.popover('hide');
-    },
-    _getTemplateContext: function() {
-        return {
-            'content': this.option('content')
-        };
     }
 });

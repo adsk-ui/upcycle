@@ -31,7 +31,7 @@ describe('hover_tooltip', function() {
 
     beforeEach(function() {
         tooltip = $link.appendTo('#sandbox-inner').hover_tooltip({
-            'widgetContainer': '#sandbox',
+            'container': '#sandbox',
             'hoverInContent': true,
             'maxHeight': 215,
             'placement': 'bottom',
@@ -41,7 +41,7 @@ describe('hover_tooltip', function() {
         }).data('upcycle-hover_tooltip');
     });
     afterEach(function() {
-        tooltip.close();
+        tooltip._close();
         tooltip.element.remove();
         $link.off();
     });
