@@ -54,6 +54,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
             $scrollArea, $viewport, $overview;
 
         this.element
+        .off('click')
         .on('mouseenter', function(e) {
             if ($(self.option('container')).find('.popover:visible').length === 0) {
                 self.showDelay = setTimeout(function() {

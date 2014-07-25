@@ -47,19 +47,19 @@ describe('hover_tooltip', function() {
     });
 
     it('should have a scrollbar when maxHeight is set and overview content height is greater than maxHeight', function(done) {
-        $link.click(function() {
-            var tip = tooltip.element.data('popover').tip();
+        tooltip.element.on('shown', function () {
+            var tip = $(this).data('popover').tip();
             expect(tip.find('.scrollbar').length).to.equal(1);
             expect(tip.find('.scrollbar').hasClass('disable')).to.equal(false);
             done();
         });
-        $link.trigger('click');
+        $link.trigger('mouseenter');
     });
     it('should have a custom class', function(done) {
-        $link.click(function() {
+        tooltip.element.on('shown', function () {
             expect(tooltip.element.hasClass('custom')).to.equal(false);
             done();
         });
-        $link.trigger('click');
+        $link.trigger('mouseenter');
     });
 });
