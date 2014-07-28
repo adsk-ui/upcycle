@@ -791,7 +791,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
         });
     },
     updateScrollbar: function() {
-        self.element
+        this.element
             .data('popover').tip()
             .find('.scroll-area')
             .data('plugin_tinyscrollbar')
