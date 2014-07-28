@@ -13,6 +13,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
         'placement': 'right',
         'container': 'body',
         'classes': '', // customizable class
+        'id': null,
 
         // Required
         'content': null,
@@ -25,10 +26,12 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
         if (this.option('content') === null) throw new Error('No content provided');
         var self = this,
             $el = this.element,
-            content = self.option('content');
+            content = self.option('content'),
+            id = new Date().getTime();
 
         self._super();
         self.scrollable = self.option('maxHeight') !== null;
+        self.option('id', 'tip_' + id);
 
         // Initialize popover
         $el.popover($.extend({}, self.options, {
@@ -44,6 +47,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
     },
     _getTemplateContext: function() {
         return {
+            'id': this.option('id'),
             'content': this.option('content')
         };
     },
@@ -61,7 +65,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
             self.element
             .on('mouseenter', function(e) {
                 clearTimeout(self.hideDelay);
-                if ($(self.option('container')).find('.popover:visible').length === 0) {
+                if ($('#' + self.option('id')).is(':visible') === false) {
                     self.showDelay = setTimeout(function() {
                         self.element.popover('show');
                     }, 300);
