@@ -791,11 +791,13 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
         });
     },
     updateScrollbar: function() {
-        this.element
+        var sb = this.element
             .data('popover').tip()
             .find('.scroll-area')
-            .data('plugin_tinyscrollbar')
-            .update('relative');
+            .data('plugin_tinyscrollbar');
+        if (sb !== undefined) {
+            sb.update('relative');
+        }
     }
 });
 (function($){
