@@ -92,7 +92,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
         // and scrollbar initialization
         .on('shown', function() {
             if (self.option('hoverInContent') && hoverable) {
-                var $content = $('.popover').find('.arrow, .popover-content');
+                var $content = $('.popover').find('.arrow, .popover-title, .popover-content');
                 self.hoverInContent(self.option('contentTimeout'), $content);
             }
             // Scrollbar
