@@ -182,7 +182,6 @@
   z-index: 2;
 }
 .popover.upcycle-hover_tooltip .popover-content {
-  min-width: 220px;
   padding: 15px;
 }
 .popover.upcycle-hover_tooltip .popover-content .scroll-area {
@@ -192,7 +191,7 @@
   position: absolute;
   z-index: 1;
   top: 0;
-  right: -10px;
+  right: 0px;
   width: 8px;
 }
 .popover.upcycle-hover_tooltip .popover-content .scroll-area .scrollbar .track {
@@ -215,8 +214,4 @@
 .popover.upcycle-hover_tooltip .popover-content .scroll-area .viewport {
   overflow: hidden;
   position: relative;
-}
-.popover.upcycle-hover_tooltip .popover-content .scroll-area .viewport .overview {
-  position: absolute;
-  left: 0;
 }
