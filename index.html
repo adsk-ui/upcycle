@@ -56,8 +56,7 @@
             <h3>Filter</h3>
             <p>The filter component is designed to take a dataset as input and display a list of facets with selectable values.</p>
 
-            <pre><code>$('.filter').filter();
-</code></pre>
+            <pre><code>$('.filter').filter();</code></pre>
 
             <p>As the user selects facet values, the widget triggers events that include the filtered dataset and selected facets.</p>
             <div class="bootstrap-scope filter"></div>
@@ -87,6 +86,69 @@
               };
               $('.filter').filter(filterOptions);
             </script>
+
+            <h3>The Tip</h3>
+            <p>A configurable tooltip component (based on Bootstrap's popover)</p>
+            <h4>Required</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>type</th>
+                        <th>default</th>
+                        <th>description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>content</td>
+                        <td>string</td>
+                        <td>null</td>
+                        <td>The HTML content to be shown in the tooltip.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Options</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>type</th>
+                        <th>default</th>
+                        <th>description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>hoverInContent</td>
+                        <td>boolean</td>
+                        <td>false</td>
+                        <td>If true, allows the mouse to hover inside the tooltip content
+                            without closing the tooltip.</td>
+                    </tr>
+                    <tr>
+                        <td>maxHeight</td>
+                        <td>number</td>
+                        <td>null</td>
+                        <td>If this is defined, the tooltip content will have a max height set.
+                            If the content is higher than the tooltip container, a tinyscrollbar
+                            will be automatically created.</td>
+                    </tr>
+                    <tr>
+                        <td>thumbSize</td>
+                        <td>number</td>
+                        <td>50</td>
+                        <td>Thumb Size of the scrollbar.</td>
+                    </tr>
+                    <tr>
+                        <td>classes</td>
+                        <td>string</td>
+                        <td>''</td>
+                        <td>Space deliminated classes to be added to the tooltip's tip().</td>
+                    </tr>
+                </tbody>
+            </table>
 
         </section>
         <footer>
