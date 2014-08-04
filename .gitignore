@@ -1,4 +1,14 @@
 bower_components/
+!bower_components/upcycle/build/themes/base/base.css
+!bower_components/bootstrap/docs/assets/css/bootstrap.css
+!bower_components/jquery/jquery.js
+!bower_components/jquery-ui/ui/jquery-ui.js
+!bower_components/handlebars/handlebars.js
+!bower_components/underscore/underscore.js
+!bower_components/tinyscrollbar/lib/jquery.tinyscrollbar.js
+!bower_components/upcycle/build/upcycle.js
+!bower_components/bootstrap/docs/assets/js/bootstrap.js
+!bower_components/jquery-i18n-properties/jquery.i18n.properties.js
 node_modules/
 *.sublime-project
 *.sublime-workspace
