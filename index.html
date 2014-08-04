@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <link rel="stylesheet" href="stylesheets/bootstrap-scope.css">
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/upcycle/build/themes/base.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap/docs/assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/upcycle/build/themes/base/base.css" />
     <!-- endbower -->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
@@ -23,6 +24,7 @@
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/tinyscrollbar/lib/jquery.tinyscrollbar.js"></script>
     <script src="bower_components/jquery-i18n-properties/jquery.i18n.properties.js"></script>
+    <script src="bower_components/bootstrap/docs/assets/js/bootstrap.js"></script>
     <script src="bower_components/upcycle/build/upcycle.js"></script>
     <!-- endbower -->
 
@@ -147,9 +149,45 @@
                         <td>''</td>
                         <td>Space deliminated classes to be added to the tooltip's tip().</td>
                     </tr>
+                    <tr>
+                        <td>triggerEvent</td>
+                        <td>string</td>
+                        <td>'hover'</td>
+                        <td>Either 'click' or 'hover'.</td>
+                    </tr>
                 </tbody>
             </table>
 
+            <h4>Usages</h4>
+            <div class="tooltips">
+                <span class="tt_trigger" id="reg-tip">Regular tooltip</span>
+                <br/>
+                <pre><code>$('#reg-tip').hover_tooltip({
+    'content': '<span>Hello world</span>',
+    'container': '.tooltips'
+});</code></pre>
+                <span class="tt_trigger" id="hover-tip">Hover in content tooltip</span>
+                <br/>
+                <pre><code>$('#hover-tip').hover_tooltip({
+    'content': '<span>Hover in content</span>',
+    'container': '.tooltips',
+    'hoverInContent': true
+});</code></pre>
+                <span class="tt_trigger" id="scrollbar-tip">Scrollbar added when maxHeight is set</span>
+                <br/>
+                <pre><code>$('#scrollbar-tip').hover_tooltip({
+    'content': 'Lorem ipsum ...',
+    'container': '.tooltips',
+    'hoverInContent': true,
+    'maxHeight': 125
+});</code></pre>
+                <span class="tt_trigger" id="clickable-tip">clickable tooltip</span>
+                <pre><code>$('#clickable-tip').hover_tooltip({
+    'content': '<span>Hello world</span>',
+    'container': '.tooltips',
+    'triggerEvent': 'click'
+});</code></pre>
+            </div>
         </section>
         <footer>
             <p>This project is maintained by <a href="https://github.com/adsk-ui">adsk-ui</a>
@@ -161,6 +199,30 @@
         </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
+    <script type="text/javascript">
+    $(function () {
+        $('#reg-tip').hover_tooltip({
+            'content': '<span>Hello world</span>',
+            'container': '.tooltips'
+        });
+        $('#hover-tip').hover_tooltip({
+            'content': '<span>Hover in content</span>',
+            'container': '.tooltips',
+            'hoverInContent': true
+        });
+        $('#scrollbar-tip').hover_tooltip({
+            'content': 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+            'container': '.tooltips',
+            'hoverInContent': true,
+            'maxHeight': 125
+        });
+        $('#clickable-tip').hover_tooltip({
+            'content': '<span>Hello world</span>',
+            'container': '.tooltips',
+            'triggerEvent': 'click'
+        });
+    });
+    </script>
 
 </body>
 

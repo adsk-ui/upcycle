@@ -6,6 +6,6 @@
     "**/*.txt"
   ],
   "dependencies": {
-    "upcycle": "https://github.com/adsk-ui/upcycle.git"
+    "upcycle": "https://github.com/adsk-ui/upcycle.git#1.0.15"
   }
 }
