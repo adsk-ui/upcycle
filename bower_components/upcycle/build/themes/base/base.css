@@ -1,0 +1,217 @@
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.clearfix:after {
+  clear: both;
+}
+.hide-text {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+.input-block-level {
+  display: block;
+  width: 100%;
+  min-height: 30px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.upcycle-filterpanel .scroll-area,
+.upcycle-selectlist .scroll-area,
+.upcycle-table .scroll-area {
+  position: relative;
+}
+.upcycle-filterpanel .scroll-area .scrollbar,
+.upcycle-selectlist .scroll-area .scrollbar,
+.upcycle-table .scroll-area .scrollbar {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  width: 6px;
+}
+.upcycle-filterpanel .scroll-area .scrollbar .track,
+.upcycle-selectlist .scroll-area .scrollbar .track,
+.upcycle-table .scroll-area .scrollbar .track {
+  height: 100%;
+  width: 6px;
+  position: relative;
+}
+.upcycle-filterpanel .scroll-area .scrollbar .track .thumb,
+.upcycle-selectlist .scroll-area .scrollbar .track .thumb,
+.upcycle-table .scroll-area .scrollbar .track .thumb {
+  height: 20px;
+  width: 6px;
+  cursor: pointer;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+}
+.upcycle-filterpanel .scroll-area .viewport,
+.upcycle-selectlist .scroll-area .viewport,
+.upcycle-table .scroll-area .viewport {
+  overflow: hidden;
+  position: relative;
+}
+.upcycle-filterpanel .scroll-area .viewport .overview,
+.upcycle-selectlist .scroll-area .viewport .overview,
+.upcycle-table .scroll-area .viewport .overview {
+  position: relative;
+  left: 0;
+  top: 0;
+}
+.up-facetlist {
+  overflow: hidden;
+}
+.up-facetlist .up-facets {
+  list-style: none;
+}
+.up-selectlist .scroll-area {
+  overflow: hidden;
+}
+.up-selectlist .scroll-area.scrollable .scrollbar {
+  display: block;
+}
+.up-selectlist .scrollbar {
+  display: none;
+}
+.up-selectlist .up-facets {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.up-selectlist .up-facet {
+  padding: 1px;
+}
+.up-selectlist .up-facet-header {
+  cursor: pointer;
+}
+.up-selectlist .up-facet-header [role="button"][data-action="toggle"] {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 0.5em;
+  line-height: 6.928px;
+  width: 0;
+  height: 0;
+  border-top: 6.928px solid #555555;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+}
+.up-selectlist .up-facet-header .up-facet-label {
+  line-height: 1.2em;
+  margin-left: 1px;
+  width: 90%;
+  display: inline-block;
+}
+.up-selectlist .up-facet-options {
+  clear: both;
+  list-style: none;
+  margin-left: 15px;
+}
+.up-selectlist .up-facet-option {
+  white-space: normal;
+}
+.up-selectlist .up-facet-option-name {
+  display: inline-block;
+  width: 90%;
+  line-height: 1.2em;
+}
+.up-selectlist .up-facet-header.collapsed [role="button"][data-action="toggle"] {
+  line-height: 8px;
+  width: 0;
+  height: 0;
+  border-left: 6.928px solid #555555;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+.up-selectlist .up-facet-header.collapsed .up-facet-label {
+  margin-left: -1px;
+}
+.up-selectlist .up-facet-header.collapsed + .up-facet-options {
+  display: none;
+}
+.up-selectlist input[type="checkbox"] {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 0.2em;
+}
+.upcycle-filterpanel .up-filterpanel-header {
+  overflow: hidden;
+}
+.upcycle-filterpanel .up-filterpanel-header > .pull-left {
+  max-width: 50%;
+  margin-right: 5px;
+}
+.upcycle-filterpanel .up-filterpanel-header > .pull-left span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.upcycle-filterpanel .up-filterpanel-header .up-filterpanel-title {
+  margin-right: 4px;
+}
+.upcycle-filterpanel .up-filterpanel-header [data-action="clear-all"] {
+  display: inline-block;
+  max-width: 100px;
+  text-align: right;
+  line-height: 1.2em;
+}
+.upcycle-filterpanel .up-filterpanel-header [data-action="close"] {
+  vertical-align: top;
+}
+.upcycle-table.scrollable table {
+  table-layout: fixed;
+}
+.upcycle-table.scrollable .scroll-area {
+  display: inline-block;
+}
+.upcycle-table.scrollable .scroll-area thead {
+  visibility: hidden;
+}
+.upcycle-table .dummy {
+  position: relative;
+  z-index: 2;
+}
+.popover.upcycle-hover_tooltip .popover-content {
+  padding: 15px;
+}
+.popover.upcycle-hover_tooltip .popover-content .scroll-area {
+  position: relative;
+}
+.popover.upcycle-hover_tooltip .popover-content .scroll-area .scrollbar {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0px;
+  width: 8px;
+}
+.popover.upcycle-hover_tooltip .popover-content .scroll-area .scrollbar .track {
+  height: 100%;
+  width: 8px;
+  position: relative;
+}
+.popover.upcycle-hover_tooltip .popover-content .scroll-area .scrollbar .track .thumb {
+  height: 20px;
+  width: 8px;
+  background-color: #cccccc;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  border-radius: 5px;
+}
+.popover.upcycle-hover_tooltip .popover-content .scroll-area .scrollbar.disable {
+  display: none;
+}
+.popover.upcycle-hover_tooltip .popover-content .scroll-area .viewport {
+  overflow: hidden;
+  position: relative;
+}
