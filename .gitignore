@@ -1,4 +1,4 @@
-bower_components/
+bower_components/*
 !bower_components/upcycle/build/themes/base/base.css
 !bower_components/bootstrap/docs/assets/css/bootstrap.css
 !bower_components/jquery/jquery.js
