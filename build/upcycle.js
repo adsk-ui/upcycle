@@ -634,6 +634,7 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 * availTexxt (string): label for total available units
 */
 
+
 $(function(){
 	$.widget("portal.gauge", {
 
