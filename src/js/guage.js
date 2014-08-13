@@ -9,6 +9,7 @@
 * availTexxt (string): label for total available units
 */
 
+
 $(function(){
 	$.widget("portal.gauge", {
 
