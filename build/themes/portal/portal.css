@@ -172,3 +172,25 @@
 .upcycle-portal .upcycle-filterpanel .up-selectlist .divider {
   margin: 5px 0;
 }
+.upcycle-gauge {
+  font-size: 12px;
+  color: #999;
+  margin-top: -6px;
+}
+.upcycle-gauge .containerBar {
+  background-color: #DDD;
+  height: 8px;
+}
+.upcycle-gauge .progressBar {
+  background-color: #0696D7;
+  height: inherit;
+}
+.upcycle-gauge .title {
+  color: #666;
+}
+.upcycle-gauge .unitsAvail {
+  float: right;
+}
+.upcycle-gauge b {
+  color: #333;
+}
