@@ -9,7 +9,6 @@
 * availTexxt (string): label for total available units
 */
 
-
 $(function(){
 	$.widget("portal.gauge", {
 
@@ -39,8 +38,8 @@ $(function(){
 			this.element.find('.title').text(this.options.title);
 			this.element.find('.containerBar').css('width', width);		
 			this.element.find('.progressBar').css('width', calcUnitsUsed());
-			this.element.find('.unitsUsed').html("<b>" + this.options.progressCurrent + "</b> <span>" + this.options.unitText + "</span>");
-			this.element.find('.unitsAvail').html("<b>" + this.options.progressAvail + "</b> <span>" + this.options.availText + "</span>");	
+			this.element.find('.unitsUsed').html("<b>" + this.options.progressCurrent + "</b> " + this.options.unitText);
+			this.element.find('.unitsAvail').html("<b>" + this.options.progressAvail + "</b> " + this.options.availText);	
 		}
 	});
 });
