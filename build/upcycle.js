@@ -641,7 +641,7 @@ $(function(){
 			className : 'upcycle-gauge',
 			progressCurrent : 0,
 			progressAvail: 100,
-			width: 'auto',	
+			width: '100%',	
 			title: '',
 			unitText: 'units',
 			availText: 'available',
