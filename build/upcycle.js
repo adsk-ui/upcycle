@@ -635,38 +635,34 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 */
 
 $(function(){
-	$.widget("portal.gauge", {
-
+	$.widget("upcycle.gauge", {
 		options : {
 			className : 'upcycle-gauge',
 			progressCurrent : 0,
 			progressAvail: 100,
 			width: '100%',	
-			title: '',
+			title: 'Gauge',
 			unitText: 'units',
 			availText: 'available',
 			textDisplayed: true
 		},
 
 		_create : function(){
-			this.element.append('<div class=' + this.options.className + '><span class="title"></span><div class="containerBar"><div class="progressBar"></div></div><span class="unitsUsed"></span><span class="unitsAvail"></span></div>');
 			this.createGauge();
 			return this;
 		},
 
 		createGauge : function(){
-			var bar = this;
-			var width = this.options.width;
-			var total = bar.options.progressCurrent + bar.options.progressAvail;
-			var calcUnitsUsed = function() {
-				return Math.round((bar.options.progressCurrent / total) * 100) + '%';
-			};
-			this.element.find('.containerBar').css('width', width);		
-			this.element.find('.progressBar').css('width', calcUnitsUsed());
+			var gauge = "<div class=" + this.options.className + "><div class='containerBar'><div class='progressBar'></div></div></div>";
+			var total = this.options.progressCurrent + this.options.progressAvail;
+			var progress = Math.round((this.options.progressCurrent / total) * 100) + '%';
+			this.element.append(gauge);
+			this.element.find(".containerBar").css("width", this.options.width);
+			this.element.find(".progressBar").width(progress);
 			if (this.options.textDisplayed === true) {
-				this.element.find('.title').text(this.options.title);
-				this.element.find('.unitsUsed').html("<b>" + this.options.progressCurrent + "</b> <span>" + this.options.unitText + "</span>");
-				this.element.find('.unitsAvail').html("<b>" + this.options.progressAvail + "</b> <span>" + this.options.availText + "</span>");	
+				this.element.find("." + this.options.className).prepend("<span class='title'>" + this.options.title + "</span>");
+				this.element.find(".containerBar").append("<span class='unitText'><b>" + this.options.progressCurrent + "</b> " + this.options.unitText + "</span>");
+				this.element.find(".containerBar").append("<span class='unitsAvail'><b>" + this.options.progressAvail + "</b> "  + this.options.availText + "</span>");
 			}
 		}
 	});
