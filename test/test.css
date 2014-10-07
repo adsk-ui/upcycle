@@ -5392,12 +5392,15 @@
   margin: 5px 0;
 }
 #sandbox .popover.upcycle-hover_tooltip {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  color: #666;
   background-color: #FFF;
   border-radius: 5px;
   box-shadow: 0 0 7px rgba(0, 0, 0, 0.3);
+}
+#sandbox .popover.upcycle-hover_tooltip .popover-content {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  color: #666;
+  padding: 10px;
 }
 #sandbox table.upcycle-editable,
 #sandbox .upcycle-table table {
