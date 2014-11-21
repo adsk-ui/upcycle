@@ -49,7 +49,7 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 				resultCountLabel;
 			if(!_.isEmpty(this.options.selectedFacets) && !_.isEmpty(this.options.data)){
 				resultCountLabel = value.length == 1 ? this.options.resultLabel : this.options.resultsLabel;
-				resultCount = $.i18n.prop(resultCountLabel, value.length);
+				resultCount = this.options.localizeLabels ? $.i18n.prop(resultCountLabel, value.length) : value.length + ' ' +resultCountLabel;
 			} 
 			this.element.find('.up-filterpanel-header .up-filterpanel-result').text(resultCount);
 		}
