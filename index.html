@@ -12,6 +12,7 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/docs/assets/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/upcycle/build/themes/base/base.css" />
+    <link rel="stylesheet" href="bower_components/upcycle/build/themes/portal/portal.css" />
     <!-- endbower -->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
@@ -55,15 +56,46 @@
                     <span class="octicon octicon-link"></span>
                 </a>Components</h2>
                 <p>Building a list of UI components here with documentation and examples</p>
-            <h3>Filter</h3>
+            <h3>FilterPanel</h3>
             <p>The filter component is designed to take a dataset as input and display a list of facets with selectable values.</p>
 
-            <pre><code>$('.filter').filter();</code></pre>
-
-            <p>As the user selects facet values, the widget triggers events that include the filtered dataset and selected facets.</p>
+            <pre><code>$('.filter').filterpanel();</code></pre>
+            
+            <h4>Options</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>dataset</td>
+                        <td>Array</td>
+                        <td>[]</td>
+                        <td>An array of objects to be filtered. The objects' properties determine the facet values displayed in the FilterPanel.</td>
+                    </tr>
+                    <tr>
+                        <td>facets</td>
+                        <td>Array</td>
+                        <td>[]</td>
+                        <td>An array of objects representing the filterable facets of the dataset.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h4>Example</h4>
             <div class="bootstrap-scope filter"></div>
             <script type="text/javascript">
               var filterOptions = {
+                'label': 'Filter',
+                'clearAllLabel': 'Clear All',
+                'resultsLabel': 'Results',
+                'resultLabel': 'Result',
+                'closeLabel': 'Close',
+                'localizeLabels': false, 
                 'data': [{
                   'name': 'Mike',
                   'age': 10,
@@ -84,11 +116,72 @@
                 'facets': [{
                   'name': 'name',
                   'displayName': 'Name'
+                },{
+                    'name': 'age',
+                    'displayName': 'Age'
+                }, {
+                    'name': 'status',
+                    'displayName': 'Status'
                 }]
               };
-              $('.filter').filter(filterOptions);
+              $('.filter').filterpanel(filterOptions)
+                .on('filterpanel:selection:changed', function(event, data){
+                    console.log(data);
+                });
             </script>
-
+            <br/>
+            <p>The example above is generated with the following options:</p>
+            <pre>
+<code>{
+'data': [{
+  'name': 'Mike',
+  'age': 10,
+  'status': 'Good'
+},{
+  'name': 'Aaron',
+  'age': 12,
+  'status': 'Good'
+},{
+  'name': 'Eddie',
+  'age': 14,
+  'status': 'Good'
+},{
+  'name': 'Eddie',
+  'age': 16,
+  'status': 'Ready'
+}],
+'facets': [{
+  'name': 'name',
+  'displayName': 'Name'
+},{
+    'name': 'age',
+    'displayName': 'Age'
+}, {
+    'name': 'status',
+    'displayName': 'Status'
+}]
+}</code></pre>
+            <h4>Events</h4>
+            <p>As the user selects facet values, the widget triggers events that include the filtered dataset and selected facets.</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>filterpanel:selection:changed</td>
+                        <td>Triggered whenever a facet is selected or deselected in the panel. The event handler is passed an event object and a data object containing <code>data</code> and <code>facets</code> properties that represent the current selection state of the filter.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <pre>
+<code>$('.filter').filterpanel(options)
+.on('filterpanel:selection:changed', function(event, data){
+    //... do something cool
+});</code></pre>
             <h3>The Tip</h3>
             <p>A configurable tooltip component (based on Bootstrap's popover)</p>
             <h4>Required</h4>
