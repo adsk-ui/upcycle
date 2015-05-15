@@ -1,9 +1,7 @@
 #Upcycle
-=======
 See documentation at [adsk-ui.github.io/upcycle](http://adsk-ui.github.io/upcycle/)
 
 ##Setup
-----------------------------
 1. Clone repo
 2. Install [Node](http://nodejs.org/), [Bower](http://bower.io) and [gulp](http://gulpjs.com/)
 3. Install bower dependencies (`bower install`)
