@@ -320,7 +320,7 @@
                     </tr>
                     <tr>
                         <td>linkContainer</td>
-                        <td>jQuery|String|HTMLDOMElement</td>
+                        <td>jQuery,<br/>String,<br/>HTMLDOMElement</td>
                         <td></td>
                         <td>The container element for the more/less links; this will be the element itself if left unspecified.</td>
                     </tr>
@@ -338,7 +338,28 @@
                     </tr>
                 </tbody>
             </table>
-            <pre><code></code></pre>
+            <ul id="more-less-example-01">
+                <li>Mike</li>
+                <li>Aaron</li>
+                <li>Eddie</li>
+            </ul>
+            <script>
+                $('#more-less-example-01').moreless({
+                    minItems: 1
+                });
+            </script>
+            <pre><code>
+            HTML:
+            <ul>
+                <li>Mike</li>
+                <li>Aaron</li>
+                <li>Eddie</li>
+            </ul>
+            Javascript:
+            $('ul').moreless({
+                minItems: 1
+            });
+            </code></pre>
         </section>
         <footer>
             <p>This project is maintained by <a href="https://github.com/adsk-ui">adsk-ui</a>
