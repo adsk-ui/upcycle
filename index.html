@@ -338,31 +338,36 @@
                     </tr>
                 </tbody>
             </table>
+            <h3>Example</h3>
+            <h5>Villians</h5>
             <ul id="more-less-example-01">
-                <li>Mike</li>
-                <li>Aaron</li>
-                <li>Eddie</li>
+                <li>Hans Gruber</li>
+                <li>Darth Vader</li>
+                <li>Hannibal Lector</li>
+                <li>Ivan Drago</li>
             </ul>
             <div id="more-less-container"></div>
             <script>
                 $('#more-less-example-01').moreless({
-                    minItems: 1,
+                    more: 'more villians',
+                    less: 'less villians'
                     linkContainer: '#more-less-container'
                 });
             </script>
-            <pre><code>
-&lt;ul&gt;
-    &lt;li&gt;Mike&lt;/li&gt;
-    &lt;li&gt;Aaron&lt;/li&gt;
-    &lt;li&gt;Eddie&lt;/li&gt;
+            
+<pre><code>&lt;ul&gt;
+    &lt;li&gt;Hans Gruber&lt;/li&gt;
+    &lt;li&gt;Darth Vader&lt;/li&gt;
+    &lt;li&gt;Hannibal Lector&lt;/li&gt;
+    &lt;li&gt;Ivan Drago&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div id=&quot;moreless-container&quot;&gt;&lt;/div&gt;
-            </code></pre>
-            <pre><code>
+
 $('ul').moreless({
-    minItems: 1
-});
-            </code></pre>
+    more: 'more villians',
+    less: 'less villians'
+    linkContainer: '#more-less-container'
+});</code></pre>
         </section>
         <footer>
             <p>This project is maintained by <a href="https://github.com/adsk-ui">adsk-ui</a>
