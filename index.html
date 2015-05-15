@@ -343,22 +343,25 @@
                 <li>Aaron</li>
                 <li>Eddie</li>
             </ul>
+            <div id="more-less-container"></div>
             <script>
                 $('#more-less-example-01').moreless({
-                    minItems: 1
+                    minItems: 1,
+                    linkContainer: '#more-less-container'
                 });
             </script>
             <pre><code>
-            HTML:
-            <ul>
-                <li>Mike</li>
-                <li>Aaron</li>
-                <li>Eddie</li>
-            </ul>
-            Javascript:
-            $('ul').moreless({
-                minItems: 1
-            });
+&lt;ul&gt;
+    &lt;li&gt;Mike&lt;/li&gt;
+    &lt;li&gt;Aaron&lt;/li&gt;
+    &lt;li&gt;Eddie&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div id=&quot;moreless-container&quot;&gt;&lt;/div&gt;
+            </code></pre>
+            <pre><code>
+$('ul').moreless({
+    minItems: 1
+});
             </code></pre>
         </section>
         <footer>
