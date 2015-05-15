@@ -189,9 +189,9 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>type</th>
-                        <th>default</th>
-                        <th>description</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -281,6 +281,64 @@
     'triggerEvent': 'click'
 });</code></pre>
             </div>
+            <h2>More/Less</h2>
+            <p>Limits the number of child elements shown by default and provides a button to toggle between the limited subset and the entire list.</p>
+            <h4>Options</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>openByDefault</td>
+                        <td>boolean</td>
+                        <td>false</td>
+                        <td>If true, shows the entire list by default (the "more" state)</td>
+                    </tr>
+                    <tr>
+                        <td>minItems</td>
+                        <td>Number</td>
+                        <td>2</td>
+                        <td>The number of items to display in the "less" state</td>
+                    </tr>
+                    <tr>
+                        <td>minHeight</td>
+                        <td>Number</td>
+                        <td></td>
+                        <td>If set, this overrides minItems and sets the element to a minimum height in the "less" state rather than showing/hiding child elements. This is useful for limiting the lines of text shown by default.</td>
+                    </tr>
+                    <tr>
+                        <td>itemClass</td>
+                        <td>String</td>
+                        <td></td>
+                        <td>If specified, this is a selector used to filter the child elements to show more/less of. If omitted, all child elements are included.</td>
+                    </tr>
+                    <tr>
+                        <td>linkContainer</td>
+                        <td>jQuery|String|HTMLDOMElement</td>
+                        <td></td>
+                        <td>The container element for the more/less links; this will be the element itself if left unspecified.</td>
+                    </tr>
+                    <tr>
+                        <td>linkClass</td>
+                        <td>String</td>
+                        <td></td>
+                        <td>A custom CSS class to add to the more/less links.</td>
+                    </tr>
+                    <tr>
+                        <td>truncateText</td>
+                        <td>Boolean</td>
+                        <td>false</td>
+                        <td>If true, and a value is specified for minHeight, adds ellipses to blocks of text that are truncated in the "less" state.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <pre><code></code></pre>
         </section>
         <footer>
             <p>This project is maintained by <a href="https://github.com/adsk-ui">adsk-ui</a>
