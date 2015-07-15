@@ -1,6 +1,6 @@
 {
   "name": "upcycle",
-  "version": "1.0.14",
+  "version": "1.2.0",
   "description": "A home for our efforts to transition one-offs and semi-vetted code into a library of high quality, well tested, reusable components",
   "repository": {
     "type": "git",

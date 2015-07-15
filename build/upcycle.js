@@ -889,6 +889,14 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
 				}
 			}
 			return minItemsByPosition.length ? minItemsByPosition[0].count : minItems;
+		},
+		parameterizeLabel: function(options){
+			var $this = this;
+			options = options || {};
+			return ($this.settings[options.label] || '').replace(/\{(\d)\}/, function(match, digit){
+				digit = parseInt(digit, 10);
+				return options.params && options.params.length > digit ? options.params[digit] : m;
+			});
 		}
 	},
 	methods = {
@@ -901,7 +909,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
 			$this.settings = $.extend({}, defaults, options);
 			$this.settings.linkClass = $this.settings.linkClass ? ' ' + $this.settings.linkClass : '';
 			$this.$linkContainer = internal.getSelector($this.settings.linkContainer) || $this;
-			$this.more = $('<button type="button" class="btn btn-link more more'+$this.settings.linkClass+'">'+$this.settings.more+'</button>')
+			$this.more = $('<button type="button" class="btn btn-link more more'+$this.settings.linkClass+'">'+'</button>')
 				.click(function(event){
 					event.preventDefault();
 					methods.more.call($this);
@@ -913,7 +921,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
 				}).hide();
 
 			$this.$linkContainer.append( $this.more ).append( $this.less );
-			
+
 			$.data(this, 'moreLess', $this);
 			methods[$this.settings.openByDefault ? 'more' : 'less'].call($this);
 		},
@@ -934,11 +942,11 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
 				$item,
 				minItems = internal.getMinItems.call(this),
 				numberToClip = $items.length - minItems;
-			
+
 			$this.less.hide();
 
 			if( $this.settings.truncateText){
-				// no childrent to clip, so default to 
+				// no childrent to clip, so default to
 				// text behavior
 				$this.css({
 					'white-space': 'nowrap',
@@ -959,11 +967,14 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
 						$item.addClass('more-less-last');
 					}else if( itemIndex >= minItems ){
 						$item.hide();
-					} 
+					}
 				});
 				if( $this.settings.more )
 					// $this.more.text( numberToClip + ' ' + $this.settings.more ).show();
-					$this.more.text( numberToClip + ' ' + $this.settings.more ).css('display', '');
+					$this.more.text( internal.parameterizeLabel.call($this, {
+						label: 'more',
+						params: [numberToClip]
+					})).css('display', '');
 
 				$this.clipItems = true;
 			}
@@ -972,7 +983,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
 			var $this = this,
 				$items = internal.items.call($this),
 				minItems = internal.getMinItems.call($this);
-			
+
 
 			if( $this.settings.truncateText ){
 				// text behavior
@@ -985,7 +996,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
 				});
 				// this.less.show();
 				this.less.css('display', '');
-				
+
 			}else{
 				// $items.removeClass('more-less-last').show();
 				$items.removeClass('more-less-last').css('display', '');
@@ -993,13 +1004,13 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
 					if( $this.settings.less )
 						// this.less.show();
 						this.less.css('display', '');
-					$this.clipItems = false;	
+					$this.clipItems = false;
 				}
 			}
-			
+
 			$this.more.hide();
-			
-			
+
+
 		},
 		'toggle': function(){
 			methods[this.clipItems ? 'more' : 'less'].call(this);
@@ -1018,7 +1029,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
 			}else if( typeof args[0] === 'object' || !args[0] ){
 				// call init method
 				methods.init.apply(this, args);
-			}	
+			}
 		});
 		return this;
 	};
@@ -1028,7 +1039,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
 		$.fn.moreless = old;
 		return this;
 	};
-  
+
 })(jQuery);
 this["upcycle"] = this["upcycle"] || {};
 this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
