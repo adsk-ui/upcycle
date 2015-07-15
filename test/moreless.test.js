@@ -47,15 +47,4 @@ describe('moreless', function(){
     it('allows for parameterized more/less labels (swaps {0} placeholder with number of items to clip)', function(){
         expect(this.$list.find('.more').text()).to.equal('There are 3 more');
     });
-
-    it('adds default placeholder ({0}) to beginning of label for number of items to clip if none specified', function(){
-        this.$list.remove();
-        this.$list = $(list)
-                .appendTo('#sandbox-inner')
-                .moreless({
-                    minItems: 1,
-                    more: 'More'
-                });
-        expect(this.$list.find('.more').text()).to.equal('3 More');
-    });
 });
