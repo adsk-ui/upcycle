@@ -34,7 +34,8 @@ describe('moreless', function(){
 	it('has no conflict', function(){
 		chai.expect($.fn.moreless.noConflict).to.be.a('function');
 	});
-	it('hides more items', function(){
+
+    it('hides more items', function(){
 		expect(this.$list.children('li:visible')).to.have.length(1);
 		this.$list.remove();
 		this.$list = $(list)
@@ -46,5 +47,14 @@ describe('moreless', function(){
 
     it('allows for parameterized more/less labels (swaps {0} placeholder with number of items to clip)', function(){
         expect(this.$list.find('.more').text()).to.equal('There are 3 more');
+    });
+
+    it('shows hidden items when "more" button is clicked', function(done){
+        var $list = this.$list;
+        this.$list.find('[data-action=more]').trigger('click');
+        setTimeout(function(){
+            expect($list.find('li:hidden')).to.have.length(0);
+            done();
+        }, 0);
     });
 });

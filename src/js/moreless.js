@@ -63,16 +63,15 @@
 			$this.settings = $.extend({}, defaults, options);
 			$this.settings.linkClass = $this.settings.linkClass ? ' ' + $this.settings.linkClass : '';
 			$this.$linkContainer = internal.getSelector($this.settings.linkContainer) || $this;
-			$this.more = $('<button type="button" class="btn btn-link more more'+$this.settings.linkClass+'">'+'</button>')
-				.click(function(event){
-					event.preventDefault();
-					methods.more.call($this);
-				}).hide();
-			$this.less = $('<button type="button" class="btn btn-link less less'+$this.settings.linkClass+'">'+$this.settings.less+'</button>')
-				.click(function(event){
-					event.preventDefault();
-					methods.less.call($this);
-				}).hide();
+			$this.more = $('<button type="button" data-action="more" class="btn btn-link more more'+$this.settings.linkClass+'">'+'</button>').hide();
+			$this.less = $('<button type="button" data-action="less" class="btn btn-link less less'+$this.settings.linkClass+'">'+$this.settings.less+'</button>').hide();
+
+			$this.$linkContainer.on('click', '[type=button][data-action=more], [type=button][data-action=less]', function(e){
+				var action = e.target.getAttribute('data-action');
+				e.preventDefault();
+				if(typeof methods[action] === 'function')
+					methods[action].call($this);
+			});
 
 			$this.$linkContainer.append( $this.more ).append( $this.less );
 
