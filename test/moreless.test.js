@@ -15,17 +15,18 @@ describe('moreless', function(){
     '</ul>';
     var paragraph = '<div id="moreless-min-height"><p>Kale chips hella salvia fashion axe. Food truck PBR&B Kickstarter hella. Forage shabby chic church-key pickled pour-over. Carles wolf gentrify, fingerstache kale chips small batch disrupt skateboard Helvetica Austin letterpress cray tattooed.</p></div>';
 
-    before(function(){
+    beforeEach(function(){
     	this.$paragraph = $(paragraph).appendTo('#sandbox-inner').children('p').moreless({
         	linkContainer: '#moreless-min-height',
             truncateText: true
         }).end();
         this.$list = $(list).appendTo('#sandbox-inner').moreless({
-        	minItems: 1
+        	minItems: 1,
+            more: 'There are {0} more'
         });
     });
 
-    after(function(){
+    afterEach(function(){
       this.$list.remove();
       this.$paragraph.remove();
     });
@@ -42,4 +43,8 @@ describe('moreless', function(){
 
 		expect(this.$list.children('li:visible')).to.have.length(1);
 	});
+
+    it('allows for parameterized more/less labels (swaps {0} placeholder with number of items to clip)', function(){
+        expect(this.$list.find('.more').text()).to.equal('There are 3 more');
+    });
 });
