@@ -891,9 +891,16 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
 			return minItemsByPosition.length ? minItemsByPosition[0].count : minItems;
 		},
 		parameterizeLabel: function(options){
-			var $this = this;
+			var $this = this,
+				rawLabel = $this.settings[options.label];
+
 			options = options || {};
-			return ($this.settings[options.label] || '').replace(/\{(\d)\}/, function(match, digit){
+
+			if(rawLabel && !rawLabel.match(/\{\d\}/) && options.params){
+				rawLabel = '{0} ' + rawLabel;
+			}
+
+			return (rawLabel || '').replace(/\{(\d)\}/g, function(match, digit){
 				digit = parseInt(digit, 10);
 				return options.params && options.params.length > digit ? options.params[digit] : m;
 			});
