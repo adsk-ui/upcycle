@@ -105,9 +105,9 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 			this._onSelectionChange(null);
 		return this;
 	},
-	
+
 	'_triggerChangeEvent': function(event, selectedFacets){
-		this._trigger(':selection:changed', event, {'facets': selectedFacets});	
+		this._trigger(':selection:changed', event, {'facets': selectedFacets});
 	},
 	'_setOption': function(key, value){
 		this._super(key, value);
@@ -129,7 +129,7 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 		this.element.find('[type="checkbox"]').each(function(){
 			if( this.checked ){
 				name = this.getAttribute('data-facet');
-				option = this.getAttribute('data-facet-option');	
+				option = this.getAttribute('data-facet-option');
 				if(selectedFacets.hasOwnProperty(name)){
 					selectedFacets[name].push( option );
 				}else{
@@ -143,7 +143,8 @@ $.widget('upcycle.selectlist', $.upcycle.facetlist, {
 				memo.push({
 					'name': facet.name,
 					'displayName': facet.displayName,
-					'options': options
+					'options': options,
+					'validateMatch': facet.validateMatch
 				});
 			}
 			return memo;

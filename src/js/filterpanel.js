@@ -3,7 +3,7 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 		'templateName': 'filterpanel',
 		'data': [],
 		'selectedData': [],
-		'selectedFacets': [], 
+		'selectedFacets': [],
 		'label': 'FILTERPANEL_FILTERPANEL',
 		'clearAllLabel': 'FILTERPANEL_CLEAR_ALL',
 		'resultsLabel': 'FILTERPANEL_RESULTS',
@@ -19,9 +19,9 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 		return this.update();
 	},
 	'_triggerChangeEvent': function(event, selectedFacets, selectedData){
-		this._trigger(':selection:changed', event, {'facets': selectedFacets, 'data': selectedData});	
+		this._trigger(':selection:changed', event, {'facets': selectedFacets, 'data': selectedData});
 	},
-	'_onSelectionChange': function(event){ 
+	'_onSelectionChange': function(event){
 		var selectedFacets = this._getSelectedFacetList(),
 			selectedData = this._getSelectedData(selectedFacets);
 		this._setOption('selectedFacets', selectedFacets);
@@ -32,10 +32,13 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 		this._super(key, value);
 		if(key === 'data' || key === 'facets'){
 			_(this.options.facets).each(function(f){
+				f.mapData = f.mapData || function(data){ return data; };
 				if( !_.isEmpty(this.options.data) ){
 					var facetOptions = _(this.options.data)
 						.chain()
 						.pluck(f.name)
+						.map(f.mapData)
+						.flatten()
 						.uniq()
 						.value();
 					_.extend(f, {'options': facetOptions});
@@ -50,7 +53,7 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 			if(!_.isEmpty(this.options.selectedFacets) && !_.isEmpty(this.options.data)){
 				resultCountLabel = value.length == 1 ? this.options.resultLabel : this.options.resultsLabel;
 				resultCount = this.options.localizeLabels ? $.i18n.prop(resultCountLabel, value.length) : value.length + ' ' +resultCountLabel;
-			} 
+			}
 			this.element.find('.up-filterpanel-header .up-filterpanel-result').text(resultCount);
 		}
 	},
@@ -59,10 +62,10 @@ $.widget('upcycle.filterpanel', $.upcycle.selectlist, {
 			.chain()
 			.filter(function(obj){
 				return _(selectedFacets).every(function(facet){
-					return _(facet.options).some(function(option){
-						var actualValue = obj[facet.name];
-						return actualValue == option;
-					});
+					facet.validateMatch = facet.validateMatch || function(selectedOption, data){
+						return selectedOption === data;
+					};
+					return _(facet.options).some(_(facet.validateMatch).partial(_, obj[facet.name]));
 				});
 			})
 			.value();
