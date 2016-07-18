@@ -61,7 +61,7 @@ var paths = {
 
 var filePathRegex = /(\w+(?=\/)|\/)/g;
 gulp.task('clean', function(){
-    gulp.src(paths.build.dir, {read: false})
+    return gulp.src(paths.build.dir, {read: false})
         .pipe(plugin.clean());
 });
 /**
