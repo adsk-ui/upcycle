@@ -71,7 +71,9 @@ gulp.task('clean', function(){
  */
 gulp.task('templates', function(){
   gulp.src([paths.src.templates])
-    .pipe(plugin.handlebars())
+    .pipe(plugin.handlebars({
+        handlebars: require('handlebars')
+    }))
     .pipe(plugin.defineModule('plain'))
     .pipe(plugin.declare({
       namespace: "upcycle.templates"
