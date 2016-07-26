@@ -45,15 +45,47 @@
                     <span class="octicon octicon-link"></span>
                 </a>Components</h2>
                 <p>Building a list of UI components here with documentation and examples</p>
-            <h3>Filter</h3>
+
+            <h3><a name="filterpanel">FilterPanel</a></h3>
             <p>The filter component is designed to take a dataset as input and display a list of facets with selectable values.</p>
 
-            <pre><code>$('.filter').filter();</code></pre>
+            <pre><code>$('.filter').filterpanel();</code></pre>
 
-            <p>As the user selects facet values, the widget triggers events that include the filtered dataset and selected facets.</p>
+            <h4>Options</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>dataset</td>
+                        <td>Array</td>
+                        <td>[]</td>
+                        <td>An array of objects to be filtered. The objects' properties determine the facet values displayed in the FilterPanel.</td>
+                    </tr>
+                    <tr>
+                        <td>facets</td>
+                        <td>Array</td>
+                        <td>[]</td>
+                        <td>An array of objects representing the filterable facets of the dataset.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h4>Example</h4>
             <div class="bootstrap-scope filter"></div>
             <script type="text/javascript">
               var filterOptions = {
+                'label': 'Filter',
+                'clearAllLabel': 'Clear All',
+                'resultsLabel': 'Results',
+                'resultLabel': 'Result',
+                'closeLabel': 'Close',
+                'localizeLabels': false,
                 'data': [{
                   'name': 'Mike',
                   'age': 10,
@@ -74,21 +106,82 @@
                 'facets': [{
                   'name': 'name',
                   'displayName': 'Name'
+                },{
+                    'name': 'age',
+                    'displayName': 'Age'
+                }, {
+                    'name': 'status',
+                    'displayName': 'Status'
                 }]
               };
-              $('.filter').filter(filterOptions);
+              $('.filter').filterpanel(filterOptions)
+                .on('filterpanel:selection:changed', function(event, data){
+                    console.log(data);
+                });
             </script>
-
-            <h3>The Tip</h3>
+            <br/>
+            <p>The example above is generated with the following options:</p>
+            <pre>
+<code>{
+'data': [{
+  'name': 'Mike',
+  'age': 10,
+  'status': 'Good'
+},{
+  'name': 'Aaron',
+  'age': 12,
+  'status': 'Good'
+},{
+  'name': 'Eddie',
+  'age': 14,
+  'status': 'Good'
+},{
+  'name': 'Eddie',
+  'age': 16,
+  'status': 'Ready'
+}],
+'facets': [{
+  'name': 'name',
+  'displayName': 'Name'
+},{
+    'name': 'age',
+    'displayName': 'Age'
+}, {
+    'name': 'status',
+    'displayName': 'Status'
+}]
+}</code></pre>
+            <h4>Events</h4>
+            <p>As the user selects facet values, the widget triggers events that include the filtered dataset and selected facets.</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>filterpanel:selection:changed</td>
+                        <td>Triggered whenever a facet is selected or deselected in the panel. The event handler is passed an event object and a data object containing <code>data</code> and <code>facets</code> properties that represent the current selection state of the filter.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <pre>
+<code>$('.filter').filterpanel(options)
+.on('filterpanel:selection:changed', function(event, data){
+    //... do something cool
+});</code></pre>
+            <h3><a name="thetip">The Tip</a></h3>
             <p>A configurable tooltip component (based on Bootstrap's popover)</p>
             <h4>Required</h4>
             <table class="table">
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>type</th>
-                        <th>default</th>
-                        <th>description</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -178,6 +271,106 @@
     'triggerEvent': 'click'
 });</code></pre>
             </div>
+
+            <h3><a name="moreless">More/Less</a></h3>
+            <p>Limits the number of child elements shown by default and provides a button to toggle between the limited subset and the entire list.</p>
+            <h4>Options</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>more</td>
+                        <td>String</td>
+                        <td>More</td>
+                        <td>The label text to use for the "more" button. If the string contains a placeholder, the placeholder will be replaced with the number or items hidden' For example, if two items are hidden, a value of: "{0} More" would display as "2 More"</td>
+                    </tr>
+                    <tr>
+                        <td>less</td>
+                        <td>String</td>
+                        <td>Less</td>
+                        <td>The label text to use for the "less" button.</td>
+                    </tr>
+                    <tr>
+                        <td>openByDefault</td>
+                        <td>boolean</td>
+                        <td>false</td>
+                        <td>If true, shows the entire list by default (the "more" state)</td>
+                    </tr>
+                    <tr>
+                        <td>minItems</td>
+                        <td>Number | String</td>
+                        <td>2</td>
+                        <td>The number of items to display in the "less" state. Alternatively, specify "same-y" to only show the items that fit on a single line; useful for avoiding line-wrapping.</td>
+                    </tr>
+                    <tr>
+                        <td>minHeight</td>
+                        <td>Number</td>
+                        <td></td>
+                        <td>If set, this overrides minItems and sets the element to a minimum height in the "less" state rather than showing/hiding child elements. This is useful for limiting the lines of text shown by default.</td>
+                    </tr>
+                    <tr>
+                        <td>itemClass</td>
+                        <td>String</td>
+                        <td></td>
+                        <td>If specified, this is a selector used to filter the child elements to show more/less of. If omitted, all child elements are included.</td>
+                    </tr>
+                    <tr>
+                        <td>linkContainer</td>
+                        <td>jQuery,<br/>String,<br/>HTMLDOMElement</td>
+                        <td></td>
+                        <td>The container element for the more/less links; this will be the element itself if left unspecified.</td>
+                    </tr>
+                    <tr>
+                        <td>linkClass</td>
+                        <td>String</td>
+                        <td></td>
+                        <td>A custom CSS class to add to the more/less links.</td>
+                    </tr>
+                    <tr>
+                        <td>truncateText</td>
+                        <td>Boolean</td>
+                        <td>false</td>
+                        <td>If true, and a value is specified for minHeight, adds ellipses to blocks of text that are truncated in the "less" state.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>Example</h3>
+            <h5>Villians</h5>
+            <ul id="more-less-example-01">
+                <li>Hans Gruber</li>
+                <li>Darth Vader</li>
+                <li>Hannibal Lector</li>
+                <li>Ivan Drago</li>
+            </ul>
+            <div id="more-less-container"></div>
+            <script>
+                $('#more-less-example-01').moreless({
+                    more: 'more villians',
+                    less: 'less villians',
+                    linkContainer: '#more-less-container'
+                });
+            </script>
+
+<pre><code>&lt;ul&gt;
+    &lt;li&gt;Hans Gruber&lt;/li&gt;
+    &lt;li&gt;Darth Vader&lt;/li&gt;
+    &lt;li&gt;Hannibal Lector&lt;/li&gt;
+    &lt;li&gt;Ivan Drago&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div id=&quot;moreless-container&quot;&gt;&lt;/div&gt;
+
+$('ul').moreless({
+    more: 'more villians',
+    less: 'less villians',
+    linkContainer: '#more-less-container'
+});</code></pre>
         </section>
         <footer>
             <p>This project is maintained by <a href="https://github.com/adsk-ui">adsk-ui</a>
