@@ -13,7 +13,7 @@
   "devDependencies": {
     "gulp": "~3.8.1",
     "gulp-util": "^2.2.14",
-    "gulp-handlebars": "^2.0.0",
+    "gulp-handlebars": "4.0.0",
     "gulp-clean": "^0.2.4",
     "gulp-concat": "^2.2.0",
     "gulp-uglify": "^0.2.1",
@@ -33,6 +33,7 @@
     "gulp-declare": "^0.2.0",
     "gulp-less": "^1.2.3",
     "gulp-order": "^1.0.6",
-    "gulp-connect": "^2.0.6"
+    "gulp-connect": "^2.0.6",
+    "handlebars": "^4.0.5"
   }
 }

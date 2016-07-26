@@ -1046,282 +1046,168 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
 })(jQuery);
 this["upcycle"] = this["upcycle"] || {};
 this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
-this["upcycle"]["templates"]["editable"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+this["upcycle"]["templates"]["editable"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    var helper;
 
-function program1(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "maxlength=\"";
-  if (stack1 = helpers.textInputMaxLength) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.textInputMaxLength); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
-  buffer += escapeExpression(stack1)
+  return "maxlength=\""
+    + container.escapeExpression(((helper = (helper = helpers.textInputMaxLength || (depth0 != null ? depth0.textInputMaxLength : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"textInputMaxLength","hash":{},"data":data}) : helper)))
     + "\"";
-  return buffer;
-  }
+},"3":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-function program3(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n<div class=\"bottom\">\n	<div>\n		<span role=\"label\">";
-  if (stack1 = helpers.defaultValueLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.defaultValueLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</span>:<br/>\n		<strong>\"";
-  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.defaultValue); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\"</strong>\n	</div>\n	<button role=\"button\" data-action=\"revert\" class=\"btn\">";
-  if (stack1 = helpers.defaultButtonLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.defaultButtonLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
-  buffer += escapeExpression(stack1)
+  return "<div class=\"bottom\">\n	<div>\n		<span role=\"label\">"
+    + alias4(((helper = (helper = helpers.defaultValueLabel || (depth0 != null ? depth0.defaultValueLabel : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"defaultValueLabel","hash":{},"data":data}) : helper)))
+    + "</span>:<br/>\n		<strong>\""
+    + alias4(((helper = (helper = helpers.defaultValue || (depth0 != null ? depth0.defaultValue : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"defaultValue","hash":{},"data":data}) : helper)))
+    + "\"</strong>\n	</div>\n	<button role=\"button\" data-action=\"revert\" class=\"btn\">"
+    + alias4(((helper = (helper = helpers.defaultButtonLabel || (depth0 != null ? depth0.defaultButtonLabel : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"defaultButtonLabel","hash":{},"data":data}) : helper)))
     + "</button>\n</div>\n";
-  return buffer;
-  }
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  buffer += "<label>";
-  if (stack1 = helpers.newValueLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.newValueLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
-  buffer += escapeExpression(stack1)
-    + ":</label><input type=\"text\" placeholder=\"";
-  if (stack1 = helpers.newValuePlaceholder) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.newValuePlaceholder); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\" ";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.textInputMaxLength), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "></input>\n";
-  stack1 = helpers.unless.call(depth0, (depth0 && depth0.currentValueIsDefault), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n\n";
-  return buffer;
-  });;
+  return "<label>"
+    + alias4(((helper = (helper = helpers.newValueLabel || (depth0 != null ? depth0.newValueLabel : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"newValueLabel","hash":{},"data":data}) : helper)))
+    + ":</label><input type=\"text\" placeholder=\""
+    + alias4(((helper = (helper = helpers.newValuePlaceholder || (depth0 != null ? depth0.newValuePlaceholder : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"newValuePlaceholder","hash":{},"data":data}) : helper)))
+    + "\" "
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.textInputMaxLength : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "></input>\n"
+    + ((stack1 = helpers.unless.call(alias1,(depth0 != null ? depth0.currentValueIsDefault : depth0),{"name":"unless","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n";
+},"useData":true});;
 this["upcycle"] = this["upcycle"] || {};
 this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
-this["upcycle"]["templates"]["facetlist"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+this["upcycle"]["templates"]["facetlist"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams,depths) {
+    var stack1;
 
-function program1(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n			";
-  stack1 = helpers.each.call(depth0, (depth0 && depth0.options), {hash:{},inverse:self.noop,fn:self.programWithDepth(2, program2, data, depth0),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n		";
-  return buffer;
-  }
-function program2(depth0,data,depth1) {
-  
-  var buffer = "", stack1, stack2;
-  buffer += "\n			<li class=\"up-facet-option\" data-facet=\""
-    + escapeExpression(((stack1 = (depth1 && depth1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\" data-facet-option=\"";
-  stack2 = (typeof depth0 === functionType ? depth0.apply(depth0) : depth0);
-  if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "\">\n				<span class=\"up-facet-option-name\">"
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "</span><button role=\"button\" data-action=\"remove\" class=\"btn up-btn-close-x-small\">remove</button> \n			</li>\n			";
-  return buffer;
-  }
+  return ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.options : depth0),{"name":"each","hash":{},"fn":container.program(2, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"2":function(container,depth0,helpers,partials,data,blockParams,depths) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
-  buffer += "<div class=\"up-inner\">\n	<span role=\"label\">";
-  if (stack1 = helpers.label) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.label); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</span>\n	<ul role=\"presentation\" class=\"up-facets\">\n		";
-  stack1 = helpers.each.call(depth0, (depth0 && depth0.facets), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n	</ul>\n</div>";
-  return buffer;
-  });;
-this["upcycle"] = this["upcycle"] || {};
-this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
-this["upcycle"]["templates"]["filterpanel"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
-
-
-  buffer += "<div class=\"up-filterpanel-header\">\n	<div class=\"pull-left\">\n		<span class=\"up-filterpanel-title pull-left\" title=\"";
-  if (stack1 = helpers.label) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.label); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\">";
-  if (stack1 = helpers.label) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.label); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</span>\n		<span class=\"up-filterpanel-result pull-left\"></span>\n	</div>\n	<div class=\"pull-right\">\n		<button role=\"button\" data-action=\"clear-all\" class=\"btn-link\" title=\"";
-  if (stack1 = helpers.clearAllLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.clearAllLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\">";
-  if (stack1 = helpers.clearAllLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.clearAllLabel); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</button>\n		<button data-action=\"close\" class=\"btn up-btn-close-x\">close</button>\n	</div>\n</div>\n<div class=\"up-selectlist\">";
-  if (stack1 = helpers.selectlist) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.selectlist); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</div>";
-  return buffer;
-  });;
-this["upcycle"] = this["upcycle"] || {};
-this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
-this["upcycle"]["templates"]["hover_tooltip"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, options, functionType="function", escapeExpression=this.escapeExpression, self=this, blockHelperMissing=helpers.blockHelperMissing;
-
-function program1(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n	";
-  if (stack1 = helpers.content) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.content); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n	";
-  return buffer;
-  }
-
-  buffer += "<div id=\"";
-  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.id); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\">\n	";
-  options = {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data};
-  if (stack1 = helpers.tinyscrollbar) { stack1 = stack1.call(depth0, options); }
-  else { stack1 = (depth0 && depth0.tinyscrollbar); stack1 = typeof stack1 === functionType ? stack1.call(depth0, options) : stack1; }
-  if (!helpers.tinyscrollbar) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</div>";
-  return buffer;
-  });;
-this["upcycle"] = this["upcycle"] || {};
-this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
-this["upcycle"]["templates"]["selectlist"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, options, functionType="function", escapeExpression=this.escapeExpression, self=this, blockHelperMissing=helpers.blockHelperMissing;
-
-function program1(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n	<ul role=\"presentation\" class=\"up-facets\">\n		";
-  stack1 = helpers.each.call(depth0, depth0, {hash:{},inverse:self.noop,fn:self.program(2, program2, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n	</ul>\n	";
-  return buffer;
-  }
-function program2(depth0,data) {
-  
-  var buffer = "", stack1, stack2;
-  buffer += "\n	  		<li role=\"facet\" class=\"up-facet\">\n	  			<div role=\"header\" class=\"up-facet-header\">\n			  		<span role=\"button\" data-action=\"toggle\"></span>\n			  		<span role=\"label\" data-value=\"";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.name); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\" class=\"up-facet-label\">";
-  if (stack1 = helpers.displayName) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.displayName); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</span>\n		  		</div>\n		  		<ul role=\"group\" class=\"up-facet-options\">\n		  			";
-  stack1 = helpers.each.call(depth0, (depth0 && depth0.options), {hash:{},inverse:self.noop,fn:self.programWithDepth(3, program3, data, depth0),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n		  		</ul>\n		  	</li>\n		  	";
-  stack2 = helpers.unless.call(depth0, ((stack1 = data),stack1 == null || stack1 === false ? stack1 : stack1.last), {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
-  if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "\n  		";
-  return buffer;
-  }
-function program3(depth0,data,depth1) {
-  
-  var buffer = "", stack1;
-  buffer += "\n			  		<li class=\"up-facet-option\" data-facet=\""
-    + escapeExpression(((stack1 = (depth1 && depth1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+  return "			<li class=\"up-facet-option\" data-facet=\""
+    + alias2(alias1((depths[1] != null ? depths[1].name : depths[1]), depth0))
     + "\" data-facet-option=\""
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + ((stack1 = alias1(depth0, depth0)) != null ? stack1 : "")
+    + "\">\n				<span class=\"up-facet-option-name\">"
+    + alias2(alias1(depth0, depth0))
+    + "</span><button role=\"button\" data-action=\"remove\" class=\"btn up-btn-close-x-small\">remove</button> \n			</li>\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams,depths) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : {};
+
+  return "<div class=\"up-inner\">\n	<span role=\"label\">"
+    + container.escapeExpression(((helper = (helper = helpers.label || (depth0 != null ? depth0.label : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"label","hash":{},"data":data}) : helper)))
+    + "</span>\n	<ul role=\"presentation\" class=\"up-facets\">\n"
+    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.facets : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "	</ul>\n</div>";
+},"useData":true,"useDepths":true});;
+this["upcycle"] = this["upcycle"] || {};
+this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
+this["upcycle"]["templates"]["filterpanel"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "<div class=\"up-filterpanel-header\">\n	<div class=\"pull-left\">\n		<span class=\"up-filterpanel-title pull-left\" title=\""
+    + alias4(((helper = (helper = helpers.label || (depth0 != null ? depth0.label : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label","hash":{},"data":data}) : helper)))
+    + "\">"
+    + alias4(((helper = (helper = helpers.label || (depth0 != null ? depth0.label : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label","hash":{},"data":data}) : helper)))
+    + "</span>\n		<span class=\"up-filterpanel-result pull-left\"></span>\n	</div>\n	<div class=\"pull-right\">\n		<button role=\"button\" data-action=\"clear-all\" class=\"btn-link\" title=\""
+    + alias4(((helper = (helper = helpers.clearAllLabel || (depth0 != null ? depth0.clearAllLabel : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"clearAllLabel","hash":{},"data":data}) : helper)))
+    + "\">"
+    + alias4(((helper = (helper = helpers.clearAllLabel || (depth0 != null ? depth0.clearAllLabel : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"clearAllLabel","hash":{},"data":data}) : helper)))
+    + "</button>\n		<button data-action=\"close\" class=\"btn up-btn-close-x\">close</button>\n	</div>\n</div>\n<div class=\"up-selectlist\">"
+    + ((stack1 = ((helper = (helper = helpers.selectlist || (depth0 != null ? depth0.selectlist : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"selectlist","hash":{},"data":data}) : helper))) != null ? stack1 : "")
+    + "</div>";
+},"useData":true});;
+this["upcycle"] = this["upcycle"] || {};
+this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
+this["upcycle"]["templates"]["hover_tooltip"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    var stack1, helper;
+
+  return "	"
+    + ((stack1 = ((helper = (helper = helpers.content || (depth0 != null ? depth0.content : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"content","hash":{},"data":data}) : helper))) != null ? stack1 : "")
+    + "\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, options, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", buffer = 
+  "<div id=\""
+    + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\">\n";
+  stack1 = ((helper = (helper = helpers.tinyscrollbar || (depth0 != null ? depth0.tinyscrollbar : depth0)) != null ? helper : alias2),(options={"name":"tinyscrollbar","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data}),(typeof helper === alias3 ? helper.call(alias1,options) : helper));
+  if (!helpers.tinyscrollbar) { stack1 = helpers.blockHelperMissing.call(depth0,stack1,options)}
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "</div>";
+},"useData":true});;
+this["upcycle"] = this["upcycle"] || {};
+this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
+this["upcycle"]["templates"]["selectlist"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams,depths) {
+    var stack1;
+
+  return "	<ul role=\"presentation\" class=\"up-facets\">\n"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},depth0,{"name":"each","hash":{},"fn":container.program(2, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "	</ul>\n";
+},"2":function(container,depth0,helpers,partials,data,blockParams,depths) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "	  		<li role=\"facet\" class=\"up-facet\">\n	  			<div role=\"header\" class=\"up-facet-header\">\n			  		<span role=\"button\" data-action=\"toggle\"></span>\n			  		<span role=\"label\" data-value=\""
+    + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
+    + "\" class=\"up-facet-label\">"
+    + alias4(((helper = (helper = helpers.displayName || (depth0 != null ? depth0.displayName : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"displayName","hash":{},"data":data}) : helper)))
+    + "</span>\n		  		</div>\n		  		<ul role=\"group\" class=\"up-facet-options\">\n"
+    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.options : depth0),{"name":"each","hash":{},"fn":container.program(3, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "		  		</ul>\n		  	</li>\n"
+    + ((stack1 = helpers.unless.call(alias1,(data && data.last),{"name":"unless","hash":{},"fn":container.program(5, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"3":function(container,depth0,helpers,partials,data,blockParams,depths) {
+    var alias1=container.lambda, alias2=container.escapeExpression;
+
+  return "			  		<li class=\"up-facet-option\" data-facet=\""
+    + alias2(alias1((depths[1] != null ? depths[1].name : depths[1]), depth0))
+    + "\" data-facet-option=\""
+    + alias2(alias1(depth0, depth0))
     + "\">\n			  			<input data-facet=\""
-    + escapeExpression(((stack1 = (depth1 && depth1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + alias2(alias1((depths[1] != null ? depths[1].name : depths[1]), depth0))
     + "\" data-facet-option=\""
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + alias2(alias1(depth0, depth0))
     + "\" type=\"checkbox\">\n			  			<span class=\"up-facet-option-name\">"
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "</span>\n			  		</li>\n			  		";
-  return buffer;
-  }
-
-function program5(depth0,data) {
-  
-  
-  return "	\n	  		<li class=\"divider\"></li>\n	  		";
-  }
-
-  buffer += "<div class=\"up-inner\">\n	";
-  options = {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data};
-  if (stack1 = helpers.tinyscrollbar) { stack1 = stack1.call(depth0, options); }
-  else { stack1 = (depth0 && depth0.tinyscrollbar); stack1 = typeof stack1 === functionType ? stack1.call(depth0, options) : stack1; }
-  if (!helpers.tinyscrollbar) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</div>";
-  return buffer;
-  });;
+    + alias2(alias1(depth0, depth0))
+    + "</span>\n			  		</li>\n";
+},"5":function(container,depth0,helpers,partials,data) {
+    return "	  		<li class=\"divider\"></li>\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams,depths) {
+    var stack1, helper, options, buffer = 
+  "<div class=\"up-inner\">\n";
+  stack1 = ((helper = (helper = helpers.tinyscrollbar || (depth0 != null ? depth0.tinyscrollbar : depth0)) != null ? helper : helpers.helperMissing),(options={"name":"tinyscrollbar","hash":{},"fn":container.program(1, data, 0, blockParams, depths),"inverse":container.noop,"data":data}),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},options) : helper));
+  if (!helpers.tinyscrollbar) { stack1 = helpers.blockHelperMissing.call(depth0,stack1,options)}
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "</div>";
+},"useData":true,"useDepths":true});;
 this["upcycle"] = this["upcycle"] || {};
 this["upcycle"]["templates"] = this["upcycle"]["templates"] || {};
-this["upcycle"]["templates"]["table"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, stack2, options, functionType="function", escapeExpression=this.escapeExpression, self=this, helperMissing=helpers.helperMissing;
+this["upcycle"]["templates"]["table"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    var stack1;
 
-function program1(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n	<thead>\n		<tr>\n			";
-  stack1 = helpers.each.call(depth0, (depth0 && depth0.headers), {hash:{},inverse:self.noop,fn:self.program(2, program2, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n		</tr>\n	</thead>\n	";
-  return buffer;
-  }
-function program2(depth0,data) {
-  
-  var buffer = "";
-  buffer += "\n			<th>"
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "</th>\n			";
-  return buffer;
-  }
+  return "	<thead>\n		<tr>\n"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.headers : depth0),{"name":"each","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "		</tr>\n	</thead>\n";
+},"2":function(container,depth0,helpers,partials,data) {
+    return "			<th>"
+    + container.escapeExpression(container.lambda(depth0, depth0))
+    + "</th>\n";
+},"4":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : {};
 
-function program4(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n	<tr class=\"";
-  if (stack1 = helpers.stripe) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.stripe); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\">\n		";
-  stack1 = helpers.each.call(depth0, depth0, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n	</tr>\n	";
-  return buffer;
-  }
-function program5(depth0,data) {
-  
-  var buffer = "";
-  buffer += "\n		<td>"
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "</td>\n		";
-  return buffer;
-  }
+  return "	<tr class=\""
+    + container.escapeExpression(((helper = (helper = helpers.stripe || (depth0 != null ? depth0.stripe : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"stripe","hash":{},"data":data}) : helper)))
+    + "\">\n"
+    + ((stack1 = helpers.each.call(alias1,depth0,{"name":"each","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "	</tr>\n";
+},"5":function(container,depth0,helpers,partials,data) {
+    return "		<td>"
+    + container.escapeExpression(container.lambda(depth0, depth0))
+    + "</td>\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : {};
 
-  buffer += "<table>\n	";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.headers), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n	<tbody>\n	";
-  options = {hash:{},inverse:self.noop,fn:self.program(4, program4, data),data:data};
-  stack2 = ((stack1 = helpers.zebra || (depth0 && depth0.zebra)),stack1 ? stack1.call(depth0, (depth0 && depth0.rows), options) : helperMissing.call(depth0, "zebra", (depth0 && depth0.rows), options));
-  if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "\n	</tbody>\n</table>\n";
-  return buffer;
-  });;
+  return "<table>\n"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.headers : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "	<tbody>\n"
+    + ((stack1 = (helpers.zebra || (depth0 && depth0.zebra) || helpers.helperMissing).call(alias1,(depth0 != null ? depth0.rows : depth0),{"name":"zebra","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "	</tbody>\n</table>\n";
+},"useData":true});;
