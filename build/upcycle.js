@@ -744,7 +744,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
             }
         }));
 
-        if (!options.bind) {
+        if (options.bind) {
             self._bindEvents();
         }
     },
