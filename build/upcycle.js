@@ -872,28 +872,44 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
     posAutoAdjustment: function() {
         var self = this,
             $el = self.element,
+            placement = self.option('placement'),
+            dirHash = placement === 'top' || placement === 'bottom' ? { // to implement the symmetric left and right placed tooltip cases
+                top: 'top',
+                bottom: 'bottom',
+                left: 'left',
+                right: 'right',
+                height: 'height',
+                width: 'width'
+            } : {
+                top: 'left',
+                bottom: 'right',
+                left: 'top',
+                right: 'bottom',
+                height: 'width',
+                width: 'height'
+            },
             $overflowContainer = self.option('overflowContainer'),
             $container = $(self.option('container')),
-            alignTo = self.option('alignTo') === 'right' ? 'right' : 'left',
+            alignTo = self.option('alignTo') === dirHash.right ? dirHash.right : dirHash.left,
             edgeMargin = self.option('edgeMargin'),
             arrowMargin = self.option('arrowMargin'),
             $tip = $el.data('popover').tip(),
             $arrow = $tip.find('.arrow'),
-            arrowPlacement = self.option('arrowPlacement') === 'right' || self.option('arrowPlacement') === 'left' ? self.option('arrowPlacement') : 'middle';
+            arrowPlacement = self.option('arrowPlacement') === dirHash.right || self.option('arrowPlacement') === dirHash.left ? self.option('arrowPlacement') : 'middle';
 
         $el.on('hide', function () {
             $tip = $el.data('popover').tip();
             $arrow = $tip.find('.arrow');
-            $tip.css({
-                left: '',
-                right: ''
-            });
-            $arrow.css({
-                left: '',
-                right: '',
-                'margin-left': '',
-                'margin-right': ''
-            });
+            var tipHash = {},
+                arrowHash = {};
+            tipHash[dirHash.left] = '';
+            tipHash[dirHash.right] = '';
+            arrowHash[dirHash.left] = '';
+            arrowHash[dirHash.right] = '';
+            arrowHash['margin-' + dirHash.left] = '';
+            arrowHash['margin-' + dirHash.right] = '';
+            $tip.css(tipHash);
+            $arrow.css(arrowHash);
         });
         $el.on('show', function() {
             $el.data('popover').tip().attr('id', self.option('id'));
@@ -906,58 +922,55 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
                 overflowContainerRect = $overflowContainer[0].getBoundingClientRect(),
                 containerRect = $container[0].getBoundingClientRect(),
                 arrowRect = $arrow[0].getBoundingClientRect(),
-                tipHash,
-                arrowHash,
+                placement = self.option('placement'),
+                tipHash = {},
+                arrowHash = {},
                 xShift;
 
-            tipRect.right = tipRect.right + edgeMargin;
-            tipRect.left = tipRect.left - edgeMargin;
-            tipRect.width = tipRect.width + edgeMargin*2;
+            tipRect[dirHash.right] = tipRect[dirHash.right] + edgeMargin;
+            tipRect[dirHash.left] = tipRect[dirHash.left] - edgeMargin;
+            tipRect[dirHash.width] = tipRect[dirHash.width] + edgeMargin*2;
 
             // Change tip alignment
-            if (alignTo === 'right') {
-                tipHash = {
-                    left: 'auto',
-                    right: (containerRect.width - $tip.css('left').replace('px', '') - origTipRect.width) + 'px'
-                };
-                arrowHash = {
-                    left: 'auto',
-                    right: '50%',
-                    'margin-left': 0,
-                    'margin-right': '-11px'
-                };
+            if (alignTo === dirHash.right) {
+                tipHash[dirHash.left] = 'auto';
+                tipHash[dirHash.right] = (containerRect[dirHash.width] - $tip.css(dirHash.left).replace('px', '') - origTipRect[dirHash.width]) + 'px';
+                arrowHash[dirHash.left] = 'auto';
+                arrowHash[dirHash.right] = '50%';
+                arrowHash['margin-' + dirHash.left] = 0;
+                arrowHash['margin-' + dirHash.right] = '-11px';
                 $tip.css(tipHash);
                 $arrow.css(arrowHash);
             }
 
             // Adjust placement only if either top xor bottom edge is inbound to avoid infinite loop using ^ (XOR)
-            if ((tipRect.top >= overflowContainerRect.top ^ tipRect.bottom <= overflowContainerRect.bottom) && tipRect.height < overflowContainerRect.height) {
-                if (tipRect.top < overflowContainerRect.top) { // tip overflows into the top
-                    self.update({placement: 'bottom'});
+            if ((tipRect[dirHash.top] >= overflowContainerRect[dirHash.top] ^ tipRect[dirHash.bottom] <= overflowContainerRect[dirHash.bottom]) && tipRect[dirHash.height] < overflowContainerRect[dirHash.height]) {
+                if (tipRect[dirHash.top] < overflowContainerRect[dirHash.top] && placement === dirHash.top) { // tip overflows into the top
+                    self.update({placement: dirHash.bottom});
                     $el.popover('show');
-                } else if (tipRect.bottom > overflowContainerRect.bottom) {
-                    self.update({placement: 'top'}); // tip overflows into the bottom
+                } else if (tipRect[dirHash.bottom] > overflowContainerRect[dirHash.bottom] && placement === dirHash.bottom) {
+                    self.update({placement: dirHash.top}); // tip overflows into the bottom
                     $el.popover('show');
                 }
-            } else if ((tipRect.left >= overflowContainerRect.left ^ tipRect.right <= overflowContainerRect.right) && tipRect.width < overflowContainerRect.width) { // Adjust placement only if either left xor right edge is inbound to avoid infinite loop using ^ (XOR)
+            } else if ((tipRect[dirHash.left] >= overflowContainerRect[dirHash.left] ^ tipRect[dirHash.right] <= overflowContainerRect[dirHash.right]) && tipRect[dirHash.width] < overflowContainerRect[dirHash.width]) { // Adjust placement only if either left xor right edge is inbound to avoid infinite loop using ^ (XOR)
                 xShift = 0;
                 tipHash = {};
                 arrowHash = {};
 
-                if (tipRect.left < overflowContainerRect.left) { // tip overflows into the left
-                    xShift = overflowContainerRect.left - tipRect.left; // +
-                } else if (tipRect.right > overflowContainerRect.right) { // tip overflows into the right
-                    xShift = overflowContainerRect.right - tipRect.right; // -
+                if (tipRect[dirHash.left] < overflowContainerRect[dirHash.left]) { // tip overflows into the left
+                    xShift = overflowContainerRect[dirHash.left] - tipRect[dirHash.left]; // +
+                } else if (tipRect[dirHash.right] > overflowContainerRect[dirHash.right]) { // tip overflows into the right
+                    xShift = overflowContainerRect[dirHash.right] - tipRect[dirHash.right]; // -
                 }
-                xShift = xShift*(alignTo === 'right' ? -1 : 1); // adjust for sign change when aligning to right
+                xShift = xShift*(alignTo === dirHash.right ? -1 : 1); // adjust for sign change when aligning to right
                 tipHash[alignTo] = '+=' + xShift;
                 arrowHash[alignTo] = 'calc(50% - ' + xShift + 'px)';
                 $tip.css(tipHash);
                 $arrow.css(arrowHash);
-            } else if (arrowPlacement !== 'middle' && tipRect.left >= overflowContainerRect.left && tipRect.right <= overflowContainerRect.right) { // Fallback to allow for arrowPlacement if no sides overflow
-                var tipHalfWidth = origTipRect.width / 2 - arrowRect.width / 2 - arrowMargin,
-                    gapWidth = arrowPlacement === 'left' ? overflowContainerRect.right - tipRect.right : tipRect.left - overflowContainerRect.left;
-                xShift = (tipHalfWidth < gapWidth ? tipHalfWidth : gapWidth)*(arrowPlacement === 'right' ? -1 : 1)*(alignTo === 'right' ? -1 : 1);
+            } else if (arrowPlacement !== 'middle' && tipRect[dirHash.left] >= overflowContainerRect[dirHash.left] && tipRect[dirHash.right] <= overflowContainerRect[dirHash.right]) { // Fallback to allow for arrowPlacement if no sides overflow
+                var tipHalfWidth = origTipRect[dirHash.width] / 2 - arrowRect[dirHash.width] / 2 - arrowMargin,
+                    gapWidth = arrowPlacement === dirHash.left ? overflowContainerRect[dirHash.right] - tipRect[dirHash.right] : tipRect[dirHash.left] - overflowContainerRect[dirHash.left];
+                xShift = (tipHalfWidth < gapWidth ? tipHalfWidth : gapWidth)*(arrowPlacement === dirHash.right ? -1 : 1)*(alignTo === dirHash.right ? -1 : 1);
                 tipHash = {};
                 arrowHash = {};
 
