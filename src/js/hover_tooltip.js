@@ -226,6 +226,7 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
                 tipRect = _.clone(origTipRect),
                 overflowContainerRect = $overflowContainer[0].getBoundingClientRect(),
                 containerRect = $container[0].getBoundingClientRect(),
+                elRect = $el[0].getBoundingClientRect(),
                 arrowRect = $arrow[0].getBoundingClientRect(),
                 placement = self.option('placement'),
                 tipHash = {},
@@ -250,10 +251,10 @@ $.widget('upcycle.hover_tooltip', $.upcycle.base, {
 
             // Adjust placement only if either top xor bottom edge is inbound to avoid infinite loop using ^ (XOR)
             if ((tipRect[dirHash.top] >= overflowContainerRect[dirHash.top] ^ tipRect[dirHash.bottom] <= overflowContainerRect[dirHash.bottom]) && (tipRect[dirHash.height] + arrowRect[dirHash.height]) < overflowContainerRect[dirHash.height]) {
-                if (tipRect[dirHash.top] < overflowContainerRect[dirHash.top] && placement === dirHash.top && (tipRect[dirHash.height] + arrowRect[dirHash.height]) < (overflowContainerRect[dirHash.bottom] - containerRect[dirHash.bottom])) { // tip overflows into the top
+                if (tipRect[dirHash.top] < overflowContainerRect[dirHash.top] && placement === dirHash.top && (tipRect[dirHash.height] + arrowRect[dirHash.height]) < (overflowContainerRect[dirHash.bottom] - elRect[dirHash.bottom])) { // tip overflows into the top
                     self.update({placement: dirHash.bottom});
                     $el.popover('show');
-                } else if (tipRect[dirHash.bottom] > overflowContainerRect[dirHash.bottom] && placement === dirHash.bottom && (tipRect[dirHash.height] + arrowRect[dirHash.height]) < (containerRect[dirHash.top] - overflowContainerRect[dirHash.top])) {
+                } else if (tipRect[dirHash.bottom] > overflowContainerRect[dirHash.bottom] && placement === dirHash.bottom && (tipRect[dirHash.height] + arrowRect[dirHash.height]) < (elRect[dirHash.top] - overflowContainerRect[dirHash.top])) {
                     self.update({placement: dirHash.top}); // tip overflows into the bottom
                     $el.popover('show');
                 }
